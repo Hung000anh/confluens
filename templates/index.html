@@ -1,0 +1,663 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h1 style="margin: 0;">Quản lý Mã Giao Dịch</h1>
+        <button type="button" class="btn btn-primary" id="btn-open-add-modal" style="display: flex; align-items: center; gap: 8px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Thêm Mã Mới
+        </button>
+    </div>
+    
+    <div class="card">
+        {% if symbols %}
+        <div style="display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 200px;">
+                <input type="text" id="filter-symbol" class="form-input" placeholder="🔍 Tìm kiếm theo Symbol..." style="padding: 10px 12px; font-size: 0.95em;">
+            </div>
+            <div style="flex: 1; min-width: 150px;">
+                <select id="filter-type" class="form-input" style="padding: 10px 12px; font-size: 0.95em;">
+                    <option value="">Tất cả Loại tài sản</option>
+                    {% set asset_types = [] %}
+                    {% for item in symbols %}
+                        {% if item.type not in asset_types %}
+                            {% set _ = asset_types.append(item.type) %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for t in asset_types %}
+                    <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="flex: 1; min-width: 150px;">
+                <select id="filter-exchange" class="form-input" style="padding: 10px 12px; font-size: 0.95em;">
+                    <option value="">Tất cả Sàn giao dịch</option>
+                    {% set exchanges = [] %}
+                    {% for item in symbols %}
+                        {% if item.exchange and item.exchange not in exchanges %}
+                            {% set _ = exchanges.append(item.exchange) %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for e in exchanges %}
+                    <option value="{{ e }}">{{ e }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="flex: 1; min-width: 150px;">
+                <select id="filter-country" class="form-input" style="padding: 10px 12px; font-size: 0.95em;">
+                    <option value="">Tất cả Quốc gia</option>
+                    {% set unique_countries = [] %}
+                    {% for item in symbols %}
+                        {% for c in [item.base_country, item.quote_country, item.country] %}
+                            {% if c %}
+                                {% for sub_c in c.replace('/', ',').split(',') %}
+                                    {% set trimmed = sub_c.strip() %}
+                                    {% if trimmed and trimmed not in unique_countries %}
+                                        {% set _ = unique_countries.append(trimmed) %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {% for c in unique_countries|sort %}
+                    <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #3f3f46; color: var(--text-muted);">
+                        <th style="padding: 12px; font-weight: 500;">Symbol</th>
+                        <th style="padding: 12px; font-weight: 500;">Sàn giao dịch</th>
+                        <th style="padding: 12px; font-weight: 500;">Quốc gia (Base / Quote)</th>
+                        <th style="padding: 12px; font-weight: 500;">Loại tài sản</th>
+                        <th style="padding: 12px; font-weight: 500; text-align: right;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in symbols %}
+                    {% set country_display = item.country %}
+                    {% if not country_display and (item.base_country or item.quote_country) %}
+                        {% set country_display = [item.base_country, item.quote_country]|select|join(' / ') %}
+                    {% endif %}
+                    <tr class="symbol-data-row" data-symbol="{{ item.symbol }}" data-type="{{ item.type }}" data-exchange="{{ item.exchange }}" data-country="{{ country_display }}" data-base-country="{{ item.base_country }}" data-quote-country="{{ item.quote_country }}" style="border-bottom: 1px solid #3f3f46; color: var(--text-main); transition: all 0.2s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.02)'" onmouseout="this.style.backgroundColor='transparent'">
+                        <td style="padding: 12px; font-weight: 600; color: var(--accent-color);">{{ item.symbol }}</td>
+                        <td style="padding: 12px; color: var(--text-muted);">{{ item.exchange if item.exchange else '-' }}</td>
+                        <td style="padding: 12px; color: var(--text-muted);">
+                            {% if item.base_country or item.quote_country %}
+                                <span style="color: #fff; font-weight: 500;">{{ item.base_country if item.base_country else '-' }}</span>
+                                <span style="color: var(--text-muted);"> / </span>
+                                <span style="color: #fff; font-weight: 500;">{{ item.quote_country if item.quote_country else '-' }}</span>
+                            {% elif item.country %}
+                                {{ item.country }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td style="padding: 12px;"><span style="background: rgba(39, 39, 42, 0.8); padding: 4px 8px; border-radius: 6px; font-size: 0.85em; border: 1px solid #3f3f46;">{{ item.type }}</span></td>
+                        <td style="padding: 12px; text-align: right; display: flex; justify-content: flex-end; gap: 8px;">
+                            <a href="/charts?symbol_id={{ item.id }}" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;" onmouseover="this.style.color='#10b981'; this.style.backgroundColor='rgba(16, 185, 129, 0.1)'" onmouseout="this.style.color='var(--text-muted)'; this.style.backgroundColor='transparent'" title="Xem Biểu đồ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </a>
+                            <button class="btn-edit-item" data-id="{{ item.id }}" data-symbol="{{ item.symbol }}" data-exchange="{{ item.exchange }}" data-type="{{ item.type }}" data-country="{{ item.country }}" data-base-country="{{ item.base_country }}" data-quote-country="{{ item.quote_country }}" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.color='#fff'; this.style.backgroundColor='#3f3f46'" onmouseout="this.style.color='var(--text-muted)'; this.style.backgroundColor='transparent'" title="Sửa">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                            </button>
+                            <button class="btn-delete-item" data-id="{{ item.id }}" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.color='#ef4444'; this.style.backgroundColor='rgba(239, 68, 68, 0.1)'" onmouseout="this.style.color='var(--text-muted)'; this.style.backgroundColor='transparent'" title="Xóa">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px; opacity: 0.5;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <p style="font-size: 1.1em;">Chưa có mã giao dịch nào được lưu.</p>
+            <p style="font-size: 0.9em; margin-bottom: 20px;">Hãy bấm nút "Thêm Mã Mới" ở góc trên để bắt đầu.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- MODAL THÊM MỚI -->
+    <div id="modal-add" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background-color: var(--bg-card); width: 100%; max-width: 600px; border-radius: 16px; border: 1px solid #3f3f46; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; max-height: 90vh;">
+            <div style="padding: 20px 24px; border-bottom: 1px solid #3f3f46; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0; font-size: 1.25rem;">Thêm Mã Giao Dịch Mới</h2>
+                <button type="button" class="btn-close-modal" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 8px;" onmouseover="this.style.color='#fff'; this.style.backgroundColor='#3f3f46'" onmouseout="this.style.color='var(--text-muted)'; this.style.backgroundColor='transparent'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            
+            <div style="padding: 24px; overflow-y: auto;">
+                <form id="form-add" action="/add_symbol" method="POST">
+                    <!-- Select Type -->
+                    <div class="form-group">
+                        <label for="asset_type" class="form-label">Loại tài sản</label>
+                        <select id="asset_type" name="asset_type" class="form-input" required>
+                            <option value="Crypto">Crypto (Tiền mã hóa)</option>
+                            <option value="Forex">Forex (Ngoại hối)</option>
+                            <option value="Cổ phiếu">Cổ phiếu (Stocks)</option>
+                            <option value="Quỹ">Quỹ (Funds)</option>
+                            <option value="Hàng hóa">Hàng hóa (Commodities)</option>
+                            <option value="Chỉ số kinh tế">Chỉ số kinh tế (Economics)</option>
+                        </select>
+                    </div>
+
+                    <!-- Input Exchange -->
+                    <div class="form-group" id="exchange-group">
+                        <label for="exchange" class="form-label">Exchange (Sàn giao dịch) <span style="font-size: 0.85em; font-weight: normal; color: var(--text-muted);">(Tùy chọn)</span></label>
+                        <input type="text" id="exchange" name="exchange" class="form-input" placeholder="Ví dụ: Binance, OANDA">
+                    </div>
+
+                    <!-- Input Countries (Base & Quote) -->
+                    <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                        <div style="flex: 1;">
+                            <label for="base_country" class="form-label">Quốc gia Cơ Sở (Base) <span style="font-size: 0.8em; color: var(--text-muted); font-weight: normal;">(Tùy chọn)</span></label>
+                            <input type="text" id="base_country" name="base_country" class="form-input" placeholder="Ví dụ: EU, US, VN">
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="quote_country" class="form-label">Quốc gia Định Giá (Quote) <span style="font-size: 0.8em; color: var(--text-muted); font-weight: normal;">(Tùy chọn)</span></label>
+                            <input type="text" id="quote_country" name="quote_country" class="form-input" placeholder="Ví dụ: US, VND">
+                        </div>
+                    </div>
+                    
+                    <!-- Input Symbol -->
+                    <div class="form-group">
+                        <label class="form-label">Danh sách Symbol (Mã giao dịch)</label>
+                        <div id="symbol-rows-container" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Row 1 -->
+                            <div class="symbol-row" style="display: flex; gap: 12px; align-items: center; background-color: rgba(39, 39, 42, 0.5); padding: 8px 12px; border-radius: 12px; border: 1px solid #3f3f46; transition: all 0.2s;">
+                                <div style="flex: 1;">
+                                    <input type="text" name="symbol" class="form-input symbol-input" placeholder="Ví dụ: BTCUSDT" pattern="^[a-zA-Z0-9]+$" title="Chỉ cho phép chữ cái và số, không ký tự đặc biệt" required style="border: none; background: transparent; padding: 4px 0; font-size: 1rem; width: 100%; outline: none; box-shadow: none; color: #fff;">
+                                </div>
+                                <div class="verify-result" style="font-size: 0.9em; min-width: 80px; text-align: right; display: flex; align-items: center; justify-content: flex-end;"></div>
+                                <button type="button" class="btn-verify-row" style="background-color: transparent; color: var(--text-muted); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" title="Kiểm tra" onmouseover="this.style.backgroundColor='#3f3f46'; this.style.color='#fff'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--text-muted)'">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a2.5 2.5 0 0 0 2.227 3.45h10.106a2.5 2.5 0 0 0 2.227-3.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/></svg>
+                                </button>
+                                <button type="button" class="btn-remove-row" style="background-color: transparent; color: var(--text-muted); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; transition: all 0.2s; opacity: 0.4;" title="Xóa dòng" disabled onmouseover="if(!this.disabled){this.style.backgroundColor='#3f3f46'; this.style.color='#ef4444'}" onmouseout="if(!this.disabled){this.style.backgroundColor='transparent'; this.style.color='var(--text-muted)'}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" id="btn-add-row" style="background-color: rgba(39, 39, 42, 0.8); color: var(--text-main); border: 1px dashed #52525b; padding: 12px 16px; border-radius: 12px; cursor: pointer; font-size: 0.95em; font-weight: 500; margin-top: 12px; width: 100%; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Thêm Symbol Khác
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div style="padding: 16px 24px; border-top: 1px solid #3f3f46; display: flex; justify-content: flex-end; gap: 12px;">
+                <button type="button" class="btn btn-secondary btn-close-modal" style="background-color: #3f3f46; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Hủy bỏ</button>
+                <button type="submit" form="form-add" class="btn btn-primary" style="padding: 10px 24px;">Lưu mã giao dịch</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SỬA -->
+    <div id="modal-edit" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background-color: var(--bg-card); width: 100%; max-width: 500px; border-radius: 16px; border: 1px solid #3f3f46; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;">
+            <div style="padding: 20px 24px; border-bottom: 1px solid #3f3f46; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0; font-size: 1.25rem;">Chỉnh sửa Mã Giao Dịch</h2>
+                <button type="button" class="btn-close-modal" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 8px;" onmouseover="this.style.color='#fff'; this.style.backgroundColor='#3f3f46'" onmouseout="this.style.color='var(--text-muted)'; this.style.backgroundColor='transparent'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            
+            <div style="padding: 24px;">
+                <form id="form-edit" action="" method="POST">
+                    <!-- Select Type -->
+                    <div class="form-group">
+                        <label for="edit_asset_type" class="form-label">Loại tài sản</label>
+                        <select id="edit_asset_type" name="asset_type" class="form-input" required>
+                            <option value="Crypto">Crypto (Tiền mã hóa)</option>
+                            <option value="Forex">Forex (Ngoại hối)</option>
+                            <option value="Cổ phiếu">Cổ phiếu (Stocks)</option>
+                            <option value="Quỹ">Quỹ (Funds)</option>
+                            <option value="Hàng hóa">Hàng hóa (Commodities)</option>
+                            <option value="Chỉ số kinh tế">Chỉ số kinh tế (Economics)</option>
+                        </select>
+                    </div>
+
+                    <!-- Input Exchange -->
+                    <div class="form-group" id="edit-exchange-group">
+                        <label for="edit_exchange" class="form-label">Exchange (Sàn giao dịch) <span style="font-size: 0.85em; font-weight: normal; color: var(--text-muted);">(Tùy chọn)</span></label>
+                        <input type="text" id="edit_exchange" name="exchange" class="form-input" placeholder="Ví dụ: Binance, OANDA">
+                    </div>
+
+                    <!-- Input Countries (Base & Quote) -->
+                    <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                        <div style="flex: 1;">
+                            <label for="edit_base_country" class="form-label">Quốc gia Cơ Sở (Base) <span style="font-size: 0.8em; color: var(--text-muted); font-weight: normal;">(Tùy chọn)</span></label>
+                            <input type="text" id="edit_base_country" name="base_country" class="form-input" placeholder="Ví dụ: EU, US, VN">
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="edit_quote_country" class="form-label">Quốc gia Định Giá (Quote) <span style="font-size: 0.8em; color: var(--text-muted); font-weight: normal;">(Tùy chọn)</span></label>
+                            <input type="text" id="edit_quote_country" name="quote_country" class="form-input" placeholder="Ví dụ: US, VND">
+                        </div>
+                    </div>
+                    
+                    <!-- Input Symbol -->
+                    <div class="form-group">
+                        <label for="edit_symbol" class="form-label">Symbol (Mã giao dịch)</label>
+                        <div class="symbol-row" style="display: flex; gap: 12px; align-items: center; background-color: rgba(39, 39, 42, 0.5); padding: 8px 12px; border-radius: 12px; border: 1px solid #3f3f46;">
+                            <div style="flex: 1;">
+                                <input type="text" id="edit_symbol" name="symbol" class="form-input symbol-input" placeholder="Ví dụ: BTCUSDT" pattern="^[a-zA-Z0-9]+$" required style="border: none; background: transparent; padding: 4px 0; font-size: 1rem; width: 100%; outline: none; box-shadow: none; color: #fff;">
+                            </div>
+                            <div class="verify-result" style="font-size: 0.9em; min-width: 80px; text-align: right; display: flex; align-items: center; justify-content: flex-end;"></div>
+                            <button type="button" class="btn-verify-row" style="background-color: transparent; color: var(--text-muted); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" title="Kiểm tra" onmouseover="this.style.backgroundColor='#3f3f46'; this.style.color='#fff'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--text-muted)'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a2.5 2.5 0 0 0 2.227 3.45h10.106a2.5 2.5 0 0 0 2.227-3.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div style="padding: 16px 24px; border-top: 1px solid #3f3f46; display: flex; justify-content: flex-end; gap: 12px;">
+                <button type="button" class="btn btn-secondary btn-close-modal" style="background-color: #3f3f46; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Hủy bỏ</button>
+                <button type="submit" form="form-edit" class="btn btn-primary" style="padding: 10px 24px;">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL XÁC NHẬN XÓA -->
+    <div id="modal-delete" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background-color: var(--bg-card); width: 100%; max-width: 400px; border-radius: 16px; border: 1px solid #3f3f46; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;">
+            <div style="padding: 24px; text-align: center;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(239, 68, 68, 0.1); color: #ef4444; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </div>
+                <h2 style="margin: 0 0 8px; font-size: 1.25rem;">Xác nhận Xóa</h2>
+                <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">Bạn có chắc chắn muốn xóa mã giao dịch này không? Hành động này không thể hoàn tác.</p>
+            </div>
+            <div style="padding: 16px 24px; border-top: 1px solid #3f3f46; display: flex; justify-content: flex-end; gap: 12px; background: rgba(0,0,0,0.2); border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                <button type="button" class="btn btn-secondary btn-close-modal" style="background-color: #3f3f46; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; flex: 1;">Hủy</button>
+                <button type="button" id="btn-confirm-delete" class="btn btn-primary" style="padding: 10px 24px; background-color: #ef4444; color: #fff; flex: 1;">Xóa ngay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TÍCH HỢP JAVASCRIPT -->
+    <script>
+        // === QUẢN LÝ MODAL ===
+        const modalAdd = document.getElementById('modal-add');
+        const modalEdit = document.getElementById('modal-edit');
+        const modalDelete = document.getElementById('modal-delete');
+        const btnOpenAddModal = document.getElementById('btn-open-add-modal');
+        const btnsCloseModal = document.querySelectorAll('.btn-close-modal');
+
+        // === BỘ LỌC (FILTERS) ===
+        const filterSymbol = document.getElementById('filter-symbol');
+        const filterType = document.getElementById('filter-type');
+        const filterExchange = document.getElementById('filter-exchange');
+        const filterCountry = document.getElementById('filter-country');
+        const symbolRowsData = document.querySelectorAll('.symbol-data-row');
+
+        function applyFilters() {
+            if (!filterSymbol) return; // Nếu không có bộ lọc (do mảng rỗng)
+            
+            const symVal = filterSymbol.value.toLowerCase().trim();
+            const typeVal = filterType.value;
+            const exVal = filterExchange.value;
+            const countryVal = filterCountry.value;
+
+            symbolRowsData.forEach(row => {
+                const sym = row.getAttribute('data-symbol').toLowerCase();
+                const type = row.getAttribute('data-type');
+                const ex = row.getAttribute('data-exchange');
+                const country = row.getAttribute('data-country') || '';
+                const baseCountry = (row.getAttribute('data-base-country') || '').toLowerCase();
+                const quoteCountry = (row.getAttribute('data-quote-country') || '').toLowerCase();
+
+                let matchSym = sym.includes(symVal);
+                let matchType = typeVal === '' || type === typeVal;
+                let matchEx = exVal === '' || ex === exVal;
+                let matchCountry = countryVal === '' ||
+                                   country.includes(countryVal) ||
+                                   baseCountry === countryVal.toLowerCase() ||
+                                   quoteCountry === countryVal.toLowerCase();
+
+                if (matchSym && matchType && matchEx && matchCountry) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        if (filterSymbol) {
+            filterSymbol.addEventListener('input', applyFilters);
+            filterType.addEventListener('change', applyFilters);
+            filterExchange.addEventListener('change', applyFilters);
+            filterCountry.addEventListener('change', applyFilters);
+        }
+
+        function openModal(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Chặn cuộn trang
+        }
+
+        function closeModal(modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        btnOpenAddModal.addEventListener('click', () => openModal(modalAdd));
+        
+        btnsCloseModal.forEach(btn => {
+            btn.addEventListener('click', function() {
+                closeModal(this.closest('[id^="modal-"]'));
+            });
+        });
+
+        // Bấm ngoài modal để đóng
+        [modalAdd, modalEdit, modalDelete].forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal(this);
+            });
+        });
+
+        // === XÓA SYMBOL ===
+        let symbolIdToDelete = null;
+        
+        document.querySelectorAll('.btn-delete-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                symbolIdToDelete = this.getAttribute('data-id');
+                openModal(modalDelete);
+            });
+        });
+
+        document.getElementById('btn-confirm-delete').addEventListener('click', async function() {
+            if (!symbolIdToDelete) return;
+            
+            const originalText = this.innerHTML;
+            this.innerHTML = 'Đang xóa...';
+            this.disabled = true;
+            
+            try {
+                const response = await fetch(`/delete_symbol/${symbolIdToDelete}`, { method: 'POST' });
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert("Có lỗi xảy ra khi xóa!");
+                }
+            } catch (error) {
+                alert("Lỗi mạng!");
+            } finally {
+                this.innerHTML = originalText;
+                this.disabled = false;
+                closeModal(modalDelete);
+            }
+        });
+
+        // === SỬA SYMBOL ===
+        const editForm = document.getElementById('form-edit');
+        const editAssetType = document.getElementById('edit_asset_type');
+        const editExchange = document.getElementById('edit_exchange');
+        const editBaseCountry = document.getElementById('edit_base_country');
+        const editQuoteCountry = document.getElementById('edit_quote_country');
+        const editSymbol = document.getElementById('edit_symbol');
+        const editExchangeGroup = document.getElementById('edit-exchange-group');
+
+        document.querySelectorAll('.btn-edit-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const symbol = this.getAttribute('data-symbol');
+                const exchange = this.getAttribute('data-exchange');
+                const type = this.getAttribute('data-type');
+                const baseCountry = this.getAttribute('data-base-country') || '';
+                const quoteCountry = this.getAttribute('data-quote-country') || '';
+
+                editForm.action = `/edit_symbol/${id}`;
+                editAssetType.value = type;
+
+                if (exchange === 'ECONOMICS' || type === 'Chỉ số kinh tế') {
+                    editExchange.value = 'ECONOMICS';
+                    editExchangeGroup.style.display = 'none';
+                } else {
+                    editExchange.value = exchange;
+                    editExchangeGroup.style.display = 'block';
+                }
+
+                editBaseCountry.value = baseCountry;
+                editQuoteCountry.value = quoteCountry;
+                editSymbol.value = symbol;
+
+                // Xóa kết quả verify cũ
+                document.querySelector('#modal-edit .verify-result').innerHTML = '';
+
+                openModal(modalEdit);
+            });
+        });
+
+        editAssetType.addEventListener('change', function() {
+            if (this.value === 'Chỉ số kinh tế') {
+                editExchangeGroup.style.display = 'none';
+                editExchange.value = 'ECONOMICS';
+            } else {
+                editExchangeGroup.style.display = 'block';
+                if (editExchange.value === 'ECONOMICS') editExchange.value = '';
+            }
+        });
+
+        // === LOGIC CỦA FORM THÊM (Đã viết từ trước) ===
+        const assetTypeSelect = document.getElementById('asset_type');
+        const exchangeGroup = document.getElementById('exchange-group');
+        const exchangeInput = document.getElementById('exchange');
+        const btnAddRow = document.getElementById('btn-add-row');
+        const rowsContainer = document.getElementById('symbol-rows-container');
+
+        function updatePlaceholders() {
+            const assetType = assetTypeSelect.value;
+            let placeholderText = 'Ví dụ: BTCUSDT';
+            let exchangePlaceholder = 'Ví dụ: Binance';
+
+            if (assetType === 'Crypto') {
+                placeholderText = 'Ví dụ: BTCUSDT';
+                exchangePlaceholder = 'Ví dụ: Binance, Coinbase, Bitstamp';
+            } else if (assetType === 'Forex') {
+                placeholderText = 'Ví dụ: EURUSD';
+                exchangePlaceholder = 'Ví dụ: OANDA, FX, FOREXCOM';
+            } else if (assetType === 'Cổ phiếu') {
+                placeholderText = 'Ví dụ: AAPL';
+                exchangePlaceholder = 'Ví dụ: NASDAQ, NYSE';
+            } else if (assetType === 'Quỹ') {
+                placeholderText = 'Ví dụ: SPY';
+                exchangePlaceholder = 'Ví dụ: AMEX';
+            } else if (assetType === 'Hàng hóa') {
+                placeholderText = 'Ví dụ: XAUUSD';
+                exchangePlaceholder = 'Ví dụ: NYMEX, COMEX';
+            } else if (assetType === 'Chỉ số kinh tế') {
+                placeholderText = 'Ví dụ: USIRYY';
+            }
+
+            document.querySelectorAll('#modal-add .symbol-input').forEach(input => {
+                input.placeholder = placeholderText;
+            });
+            exchangeInput.placeholder = exchangePlaceholder;
+        }
+
+        assetTypeSelect.addEventListener('change', function() {
+            if (this.value === 'Chỉ số kinh tế') {
+                exchangeGroup.style.display = 'none';
+                exchangeInput.value = 'ECONOMICS';
+            } else {
+                exchangeGroup.style.display = 'block';
+                if (exchangeInput.value === 'ECONOMICS') exchangeInput.value = '';
+            }
+            updatePlaceholders();
+        });
+
+        btnAddRow.addEventListener('click', function() {
+            const firstRow = rowsContainer.querySelector('.symbol-row');
+            const newRow = firstRow.cloneNode(true);
+            newRow.querySelector('.symbol-input').value = '';
+            newRow.querySelector('.verify-result').innerHTML = '';
+            const removeBtn = newRow.querySelector('.btn-remove-row');
+            removeBtn.disabled = false;
+            removeBtn.style.opacity = '1';
+            const firstRemoveBtn = firstRow.querySelector('.btn-remove-row');
+            firstRemoveBtn.disabled = false;
+            firstRemoveBtn.style.opacity = '1';
+            rowsContainer.appendChild(newRow);
+            newRow.querySelector('.symbol-input').focus();
+        });
+        
+        updatePlaceholders();
+
+        // === DÙNG CHUNG HÀM GỌI API VERIFY (Event Delegation) ===
+        document.body.addEventListener('click', async function(e) {
+            // Nút xóa dòng trong modal Thêm
+            const removeBtn = e.target.closest('.btn-remove-row');
+            if (removeBtn && !removeBtn.disabled) {
+                const rowCont = removeBtn.closest('#symbol-rows-container');
+                removeBtn.closest('.symbol-row').remove();
+                const allRows = rowCont.querySelectorAll('.symbol-row');
+                if (allRows.length === 1) {
+                    allRows[0].querySelector('.btn-remove-row').disabled = true;
+                    allRows[0].querySelector('.btn-remove-row').style.opacity = '0.5';
+                }
+                return;
+            }
+
+            // Nút Kiểm tra (Bình Thí Nghiệm) trong cả 2 modal
+            const verifyBtn = e.target.closest('.btn-verify-row');
+            if (verifyBtn) {
+                const row = verifyBtn.closest('.symbol-row');
+                const symbolInput = row.querySelector('.symbol-input');
+                const resultDiv = row.querySelector('.verify-result');
+                const sym = symbolInput.value.trim();
+                
+                // Xác định exchange của form hiện tại (Thêm hay Sửa)
+                const form = row.closest('form');
+                const exInput = form.querySelector('[name="exchange"]');
+                const exchange = exInput ? exInput.value : '';
+                
+                if (!sym) {
+                    alert("Vui lòng nhập Symbol để kiểm tra.");
+                    return;
+                }
+                
+                const regex = /^[a-zA-Z0-9]+$/;
+                if (!regex.test(sym)) {
+                    alert(`Mã không hợp lệ. Vui lòng chỉ nhập chữ và số.`);
+                    return;
+                }
+                
+                verifyBtn.style.opacity = "0.5";
+                verifyBtn.disabled = true;
+                resultDiv.innerHTML = '<span style="color: var(--text-muted)">Đang check...</span>';
+                
+                try {
+                    const response = await fetch('/verify_symbol', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ symbols: [sym], exchange: exchange })
+                    });
+                    const data = await response.json();
+                    const isValid = data.results[sym.toUpperCase()];
+                    
+                    if (isValid) {
+                        resultDiv.innerHTML = '<span style="color: var(--accent-color); font-weight: 600; display: flex; align-items: center; gap: 4px;" title="Mã này hoàn toàn hợp lệ"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Hợp lệ</span>';
+                    } else {
+                        resultDiv.innerHTML = '<span style="color: #ef4444; font-weight: 600; display: flex; align-items: center; gap: 4px;" title="TradingView không tìm thấy mã này, hãy kiểm tra lại cú pháp hoặc Sàn giao dịch"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> Không tồn tại</span>';
+                    }
+                } catch (err) {
+                    console.error(err);
+                    resultDiv.innerHTML = '<span style="color: #ef4444; font-size: 0.9em;">Lỗi kết nối</span>';
+                } finally {
+                    verifyBtn.style.opacity = "1";
+                    verifyBtn.disabled = false;
+                }
+            }
+        });
+
+        // === XỬ LÝ SUBMIT CHUNG CỦA CẢ 2 FORM ===
+        async function validateFormBeforeSubmit(e, formId) {
+            e.preventDefault();
+            const form = document.getElementById(formId);
+            const rows = form.querySelectorAll('.symbol-row');
+            let symbolsToCheck = [];
+            let rowMap = {}; 
+            
+            const exInput = form.querySelector('[name="exchange"]');
+            const exchange = exInput ? exInput.value : '';
+
+            for (let row of rows) {
+                const symbolInput = row.querySelector('.symbol-input');
+                const sym = symbolInput.value.trim();
+                
+                if (sym) {
+                    const regex = /^[a-zA-Z0-9]+$/;
+                    if (!regex.test(sym)) {
+                        alert(`Mã "${sym}" không hợp lệ. Vui lòng chỉ nhập chữ và số.`);
+                        return;
+                    }
+                    symbolsToCheck.push(sym);
+                    let upperSym = sym.toUpperCase();
+                    if (!rowMap[upperSym]) rowMap[upperSym] = [];
+                    rowMap[upperSym].push(row);
+                }
+            }
+            
+            if (symbolsToCheck.length === 0) {
+                alert("Vui lòng nhập ít nhất 1 Symbol để lưu.");
+                return;
+            }
+            
+            const submitBtn = form.closest('div[style*="max-width"]').querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = 'Đang kiểm tra...';
+            submitBtn.disabled = true;
+            
+            for (let row of rows) {
+                if (row.querySelector('.symbol-input').value.trim()) {
+                    row.querySelector('.verify-result').innerHTML = '<span style="color: var(--text-muted)">Đang check...</span>';
+                }
+            }
+            
+            try {
+                const response = await fetch('/verify_symbol', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symbols: symbolsToCheck, exchange: exchange })
+                });
+                
+                const data = await response.json();
+                const results = data.results;
+                let allValid = true;
+                
+                for (const [sym, isValid] of Object.entries(results)) {
+                    const symRows = rowMap[sym];
+                    if (symRows) {
+                        for (let r of symRows) {
+                            const resultDiv = r.querySelector('.verify-result');
+                            if (isValid) {
+                                resultDiv.innerHTML = '<span style="color: var(--accent-color); font-weight: 600; display: flex; align-items: center; gap: 4px;" title="Mã này hoàn toàn hợp lệ"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Hợp lệ</span>';
+                            } else {
+                                allValid = false;
+                                resultDiv.innerHTML = '<span style="color: #ef4444; font-weight: 600; display: flex; align-items: center; gap: 4px;" title="TradingView không tìm thấy mã này, hãy kiểm tra lại cú pháp hoặc Sàn giao dịch"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> Không tồn tại</span>';
+                            }
+                        }
+                    }
+                }
+                
+                if (allValid) form.submit();
+                
+            } catch (err) {
+                console.error(err);
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        document.getElementById('form-add').addEventListener('submit', (e) => validateFormBeforeSubmit(e, 'form-add'));
+        document.getElementById('form-edit').addEventListener('submit', (e) => validateFormBeforeSubmit(e, 'form-edit'));
+    </script>
+{% endblock %}

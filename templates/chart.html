@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <h1 style="margin: 0;">Biểu đồ</h1>
+
+        <!-- Bộ chọn số cột bố cục -->
+        <div style="display: flex; align-items: center; gap: 8px; background: #18181b; padding: 4px 8px; border-radius: 8px; border: 1px solid #3f3f46;">
+            <span style="font-size: 0.85rem; color: var(--text-muted); margin-right: 4px;">Bố cục:</span>
+            <button type="button" class="layout-btn" data-cols="auto" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">Tự động</button>
+            <button type="button" class="layout-btn" data-cols="1" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">1 Cột</button>
+            <button type="button" class="layout-btn" data-cols="2" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">2 Cột</button>
+            <button type="button" class="layout-btn" data-cols="3" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">3 Cột</button>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 24px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;">
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 160px;">
+                <label for="type-select" class="form-label">1. Loại tài sản</label>
+                <select id="type-select" class="form-input" style="padding: 10px 12px; font-size: 0.95em;">
+                    <option value="">-- Tất cả --</option>
+                    {% set asset_types = [] %}
+                    {% for item in symbols %}
+                        {% if item.type not in asset_types %}
+                            {% set _ = asset_types.append(item.type) %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for t in asset_types %}
+                    <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0; flex: 1.5; min-width: 220px;">
+                <label for="symbol-select" class="form-label">2. Mã Giao Dịch</label>
+                <select id="symbol-select" class="form-input" style="padding: 10px 12px; font-size: 0.95em;">
+                    <option value="" disabled selected>-- Chọn mã giao dịch --</option>
+                    {% for item in symbols %}
+                        {% set country_display = item.country %}
+                        {% if not country_display and (item.base_country or item.quote_country) %}
+                            {% set country_display = [item.base_country, item.quote_country]|select|join(' / ') %}
+                        {% endif %}
+                        <option value="{{ item.id }}" data-type="{{ item.type }}" {% if selected_id and selected_id|string == item.id|string %}selected{% endif %}>
+                            {{ item.symbol }}
+                            {% if item.exchange != 'ECONOMICS' and item.exchange %} - Sàn: {{ item.exchange }}{% endif %}
+                            {% if country_display %} - Quốc gia: {{ country_display }}{% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0; flex: 2.5; min-width: 280px; position: relative;">
+                <label class="form-label">3. Khung Thời Gian</label>
+                <button type="button" id="tf-dropdown-btn" class="form-input" style="padding: 10px 12px; font-size: 0.95em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                    <span id="tf-selected-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 20px);">Đang chọn (1 Ngày)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+
+                <!-- Dropdown Popover -->
+                <div id="tf-dropdown-menu" style="display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; min-width: 320px; background: #18181b; border: 1px solid #3f3f46; border-radius: 8px; padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 50;">
+                    <div style="display: flex; flex-direction: column; gap: 10px;" id="timeframe-checkboxes">
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">Phút</div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                {% set minute_tfs = [('1', '1P', 1), ('3', '3P', 2), ('5', '5P', 3), ('15', '15P', 4), ('30', '30P', 5), ('45', '45P', 6)] %}
+                                {% for val, name, order in minute_tfs %}
+                                <label style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background: #27272a; border: 1px solid #3f3f46; border-radius: 4px; cursor: pointer; font-size: 0.85em; user-select: none;">
+                                    <input type="checkbox" value="{{ val }}" data-order="{{ order }}" data-label="{{ val }} Phút" style="accent-color: var(--accent-color);">
+                                    <span>{{ name }}</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">Giờ</div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                {% set hour_tfs = [('1h', '1H', 7), ('2h', '2H', 8), ('3h', '3H', 9), ('4h', '4H', 10)] %}
+                                {% for val, name, order in hour_tfs %}
+                                <label style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background: #27272a; border: 1px solid #3f3f46; border-radius: 4px; cursor: pointer; font-size: 0.85em; user-select: none;">
+                                    <input type="checkbox" value="{{ val }}" data-order="{{ order }}" data-label="{{ val }} Giờ" style="accent-color: var(--accent-color);">
+                                    <span>{{ name }}</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">Ngày / Tuần / Tháng</div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                {% set long_tfs = [('1d', '1D', 11), ('1w', '1W', 12), ('1M', '1M', 13), ('3M', '3M', 14), ('6M', '6M', 15), ('12M', '12M', 16)] %}
+                                {% for val, name, order in long_tfs %}
+                                <label style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background: #27272a; border: 1px solid #3f3f46; border-radius: 4px; cursor: pointer; font-size: 0.85em; user-select: none;">
+                                    <input type="checkbox" value="{{ val }}" data-order="{{ order }}" data-label="{% if 'd' in val %}{{ val|replace('d', ' Ngày') }}{% elif 'w' in val %}{{ val|replace('w', ' Tuần') }}{% else %}{{ val|replace('M', ' Tháng') }}{% endif %}" {% if val == '1d' %}checked{% endif %} style="accent-color: var(--accent-color);">
+                                    <span>{{ name }}</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0; flex: 1.2; min-width: 220px; position: relative;">
+                <label class="form-label">4. Chỉ Báo Giao Dịch</label>
+                <button type="button" id="indicator-dropdown-btn" class="form-input" style="padding: 10px 12px; font-size: 0.95em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                    <span id="indicator-selected-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 20px);">Đang chọn (0 chỉ báo)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+
+                <div id="indicator-dropdown-menu" style="display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; min-width: 280px; max-height: 300px; overflow-y: auto; background: #18181b; border: 1px solid #3f3f46; border-radius: 8px; padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 50;">
+                    <div style="display: flex; flex-direction: column; gap: 8px;" id="indicator-checkboxes">
+                        {% if active_indicators %}
+                            {% for ind in active_indicators %}
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 6px 8px; background: #27272a; border: 1px solid #3f3f46; border-radius: 6px; cursor: pointer; font-size: 0.85em; user-select: none;">
+                                <input type="checkbox" value="{{ ind.id }}" data-label="{{ ind.name }}" {% if ind.id in selected_indicator_ids %}checked{% endif %} style="accent-color: var(--accent-color);">
+                                <span style="flex: 1;">{{ ind.name }}</span>
+                                <span style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase;">{{ ind.type }}</span>
+                            </label>
+                            {% endfor %}
+                        {% else %}
+                            <div style="color: var(--text-muted); font-size: 0.85rem; padding: 4px 0;">Chưa có chỉ báo nào đang hoạt động.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container chứa nhiều biểu đồ -->
+    <div id="charts-container" style="display: flex; flex-wrap: wrap; gap: 24px;"></div>
+
+    <style>
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .layout-btn.active {
+            background-color: var(--accent-color) !important;
+            color: #000000 !important;
+            font-weight: 600;
+        }
+    </style>
+
+    <script>
+        const typeSelect = document.getElementById('type-select');
+        const symbolSelect = document.getElementById('symbol-select');
+        const tfContainer = document.getElementById('timeframe-checkboxes');
+        const indicatorContainer = document.getElementById('indicator-checkboxes');
+        const chartsContainer = document.getElementById('charts-container');
+        const tfDropdownBtn = document.getElementById('tf-dropdown-btn');
+        const tfDropdownMenu = document.getElementById('tf-dropdown-menu');
+        const tfSelectedText = document.getElementById('tf-selected-text');
+        const indicatorDropdownBtn = document.getElementById('indicator-dropdown-btn');
+        const indicatorDropdownMenu = document.getElementById('indicator-dropdown-menu');
+        const indicatorSelectedText = document.getElementById('indicator-selected-text');
+        const layoutBtns = document.querySelectorAll('.layout-btn');
+
+        let currentLayout = localStorage.getItem('chart_layout_cols') || 'auto';
+
+        function updateLayoutButtons() {
+            layoutBtns.forEach(btn => {
+                if (btn.getAttribute('data-cols') === currentLayout) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        layoutBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentLayout = btn.getAttribute('data-cols');
+                localStorage.setItem('chart_layout_cols', currentLayout);
+                updateLayoutButtons();
+                loadCharts();
+            });
+        });
+
+        // Dropdown toggle
+        tfDropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = tfDropdownMenu.style.display === 'block';
+            tfDropdownMenu.style.display = isOpen ? 'none' : 'block';
+            tfDropdownBtn.querySelector('svg').style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+
+        indicatorDropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = indicatorDropdownMenu.style.display === 'block';
+            indicatorDropdownMenu.style.display = isOpen ? 'none' : 'block';
+            indicatorDropdownBtn.querySelector('svg').style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!tfDropdownMenu.contains(e.target) && !tfDropdownBtn.contains(e.target)) {
+                tfDropdownMenu.style.display = 'none';
+                tfDropdownBtn.querySelector('svg').style.transform = 'rotate(0deg)';
+            }
+
+            if (!indicatorDropdownMenu.contains(e.target) && !indicatorDropdownBtn.contains(e.target)) {
+                indicatorDropdownMenu.style.display = 'none';
+                indicatorDropdownBtn.querySelector('svg').style.transform = 'rotate(0deg)';
+            }
+        });
+
+        function updateSelectedTimeframeLabel() {
+            const checkboxes = tfContainer.querySelectorAll('input[type="checkbox"]:checked');
+            if (checkboxes.length === 0) {
+                tfSelectedText.textContent = 'Chưa chọn khung nào';
+                tfSelectedText.style.color = 'var(--text-muted)';
+            } else if (checkboxes.length === 1) {
+                tfSelectedText.textContent = checkboxes[0].getAttribute('data-label') || checkboxes[0].value;
+                tfSelectedText.style.color = 'var(--text-main)';
+            } else {
+                tfSelectedText.textContent = `Đã chọn (${checkboxes.length} khung)`;
+                tfSelectedText.style.color = 'var(--accent-color)';
+            }
+        }
+
+        function updateSelectedIndicatorLabel() {
+            const checkboxes = indicatorContainer.querySelectorAll('input[type="checkbox"]:checked');
+            if (checkboxes.length === 0) {
+                indicatorSelectedText.textContent = 'Chưa chọn chỉ báo';
+                indicatorSelectedText.style.color = 'var(--text-muted)';
+            } else if (checkboxes.length === 1) {
+                indicatorSelectedText.textContent = checkboxes[0].getAttribute('data-label') || '1 chỉ báo';
+                indicatorSelectedText.style.color = 'var(--text-main)';
+            } else {
+                indicatorSelectedText.textContent = `Đã chọn (${checkboxes.length} chỉ báo)`;
+                indicatorSelectedText.style.color = 'var(--accent-color)';
+            }
+        }
+
+        // Logic lọc Symbol theo Loại tài sản
+        function filterSymbols() {
+            const selectedType = typeSelect.value;
+            let hasVisibleOptions = false;
+            let firstVisibleValue = null;
+
+            Array.from(symbolSelect.options).forEach(option => {
+                if (option.value === "") return;
+
+                const optionType = option.getAttribute('data-type');
+                if (selectedType === "" || optionType === selectedType) {
+                    option.style.display = '';
+                    hasVisibleOptions = true;
+                    if (!firstVisibleValue) firstVisibleValue = option.value;
+                } else {
+                    option.style.display = 'none';
+                    if (symbolSelect.value === option.value) {
+                        symbolSelect.value = "";
+                        chartsContainer.innerHTML = '';
+                    }
+                }
+            });
+        }
+
+        typeSelect.addEventListener('change', filterSymbols);
+
+        const timeframeOrder = {
+            '1': 1, '3': 2, '5': 3, '15': 4, '30': 5, '45': 6,
+            '1h': 7, '2h': 8, '3h': 9, '4h': 10,
+            '1d': 11, '1w': 12, '1M': 13, '3M': 14, '6M': 15, '12M': 16
+        };
+
+        function getSelectedTimeframes() {
+            const checkboxes = tfContainer.querySelectorAll('input[type="checkbox"]:checked');
+            let items = Array.from(checkboxes).map(cb => ({
+                value: cb.value,
+                label: cb.getAttribute('data-label') || cb.value,
+                order: timeframeOrder[cb.value] || 99
+            }));
+            // Sắp xếp theo thứ tự từ nhỏ đến lớn (từ 1 phút tới 12 tháng)
+            items.sort((a, b) => a.order - b.order);
+            return items;
+        }
+
+        function getSelectedIndicators() {
+            const checkboxes = indicatorContainer.querySelectorAll('input[type="checkbox"]:checked');
+            return Array.from(checkboxes).map(cb => Number(cb.value)).filter(id => !Number.isNaN(id));
+        }
+
+        function loadCharts() {
+            updateSelectedTimeframeLabel();
+            updateSelectedIndicatorLabel();
+            const symbolId = symbolSelect.value;
+            if (!symbolId) return;
+
+            const selectedTfs = getSelectedTimeframes();
+            if (selectedTfs.length === 0) {
+                chartsContainer.innerHTML = '<div class="card" style="width: 100%; text-align: center; color: var(--text-muted);">Vui lòng chọn ít nhất một khung thời gian.</div>';
+                return;
+            }
+
+            const selectedIndicators = getSelectedIndicators();
+            const indicatorsQuery = `&indicators=${selectedIndicators.join(',')}`;
+
+            // Xóa container cũ và tạo card cho từng timeframe
+            chartsContainer.innerHTML = '';
+
+            selectedTfs.forEach(tfObj => {
+                const tf = tfObj.value;
+                const tfLabel = tfObj.label;
+
+                let flexBasis = '100%';
+                let minWidth = '320px';
+
+                if (currentLayout === '1') {
+                    flexBasis = '100%';
+                    minWidth = '500px';
+                } else if (currentLayout === '2') {
+                    flexBasis = 'calc(50% - 12px)';
+                    minWidth = '400px';
+                } else if (currentLayout === '3') {
+                    flexBasis = 'calc(33.333% - 16px)';
+                    minWidth = '300px';
+                } else {
+                    // Chế độ 'auto': linh hoạt theo số khung được chọn
+                    const count = selectedTfs.length;
+                    if (count === 1) {
+                        flexBasis = '100%';
+                        minWidth = '500px';
+                    } else if (count === 2 || count === 4) {
+                        flexBasis = 'calc(50% - 12px)';
+                        minWidth = '400px';
+                    } else {
+                        flexBasis = 'calc(33.333% - 16px)';
+                        minWidth = '300px';
+                    }
+                }
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.padding = '0';
+                card.style.overflow = 'hidden';
+                card.style.flex = `1 1 ${flexBasis}`;
+                card.style.minWidth = minWidth;
+                card.innerHTML = `
+                    <div style="padding: 0; text-align: center; min-height: 280px; display: flex; align-items: center; justify-content: center; position: relative;" id="chart-container-${tf}">
+                        <div id="chart-loading-${tf}" style="padding: 16px; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+                            <span>Đang tải ${tfLabel}...</span>
+                        </div>
+                        <img id="chart-image-${tf}" src="" style="display: none; width: 100%; height: auto; border-radius: 12px; vertical-align: middle;">
+                    </div>
+                `;
+                chartsContainer.appendChild(card);
+
+                const img = document.getElementById(`chart-image-${tf}`);
+                const loading = document.getElementById(`chart-loading-${tf}`);
+
+                img.onload = function() {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                };
+
+                img.onerror = function() {
+                    loading.innerHTML = '<span style="color: #ef4444;">Có lỗi xảy ra khi tải biểu đồ khung này.</span>';
+                };
+
+                img.src = `/view_chart/${symbolId}?timeframe=${tf}${indicatorsQuery}&t=${new Date().getTime()}`;
+            });
+        }
+
+        symbolSelect.addEventListener('change', loadCharts);
+        tfContainer.addEventListener('change', loadCharts);
+        indicatorContainer.addEventListener('change', loadCharts);
+
+        // Khởi tạo
+        updateLayoutButtons();
+        updateSelectedTimeframeLabel();
+        updateSelectedIndicatorLabel();
+        if (symbolSelect.value) {
+            const selectedOption = symbolSelect.options[symbolSelect.selectedIndex];
+            if (selectedOption && selectedOption.value !== "") {
+                const type = selectedOption.getAttribute('data-type');
+                if (type) typeSelect.value = type;
+            }
+            filterSymbols();
+            loadCharts();
+        } else {
+            filterSymbols();
+        }
+    </script>
+{% endblock %}

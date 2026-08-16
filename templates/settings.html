@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h1 style="margin: 0;">Cài Đặt Cấu Hình Biểu Đồ</h1>
+    </div>
+
+    {% if message %}
+    <div class="card" style="margin-bottom: 20px; background-color: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 12px 16px;">
+        {{ message }}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/settings">
+        <div class="card" style="margin-bottom: 24px;">
+            <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 1.1rem;">Cấu hình Nến & Màu sắc</h3>
+
+            <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                <div class="form-group" style="flex: 1; min-width: 200px;">
+                    <label for="candle_count" class="form-label">Số lượng nến hiển thị</label>
+                    <input type="number" id="candle_count" name="candle_count" class="form-input" value="{{ candle_count }}" min="10" max="1000" required>
+                </div>
+
+                <div class="form-group" style="flex: 1; min-width: 200px;">
+                    <label for="bull_color" class="form-label">Màu nến Tăng (Bullish)</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="color" id="bull_color_picker" value="{{ bull_color }}" style="height: 42px; width: 50px; background: none; border: 1px solid var(--border); border-radius: 6px; cursor: pointer;" onchange="document.getElementById('bull_color').value = this.value">
+                        <input type="text" id="bull_color" name="bull_color" class="form-input" value="{{ bull_color }}" onchange="document.getElementById('bull_color_picker').value = this.value" required>
+                    </div>
+                </div>
+
+                <div class="form-group" style="flex: 1; min-width: 200px;">
+                    <label for="bear_color" class="form-label">Màu nến Giảm (Bearish)</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="color" id="bear_color_picker" value="{{ bear_color }}" style="height: 42px; width: 50px; background: none; border: 1px solid var(--border); border-radius: 6px; cursor: pointer;" onchange="document.getElementById('bear_color').value = this.value">
+                        <input type="text" id="bear_color" name="bear_color" class="form-input" value="{{ bear_color }}" onchange="document.getElementById('bear_color_picker').value = this.value" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn btn-primary" style="padding: 12px 24px; font-size: 1em;">Lưu Cài Đặt</button>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,216 @@
+/* Hệ thống màu sắc được chỉ định */
+:root {
+  --bg-main: #27272A;        /* Nền chính (Đen xám đậm - zinc-800) */
+  --bg-active: #22443B;      /* Nền item active (Xanh rêu đậm) */
+  --accent-color: #10B981;   /* Màu chủ đạo (Xanh mint - emerald-500) */
+  --text-active: #A1A1AA;    /* Text trên nền active (Xám nhạt - zinc-400) */
+  --text-main: #E4E4E7;      /* Text thông thường (Sáng để nổi trên nền tối) */
+  --sidebar-width: 260px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: #1f1f22; /* Hơi tối hơn nền chính một chút để phân biệt */
+  border-right: 1px solid #3f3f46;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 24px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #3f3f46;
+  color: var(--accent-color);
+}
+
+/* Sidebar Collapsed State */
+html.sidebar-collapsed-init .sidebar,
+.sidebar.collapsed {
+  width: 70px;
+}
+
+html.sidebar-collapsed-init .sidebar .logo-text,
+html.sidebar-collapsed-init .sidebar .nav-text,
+.sidebar.collapsed .logo-text,
+.sidebar.collapsed .nav-text {
+  display: none;
+}
+
+html.sidebar-collapsed-init .sidebar .sidebar-header,
+.sidebar.collapsed .sidebar-header {
+  padding: 24px 12px;
+  justify-content: center;
+}
+
+html.sidebar-collapsed-init .sidebar .nav-link,
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 12px 0;
+}
+
+html.sidebar-collapsed-init .sidebar .nav-icon,
+.sidebar.collapsed .nav-icon {
+  margin-right: 0;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0 12px;
+  flex: 1;
+}
+
+.nav-item {
+  margin-bottom: 8px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(34, 68, 59, 0.5); /* Hiệu ứng hover nhạt hơn nền active */
+  color: var(--text-active);
+}
+
+.nav-link.active {
+  background-color: var(--bg-active);
+  color: var(--text-active);
+}
+
+.nav-icon {
+  margin-right: 12px;
+  font-size: 1.2rem;
+  color: var(--accent-color);
+}
+
+/* Main Content Styling */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.top-bar {
+  height: 64px;
+  border-bottom: 1px solid #3f3f46;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.content-area {
+  padding: 32px;
+  max-width: 800px;
+}
+
+h1 {
+  margin-bottom: 24px;
+  font-size: 1.8rem;
+}
+
+/* Card & Form Styling */
+.card {
+  background-color: #18181b; /* zinc-900 */
+  border: 1px solid #3f3f46;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--bg-main);
+  border: 1px solid #52525b; /* zinc-600 */
+  border-radius: 8px;
+  color: var(--text-main);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  color: #000000;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

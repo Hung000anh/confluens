@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h1 style="margin: 0;">Quản Lý Chỉ Báo Giao Dịch</h1>
+    </div>
+
+    <div class="card" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <h3 style="margin: 0; font-size: 1.1rem;">Quản Lý Chỉ Báo</h3>
+        <button type="button" class="btn btn-primary" id="btn-open-indicator-modal" style="padding: 10px 18px;">+ Thêm Chỉ Báo</button>
+    </div>
+
+    <div id="indicator-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="width: min(720px, 92vw); background: #18181b; border: 1px solid #3f3f46; border-radius: 16px; padding: 0; box-shadow: 0 20px 30px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border-bottom: 1px solid #3f3f46;">
+                <h3 id="indicator-modal-title" style="margin: 0; font-size: 1.1rem;">Thêm Chỉ Báo Mới</h3>
+                <button type="button" class="btn-close-indicator-modal" style="background: transparent; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
+            </div>
+            <div style="padding: 22px;">
+                <form id="indicator-form" method="POST" action="/add_indicator">
+                    <div style="display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 16px;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="indicator-name" class="form-label">Tên chỉ báo</label>
+                            <input type="text" id="indicator-name" name="name" class="form-input" placeholder="VD: EMA 20" required>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="indicator-type" class="form-label">Loại</label>
+                            <select id="indicator-type" name="type" class="form-input" required>
+                                <option value="ema">EMA</option>
+                                <option value="sma">SMA</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="indicator-period" class="form-label">Chu kỳ</label>
+                            <input type="number" id="indicator-period" name="period" class="form-input" value="20" min="1" max="500" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 18px; margin-bottom: 0;">
+                        <label class="form-label">Khung thời gian</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            {% set tf_list = ['1m','3m','5m','15m','30m','45m','1h','2h','3h','4h','1d','1w','3M','6M','12M'] %}
+                            {% for tf in tf_list %}
+                            <label style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid #3f3f46; border-radius: 8px; padding: 6px 10px; background: #27272a; font-size: 0.85rem;">
+                                <input type="checkbox" name="timeframe" value="{{ tf }}" checked>
+                                <span>{{ tf }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 18px; margin-bottom: 0;">
+                        <label for="indicator-color" class="form-label">Màu sắc</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="color" id="indicator-color-picker" value="#10b981" style="width: 50px; height: 42px; border: 1px solid #3f3f46; border-radius: 8px; background: transparent;">
+                            <input type="text" id="indicator-color" name="color" class="form-input" value="#10b981" required>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 22px;">
+                        <button type="button" class="btn btn-secondary btn-close-indicator-modal" style="background: #3f3f46; color: white; border: none;">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu chỉ báo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Danh Sách Chỉ Báo -->
+    <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 1.1rem;">Danh Sách Chỉ Báo Cấu Hình</h3>
+        {% if indicators %}
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #3f3f46; color: var(--text-active);">
+                        <th style="padding: 12px;">Tên</th>
+                        <th style="padding: 12px;">Loại</th>
+                        <th style="padding: 12px;">Khung Thời Gian</th>
+                        <th style="padding: 12px;">Chu Kỳ</th>
+                        <th style="padding: 12px;">Màu Sắc</th>
+                        <th style="padding: 12px;">Trạng Thái</th>
+                        <th style="padding: 12px; text-align: right;">Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ind in indicators %}
+                        <tr style="border-bottom: 1px solid #27272a;">
+                            <td style="padding: 12px; font-weight: 500;">{{ ind.name }}</td>
+                            <td style="padding: 12px;">{{ ind.type|upper }}</td>
+                            <td style="padding: 12px;">{{ ind.timeframe|upper }}</td>
+                            <td style="padding: 12px;">{{ ind.period }}</td>
+                            <td style="padding: 12px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="display: inline-block; width: 16px; height: 16px; border-radius: 50%; background-color: {{ ind.color }}; border: 1px solid #52525b;"></span>
+                                    <code>{{ ind.color }}</code>
+                                </div>
+                            </td>
+                            <td style="padding: 12px;">
+                                <form method="POST" action="/toggle_indicator/{{ ind.id }}" style="display: inline;">
+                                    <button type="submit" class="btn" style="padding: 4px 12px; font-size: 0.85rem; background-color: {% if ind.is_active %}rgba(16, 185, 129, 0.2){% else %}rgba(239, 68, 68, 0.2){% endif %}; color: {% if ind.is_active %}#10b981{% else %}#ef4444{% endif %}; border: 1px solid {% if ind.is_active %}#10b981{% else %}#ef4444{% endif %};">
+                                        {% if ind.is_active %}Đang Bật{% else %}Đã Tắt{% endif %}
+                                    </button>
+                                </form>
+                            </td>
+                            <td style="padding: 12px; text-align: right; display: flex; justify-content: flex-end; gap: 8px;">
+                                <button type="button" class="btn btn-edit-indicator" data-id="{{ ind.id }}" data-name="{{ ind.name }}" data-type="{{ ind.type }}" data-period="{{ ind.period }}" data-timeframe="{{ ind.timeframe }}" data-color="{{ ind.color }}" style="padding: 6px 12px; font-size: 0.85rem; background-color: #3f3f46; color: #fff; border: none;">Sửa</button>
+                                <form method="POST" action="/delete_indicator/{{ ind.id }}" style="display: inline;" onsubmit="return confirm('Bạn có chắc muốn xóa chỉ báo này?');">
+                                    <button type="submit" class="btn" style="padding: 6px 12px; font-size: 0.85rem; background-color: #ef4444; color: #ffffff;">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="color: var(--text-active); margin: 0;">Chưa có chỉ báo nào được thêm.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        const modal = document.getElementById('indicator-modal');
+        const modalTitle = document.getElementById('indicator-modal-title');
+        const form = document.getElementById('indicator-form');
+        const openBtn = document.getElementById('btn-open-indicator-modal');
+        const closeBtns = document.querySelectorAll('.btn-close-indicator-modal');
+
+        function openIndicatorModal() {
+            modal.style.display = 'flex';
+        }
+
+        function closeIndicatorModal() {
+            modal.style.display = 'none';
+            form.action = '/add_indicator';
+            form.reset();
+            document.getElementById('indicator-color-picker').value = '#10b981';
+            document.getElementById('indicator-color').value = '#10b981';
+            modalTitle.textContent = 'Thêm Chỉ Báo Mới';
+        }
+
+        openBtn.addEventListener('click', openIndicatorModal);
+        closeBtns.forEach(btn => btn.addEventListener('click', closeIndicatorModal));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeIndicatorModal();
+        });
+
+        document.getElementById('indicator-color-picker').addEventListener('input', function () {
+            document.getElementById('indicator-color').value = this.value;
+        });
+        document.getElementById('indicator-color').addEventListener('input', function () {
+            if (/^#[0-9a-fA-F]{6}$/.test(this.value)) {
+                document.getElementById('indicator-color-picker').value = this.value;
+            }
+        });
+
+        document.querySelectorAll('.btn-edit-indicator').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const { id, name, type, period, timeframe, color } = this.dataset;
+                modalTitle.textContent = 'Sửa Chỉ Báo';
+                form.action = `/update_indicator/${id}`;
+                document.getElementById('indicator-name').value = name;
+                document.getElementById('indicator-type').value = type;
+                document.getElementById('indicator-period').value = period;
+                document.getElementById('indicator-color').value = color;
+                document.getElementById('indicator-color-picker').value = color;
+
+                document.querySelectorAll('input[name="timeframe"]').forEach(cb => {
+                    cb.checked = false;
+                });
+
+                const tfs = (timeframe || '').split(',').map(v => v.trim().toLowerCase());
+                document.querySelectorAll('input[name="timeframe"]').forEach(cb => {
+                    cb.checked = tfs.includes(cb.value.toLowerCase());
+                });
+
+                openIndicatorModal();
+            });
+        });
+    </script>
+{% endblock %}
