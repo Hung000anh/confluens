@@ -2,18 +2,18 @@
 
 {% block content %}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h1 style="margin: 0;">Quản Lý Chỉ Báo Giao Dịch</h1>
+        <h1 style="margin: 0;">{{ ui.indicators.page_title }}</h1>
     </div>
 
     <div class="card" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
-        <h3 style="margin: 0; font-size: 1.1rem;">Quản Lý Chỉ Báo</h3>
-        <button type="button" class="btn btn-primary" id="btn-open-indicator-modal" style="padding: 10px 18px;">+ Thêm Chỉ Báo</button>
+        <h3 style="margin: 0; font-size: 1.1rem;">{{ ui.indicators.section_title }}</h3>
+        <button type="button" class="btn btn-primary" id="btn-open-indicator-modal" style="padding: 10px 18px;">{{ ui.indicators.add_button }}</button>
     </div>
 
     <div id="indicator-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center;">
         <div style="width: min(720px, 92vw); background: #18181b; border: 1px solid #3f3f46; border-radius: 16px; padding: 0; box-shadow: 0 20px 30px rgba(0,0,0,0.5);">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border-bottom: 1px solid #3f3f46;">
-                <h3 id="indicator-modal-title" style="margin: 0; font-size: 1.1rem;">Thêm Chỉ Báo Mới</h3>
+                <h3 id="indicator-modal-title" style="margin: 0; font-size: 1.1rem;">{{ ui.indicators.add_modal_title }}</h3>
                 <button type="button" class="btn-close-indicator-modal" style="background: transparent; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
             </div>
             <div style="padding: 22px;">
@@ -61,7 +61,7 @@
 
                     <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 22px;">
                         <button type="button" class="btn btn-secondary btn-close-indicator-modal" style="background: #3f3f46; color: white; border: none;">Hủy</button>
-                        <button type="submit" class="btn btn-primary">Lưu chỉ báo</button>
+                        <button type="submit" class="btn btn-primary">{{ ui.indicators.save_button }}</button>
                     </div>
                 </form>
             </div>
@@ -70,7 +70,7 @@
 
     <!-- Danh Sách Chỉ Báo -->
     <div class="card">
-        <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 1.1rem;">Danh Sách Chỉ Báo Cấu Hình</h3>
+        <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 1.1rem;">{{ ui.indicators.list_title }}</h3>
         {% if indicators %}
             <table style="width: 100%; border-collapse: collapse; text-align: left;">
                 <thead>

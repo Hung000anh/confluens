@@ -2,15 +2,15 @@
 
 {% block content %}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
-        <h1 style="margin: 0;">Biểu đồ</h1>
+        <h1 style="margin: 0;">{{ ui.charts.page_title }}</h1>
 
         <!-- Bộ chọn số cột bố cục -->
         <div style="display: flex; align-items: center; gap: 8px; background: #18181b; padding: 4px 8px; border-radius: 8px; border: 1px solid #3f3f46;">
-            <span style="font-size: 0.85rem; color: var(--text-muted); margin-right: 4px;">Bố cục:</span>
-            <button type="button" class="layout-btn" data-cols="auto" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">Tự động</button>
-            <button type="button" class="layout-btn" data-cols="1" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">1 Cột</button>
-            <button type="button" class="layout-btn" data-cols="2" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">2 Cột</button>
-            <button type="button" class="layout-btn" data-cols="3" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">3 Cột</button>
+            <span style="font-size: 0.85rem; color: var(--text-muted); margin-right: 4px;">{{ ui.charts.layout_label }}</span>
+            <button type="button" class="layout-btn" data-cols="auto" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">{{ ui.charts.layout_auto }}</button>
+            <button type="button" class="layout-btn" data-cols="1" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">{{ ui.charts.layout_1 }}</button>
+            <button type="button" class="layout-btn" data-cols="2" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">{{ ui.charts.layout_2 }}</button>
+            <button type="button" class="layout-btn" data-cols="3" style="padding: 4px 10px; font-size: 0.85rem; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-main); cursor: pointer;">{{ ui.charts.layout_3 }}</button>
         </div>
     </div>
 

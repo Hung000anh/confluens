@@ -2,7 +2,7 @@
 
 {% block content %}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h1 style="margin: 0;">Cài Đặt Cấu Hình Biểu Đồ</h1>
+        <h1 style="margin: 0;">{{ ui.settings.page_title }}</h1>
     </div>
 
     {% if message %}
@@ -13,7 +13,7 @@
 
     <form method="POST" action="/settings">
         <div class="card" style="margin-bottom: 24px;">
-            <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 1.1rem;">Cấu hình Nến & Màu sắc</h3>
+            <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 1.1rem;">{{ ui.settings.section_title }}</h3>
 
             <div style="display: flex; gap: 24px; flex-wrap: wrap;">
                 <div class="form-group" style="flex: 1; min-width: 200px;">
@@ -40,7 +40,7 @@
         </div>
 
         <div style="display: flex; justify-content: flex-end;">
-            <button type="submit" class="btn btn-primary" style="padding: 12px 24px; font-size: 1em;">Lưu Cài Đặt</button>
+            <button type="submit" class="btn btn-primary" style="padding: 12px 24px; font-size: 1em;">{{ ui.settings.save_button }}</button>
         </div>
     </form>
 {% endblock %}

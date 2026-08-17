@@ -27,30 +27,14 @@
             </button>
         </div>
         <ul class="nav-menu">
+            {% for item in nav_items %}
             <li class="nav-item">
-                <a href="/" class="nav-link {% if current_path == '/' or not current_path %}active{% endif %}" title="Mã Giao Dịch">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></span>
-                    <span class="nav-text">Mã Giao Dịch</span>
+                <a href="{{ item.path }}" class="nav-link {% if current_path == item.path or (not current_path and item.path == '/') %}active{% endif %}" title="{{ item.title }}">
+                    <span class="nav-icon">{{ item.icon|safe }}</span>
+                    <span class="nav-text">{{ item.label }}</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="/charts" class="nav-link {% if current_path == '/charts' %}active{% endif %}" title="Biểu Đồ">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></span>
-                    <span class="nav-text">Biểu Đồ</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/indicators" class="nav-link {% if current_path == '/indicators' %}active{% endif %}" title="Chỉ Báo">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span>
-                    <span class="nav-text">Chỉ Báo</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/settings" class="nav-link {% if current_path == '/settings' %}active{% endif %}" title="Cài đặt">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
-                    <span class="nav-text">Cài đặt</span>
-                </a>
-            </li>
+            {% endfor %}
         </ul>
     </aside>
 
@@ -58,7 +42,7 @@
     <main class="main-content">
         <!-- Top bar (optional for breadcrumbs/user profile) -->
         <header class="top-bar">
-            <h2 style="font-size: 1.2rem; font-weight: 500; color: var(--text-main);">Quản lý Mã Giao Dịch</h2>
+            <h2 style="font-size: 1.2rem; font-weight: 500; color: var(--text-main);">{{ page_title or 'Quản lý Mã Giao Dịch' }}</h2>
         </header>
 
         <!-- Dynamic Content Injected Here -->

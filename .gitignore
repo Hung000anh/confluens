@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment files
+.env
+.env.*
+
+# Test / cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage.xml
+htmlcov/
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Local DB and generated files
+*.db
+*.sqlite3
+*.sqlite
+*.log
+
+# Build / output
+build/
+dist/
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
