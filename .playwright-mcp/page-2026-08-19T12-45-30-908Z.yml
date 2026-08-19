@@ -1,0 +1,2269 @@
+- generic [ref=e3]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "Forex Factory home page" [ref=e8] [cursor=pointer]:
+        - /url: /
+      - navigation "member navigation" [ref=e10]:
+        - generic [ref=e12] [cursor=pointer]
+        - link [ref=e16] [cursor=pointer]:
+          - /url: /timezone
+        - link [ref=e20] [cursor=pointer]:
+          - /url: /search
+        - link [ref=e24] [cursor=pointer]:
+          - /url: /login
+    - navigation "site navigation" [ref=e29]:
+      - link "Forums" [ref=e31] [cursor=pointer]:
+        - /url: /forums
+      - link "Trades" [ref=e37] [cursor=pointer]:
+        - /url: /trades
+      - link "News" [ref=e43] [cursor=pointer]:
+        - /url: /news
+      - link "Calendar" [ref=e49] [cursor=pointer]:
+        - /url: /calendar
+      - link "Market" [ref=e55] [cursor=pointer]:
+        - /url: /market
+      - link "Brokers" [ref=e61] [cursor=pointer]:
+        - /url: /brokers
+  - generic [ref=e66]:
+    - generic [ref=e67]:
+      - generic [ref=e69]:
+        - heading "Navigation" [level=2] [ref=e70]
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - generic "Previous Year" [ref=e74] [cursor=pointer]: «
+              - generic "Previous Month" [ref=e75] [cursor=pointer]: ‹
+              - generic [ref=e76]: Aug 2026
+              - generic "Next Month" [ref=e77] [cursor=pointer]: ›
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - link "Show Month" [ref=e81] [cursor=pointer]:
+                  - /url: /calendar?month=aug.2026
+                - generic [ref=e83]: S
+                - generic [ref=e84]: M
+                - generic [ref=e85]: T
+                - generic [ref=e86]: W
+                - generic [ref=e87]: T
+                - generic [ref=e88]: F
+                - generic [ref=e89]: S
+              - generic [ref=e90]:
+                - link "Show Week" [ref=e92] [cursor=pointer]:
+                  - /url: /calendar?week=jul26.2026
+                - link "26" [ref=e95] [cursor=pointer]:
+                  - /url: /calendar?day=jul26.2026
+                - link "27" [ref=e97] [cursor=pointer]:
+                  - /url: /calendar?day=jul27.2026
+                - link "28" [ref=e99] [cursor=pointer]:
+                  - /url: /calendar?day=jul28.2026
+                - link "29" [ref=e101] [cursor=pointer]:
+                  - /url: /calendar?day=jul29.2026
+                - link "30" [ref=e103] [cursor=pointer]:
+                  - /url: /calendar?day=jul30.2026
+                - link "31" [ref=e105] [cursor=pointer]:
+                  - /url: /calendar?day=jul31.2026
+                - link "1" [ref=e107] [cursor=pointer]:
+                  - /url: /calendar?day=aug1.2026
+              - generic [ref=e108]:
+                - link "Show Week" [ref=e110] [cursor=pointer]:
+                  - /url: /calendar?week=aug2.2026
+                - link "2" [ref=e113] [cursor=pointer]:
+                  - /url: /calendar?day=aug2.2026
+                - link "3" [ref=e115] [cursor=pointer]:
+                  - /url: /calendar?day=aug3.2026
+                - link "4" [ref=e117] [cursor=pointer]:
+                  - /url: /calendar?day=aug4.2026
+                - link "5" [ref=e119] [cursor=pointer]:
+                  - /url: /calendar?day=aug5.2026
+                - link "6" [ref=e121] [cursor=pointer]:
+                  - /url: /calendar?day=aug6.2026
+                - link "7" [ref=e123] [cursor=pointer]:
+                  - /url: /calendar?day=aug7.2026
+                - link "8" [ref=e125] [cursor=pointer]:
+                  - /url: /calendar?day=aug8.2026
+              - generic [ref=e126]:
+                - link "Show Week" [ref=e128] [cursor=pointer]:
+                  - /url: /calendar?week=aug9.2026
+                - link "9" [ref=e131] [cursor=pointer]:
+                  - /url: /calendar?day=aug9.2026
+                - link "10" [ref=e133] [cursor=pointer]:
+                  - /url: /calendar?day=aug10.2026
+                - link "11" [ref=e135] [cursor=pointer]:
+                  - /url: /calendar?day=aug11.2026
+                - link "12" [ref=e137] [cursor=pointer]:
+                  - /url: /calendar?day=aug12.2026
+                - link "13" [ref=e139] [cursor=pointer]:
+                  - /url: /calendar?day=aug13.2026
+                - link "14" [ref=e141] [cursor=pointer]:
+                  - /url: /calendar?day=aug14.2026
+                - link "15" [ref=e143] [cursor=pointer]:
+                  - /url: /calendar?day=aug15.2026
+              - generic [ref=e144]:
+                - link "Show Week" [ref=e146] [cursor=pointer]:
+                  - /url: /calendar?week=aug16.2026
+                - link "16" [ref=e149] [cursor=pointer]:
+                  - /url: /calendar?day=aug16.2026
+                - link "17" [ref=e151] [cursor=pointer]:
+                  - /url: /calendar?day=aug17.2026
+                - link "18" [ref=e153] [cursor=pointer]:
+                  - /url: /calendar?day=aug18.2026
+                - link "19" [ref=e155] [cursor=pointer]:
+                  - /url: /calendar?day=aug19.2026
+                - link "20" [ref=e157] [cursor=pointer]:
+                  - /url: /calendar?day=aug20.2026
+                - link "21" [ref=e159] [cursor=pointer]:
+                  - /url: /calendar?day=aug21.2026
+                - link "22" [ref=e161] [cursor=pointer]:
+                  - /url: /calendar?day=aug22.2026
+              - generic [ref=e162]:
+                - link "Show Week" [ref=e164] [cursor=pointer]:
+                  - /url: /calendar?week=aug23.2026
+                - link "23" [ref=e167] [cursor=pointer]:
+                  - /url: /calendar?day=aug23.2026
+                - link "24" [ref=e169] [cursor=pointer]:
+                  - /url: /calendar?day=aug24.2026
+                - link "25" [ref=e171] [cursor=pointer]:
+                  - /url: /calendar?day=aug25.2026
+                - link "26" [ref=e173] [cursor=pointer]:
+                  - /url: /calendar?day=aug26.2026
+                - link "27" [ref=e175] [cursor=pointer]:
+                  - /url: /calendar?day=aug27.2026
+                - link "28" [ref=e177] [cursor=pointer]:
+                  - /url: /calendar?day=aug28.2026
+                - link "29" [ref=e179] [cursor=pointer]:
+                  - /url: /calendar?day=aug29.2026
+              - generic [ref=e180]:
+                - link "Show Week" [ref=e182] [cursor=pointer]:
+                  - /url: /calendar?week=aug30.2026
+                - link "30" [ref=e185] [cursor=pointer]:
+                  - /url: /calendar?day=aug30.2026
+                - link "31" [ref=e187] [cursor=pointer]:
+                  - /url: /calendar?day=aug31.2026
+                - link "1" [ref=e189] [cursor=pointer]:
+                  - /url: /calendar?day=sep1.2026
+                - link "2" [ref=e191] [cursor=pointer]:
+                  - /url: /calendar?day=sep2.2026
+                - link "3" [ref=e193] [cursor=pointer]:
+                  - /url: /calendar?day=sep3.2026
+                - link "4" [ref=e195] [cursor=pointer]:
+                  - /url: /calendar?day=sep4.2026
+                - link "5" [ref=e197] [cursor=pointer]:
+                  - /url: /calendar?day=sep5.2026
+          - generic [ref=e198]:
+            - generic [ref=e199]:
+              - generic [ref=e200]:
+                - link "Tomorrow" [ref=e201] [cursor=pointer]:
+                  - /url: /calendar?day=tomorrow
+                - link "Next Week" [ref=e202] [cursor=pointer]:
+                  - /url: /calendar?week=next
+                - link "Next Month" [ref=e203] [cursor=pointer]:
+                  - /url: /calendar?month=next
+              - generic [ref=e204]:
+                - link "Today" [ref=e205] [cursor=pointer]:
+                  - /url: /calendar?day=today
+                - link "This Week" [ref=e206] [cursor=pointer]:
+                  - /url: /calendar?week=this
+                - link "This Month" [ref=e207] [cursor=pointer]:
+                  - /url: /calendar?month=this
+            - generic [ref=e208]:
+              - link "Up Next" [ref=e211] [cursor=pointer]:
+                - /url: /calendar?day=aug19.2026#upnext
+              - generic [ref=e213]:
+                - link "Yesterday" [ref=e214] [cursor=pointer]:
+                  - /url: /calendar?day=yesterday
+                - link "Last Week" [ref=e215] [cursor=pointer]:
+                  - /url: /calendar?week=last
+                - link "Last Month" [ref=e216] [cursor=pointer]:
+                  - /url: /calendar?month=last
+      - iframe [ref=e220]:
+        - link [ref=f6e2] [cursor=pointer]:
+          - /url: https://googleads.g.doubleclick.net/pcs/click?xai=AKAOjst8Dt9Fp7TRJ08SqPrsoR-gRc52VRHjpkwx17UsLwCtNbrr2jcr0JApcgXBIEX8jzL9FwWQwuau4iPqeTW0j8YPaFj12yGLllLDXrC8fKqvCEViL98Fx9HVVqSHsPNEzZCvCxUfrfeEv4OjPUsB_mcBMGkAfFS5eVR96sF-NfCqvmO3IlaigIaM3-ib0FcZSp1F24O3LfzfowkA5SmRAbBJXxgIOI-ffHz7tfjZxLvTeRNgy1EiWF3UGUJPvfN0QFoebAagpIng8Ul_qVqoP5hbBfXwPAr7Vu3zVs7hHbcjGW7ZoH7IMHE4K1D_TupR-Wvj90d40PY8Uw-y2ynOR4FM5ZVYqxP7jy4Kijy2T9xdvQl70qHaF4dcrhgjLJsw3dkEfy41bacH15C4PADp1sztBL1lbp4e&sai=AMfl-YTwMMtF0Q3AUPuq1cmUWT3g-6unwYKaZWfMJXwuuzOyUM_hKHfTa3wRes3zvWgaUiHGojzSKMr7phjefXxre0YKD6UxP8kpb_jFlQucKfLIPSS2yEGyvKbVCz1t-Oqo_BOBI3Pl5dvMqbYyvy5naGO0kBLmkNF5IlzTMVStuKYcTbGaaG_GNPIPiyPwnDbBJNJC22akozv-0xuOlukuSAsZPrA3TV7uG1xYhvQSf6hGOcdBKWgl87eUoP8Bw99Tme6HxVqdJJ4KgnSWXO0xNdxMWC2F56LDN-2WQAEwtz2p6Q3AmeBpsbmwuMZHuhXAbE5OdFmEwN-jKkX5u34nOqVO00F6LTowY5ketfnIO_YTvtogzLCKyAhBdipvfkqCOgkrbodSNUfkd92v&sig=Cg0ArKJSzMMNezTU-5Su&fbs_aeid=%5Bgw_fbsaeid%5D&adurl=https://fxibot.com/product/fxibot%3Fmedium%3Dbanner_160x600%26source%3Davenix%26campaign%3Dbanner
+      - generic [ref=e221]:
+        - heading "Central Bank Rates" [level=2] [ref=e222]
+        - list [ref=e223]:
+          - listitem [ref=e224]:
+            - generic: 4.35%
+            - generic [ref=e227] [cursor=pointer]: AUD
+          - listitem [ref=e230]:
+            - generic: 3.75%
+            - generic [ref=e233] [cursor=pointer]: GBP
+          - listitem [ref=e236]:
+            - generic: 3.75%
+            - generic [ref=e239] [cursor=pointer]: USD
+          - listitem [ref=e242]:
+            - generic: 2.50%
+            - generic [ref=e245] [cursor=pointer]: NZD
+          - listitem [ref=e248]:
+            - generic: 2.40%
+            - generic [ref=e251] [cursor=pointer]: EUR
+          - listitem [ref=e254]:
+            - generic: 2.25%
+            - generic [ref=e257] [cursor=pointer]: CAD
+          - listitem [ref=e260]:
+            - generic: <1.00%
+            - generic [ref=e263] [cursor=pointer]: JPY
+          - listitem [ref=e266]:
+            - generic: 0.00%
+            - generic [ref=e268] [cursor=pointer]: CHF
+      - generic [ref=e271]:
+        - heading "Weekly Export" [level=2] [ref=e272]
+        - generic [ref=e273]:
+          - link "ICS" [ref=e274] [cursor=pointer]:
+            - /url: https://nfs.faireconomy.media/ff_calendar_thisweek.ics?version=d33fe349235e155b85f56b95a5e6a43e
+          - text: "|"
+          - link "CSV" [ref=e275] [cursor=pointer]:
+            - /url: https://nfs.faireconomy.media/ff_calendar_thisweek.csv?version=d33fe349235e155b85f56b95a5e6a43e
+          - text: "|"
+          - link "JSON" [ref=e276] [cursor=pointer]:
+            - /url: https://nfs.faireconomy.media/ff_calendar_thisweek.json?version=d33fe349235e155b85f56b95a5e6a43e
+          - text: "|"
+          - link "XML" [ref=e277] [cursor=pointer]:
+            - /url: https://nfs.faireconomy.media/ff_calendar_thisweek.xml?version=d33fe349235e155b85f56b95a5e6a43e
+      - generic [ref=e278]:
+        - heading [level=2] [ref=e279]:
+          - generic [ref=e281] [cursor=pointer]
+          - text: Share Calendar
+        - link "Permalink" [ref=e285] [cursor=pointer]:
+          - /url: https://www.forexfactory.com/calendar?month=aug.2026&permalink=true&impacts=3,2,1,0&event_types=1,2,3,4,5,7,8,9,10,11&currencies=1,2,3,4,5,6,7,8,9
+      - generic [ref=e286]:
+        - heading "Legend" [level=2] [ref=e287]
+        - generic [ref=e288]:
+          - list [ref=e289]:
+            - listitem [ref=e290]: High Impact Expected
+            - listitem [ref=e292]: Med Impact Expected
+            - listitem [ref=e294]: Low Impact Expected
+            - listitem "Non-Economic" [ref=e296]
+            - listitem "Related Stories" [ref=e298]
+            - listitem "FF Alert Inside" [ref=e300]
+            - listitem "Revision" [ref=e302]
+            - listitem "Up Next" [ref=e304]
+          - list [ref=e306]:
+            - listitem [ref=e307]:
+              - strong [ref=e308]: Green Number
+              - text: Better than forecast -or- revised better
+            - listitem [ref=e309]:
+              - strong [ref=e310]: Red Number
+              - text: Worse than forecast -or- revised worse
+            - listitem [ref=e311]:
+              - strong [ref=e312]: m/m
+              - text: Month Over Month
+            - listitem [ref=e313]:
+              - strong [ref=e314]: q/q
+              - text: Quarter Over Quarter
+            - listitem [ref=e315]:
+              - strong [ref=e316]: y/y
+              - text: Year Over Year
+            - listitem [ref=e317]:
+              - strong [ref=e318]: K
+              - text: Thousand
+            - listitem [ref=e319]:
+              - strong [ref=e320]: M
+              - text: Million
+            - listitem [ref=e321]:
+              - strong [ref=e322]: B
+              - text: Billion
+            - listitem [ref=e323]:
+              - strong [ref=e324]: T
+              - text: Trillion
+          - list [ref=e325]:
+            - listitem [ref=e326]: "Note: All times are approximate and subject to change"
+    - generic [ref=e332]:
+      - list [ref=e334]:
+        - listitem [ref=e335]:
+          - 'link "Last Month: Jul 2026" [ref=e336] [cursor=pointer]':
+            - /url: /calendar?month=jul.2026
+        - listitem [ref=e337]:
+          - 'heading "This Month: Aug 2026" [level=2] [ref=e338]'
+        - listitem [ref=e341]:
+          - 'link "Next Month: Sep 2026" [ref=e342] [cursor=pointer]':
+            - /url: /calendar?month=sep.2026
+        - listitem [ref=e343]
+        - listitem [ref=e344]:
+          - link "Up Next" [ref=e345] [cursor=pointer]:
+            - /url: /calendar?day=aug19.2026#upnext
+        - listitem [ref=e347]:
+          - generic [ref=e348] [cursor=pointer]: Search Events
+        - listitem [ref=e352]:
+          - generic [ref=e353] [cursor=pointer]: Filter
+      - table [ref=e357]:
+        - rowgroup [ref=e358]:
+          - row [ref=e359]:
+            - columnheader "Date" [ref=e360]
+            - columnheader [ref=e361]:
+              - link "7:45pm" [ref=e362] [cursor=pointer]:
+                - /url: /timezone
+            - columnheader "Currency" [ref=e363]
+            - columnheader "Impact" [ref=e364]
+            - columnheader [ref=e365]
+            - columnheader "Alerts" [ref=e366]
+            - columnheader "Detail" [ref=e367]
+            - columnheader "Actual" [ref=e368]
+            - columnheader "Forecast" [ref=e369]
+            - columnheader "Previous" [ref=e370]
+            - columnheader "Graph" [ref=e371]
+        - row [ref=e372]:
+          - cell [ref=e373]
+        - rowgroup [ref=e374]:
+          - row [ref=e375]:
+            - cell "Sat Aug 1" [ref=e376]:
+              - generic [ref=e377]:
+                - text: Sat
+                - generic [ref=e378]: Aug 1
+            - cell [ref=e379]
+        - rowgroup [ref=e380]:
+          - row "Sun Aug 2 All Day All Medium Impact Expected OPEC-JMMC Meetings" [ref=e381]:
+            - cell "Sun Aug 2" [ref=e382]:
+              - generic [ref=e383]:
+                - text: Sun
+                - generic [ref=e384]: Aug 2
+            - cell "All Day" [ref=e385]
+            - cell "All" [ref=e388]
+            - cell "Medium Impact Expected" [ref=e390]
+            - cell "OPEC-JMMC Meetings" [ref=e392]
+            - cell [ref=e396]
+            - cell [ref=e397]:
+              - generic "Open Detail" [ref=e398] [cursor=pointer]
+            - cell [ref=e399]
+            - cell [ref=e400]
+            - cell [ref=e401]
+            - cell [ref=e402]
+        - rowgroup [ref=e403]:
+          - row "Mon Aug 3 All Day AUD Non-Economic Bank Holiday" [ref=e404]:
+            - cell "Mon Aug 3" [ref=e405]:
+              - generic [ref=e406]:
+                - text: Mon
+                - generic [ref=e407]: Aug 3
+            - cell "All Day" [ref=e408]
+            - cell "AUD" [ref=e411]:
+              - generic "Australian dollar" [ref=e412]: AUD
+            - cell "Non-Economic" [ref=e413]
+            - cell "Bank Holiday" [ref=e415]
+            - cell [ref=e419]
+            - cell [ref=e420]:
+              - generic "Open Detail" [ref=e421] [cursor=pointer]
+            - cell [ref=e422]
+            - cell [ref=e423]
+            - cell [ref=e424]
+            - cell [ref=e425]
+          - row "5:45am NZD Low Impact Expected Building Consents m/m -3.6% -4.9%" [ref=e426]:
+            - cell "5:45am" [ref=e427]
+            - cell "NZD" [ref=e430]:
+              - generic "New Zealand dollar" [ref=e431]: NZD
+            - cell "Low Impact Expected" [ref=e432]
+            - cell "Building Consents m/m" [ref=e434]
+            - cell [ref=e438]:
+              - generic "Subscribe to NZ Building Consents m/m" [ref=e440] [cursor=pointer]
+            - cell [ref=e444]:
+              - generic "Open Detail" [ref=e445] [cursor=pointer]
+            - cell "-3.6%" [ref=e446]
+            - cell [ref=e447]
+            - cell "-4.9%" [ref=e448]:
+              - generic "Revised from -4.0%" [ref=e449]: "-4.9%"
+            - cell [ref=e450]:
+              - generic "Open Graph" [ref=e451] [cursor=pointer]
+          - row "7:30am JPY Low Impact Expected Final Manufacturing PMI 54.5 54.7 54.7" [ref=e452]:
+            - cell "7:30am" [ref=e453]
+            - cell "JPY" [ref=e456]:
+              - generic "Japanese yen" [ref=e457]: JPY
+            - cell "Low Impact Expected" [ref=e458]
+            - cell "Final Manufacturing PMI" [ref=e460]
+            - cell [ref=e464]:
+              - generic "Subscribe to JN Final Manufacturing PMI" [ref=e466] [cursor=pointer]
+            - cell [ref=e470]:
+              - generic "Open Detail" [ref=e471] [cursor=pointer]
+            - cell "54.5" [ref=e472]
+            - cell "54.7" [ref=e473]
+            - cell "54.7" [ref=e474]
+            - cell [ref=e475]
+          - row "8:00am AUD Low Impact Expected MI Inflation Gauge m/m 1.0% -0.4%" [ref=e476]:
+            - cell "8:00am" [ref=e477]
+            - cell "AUD" [ref=e480]:
+              - generic "Australian dollar" [ref=e481]: AUD
+            - cell "Low Impact Expected" [ref=e482]
+            - cell "MI Inflation Gauge m/m" [ref=e484]
+            - cell [ref=e488]:
+              - generic "Subscribe to AU MI Inflation Gauge m/m" [ref=e490] [cursor=pointer]
+            - cell [ref=e494]:
+              - generic "Open Detail" [ref=e495] [cursor=pointer]
+            - cell "1.0%" [ref=e496]
+            - cell [ref=e497]
+            - cell "-0.4%" [ref=e498]
+            - cell [ref=e499]:
+              - generic "Open Graph" [ref=e500] [cursor=pointer]
+          - row "8:45am CNY Low Impact Expected RatingDog Manufacturing PMI 50.9 51.9 51.7" [ref=e501]:
+            - cell "8:45am" [ref=e502]
+            - cell "CNY" [ref=e505]:
+              - generic "Chinese yuan" [ref=e506]: CNY
+            - cell "Low Impact Expected" [ref=e507]
+            - cell "RatingDog Manufacturing PMI" [ref=e509]
+            - cell [ref=e513]:
+              - generic "Subscribe to CH RatingDog Manufacturing PMI" [ref=e515] [cursor=pointer]
+            - cell [ref=e519]:
+              - generic "Open Detail" [ref=e520] [cursor=pointer]
+            - cell "50.9" [ref=e521]
+            - cell "51.9" [ref=e522]
+            - cell "51.7" [ref=e523]
+            - cell [ref=e524]
+          - row "1:00pm EUR Low Impact Expected German Retail Sales m/m -1.1% -0.4% 1.2%" [ref=e525]:
+            - cell "1:00pm" [ref=e526]
+            - cell "EUR" [ref=e529]:
+              - generic "Euro" [ref=e530]: EUR
+            - cell "Low Impact Expected" [ref=e531]
+            - cell "German Retail Sales m/m" [ref=e533]
+            - cell [ref=e537]:
+              - generic "Subscribe to GE Retail Sales m/m" [ref=e539] [cursor=pointer]
+            - cell [ref=e543]:
+              - generic "Open Detail" [ref=e544] [cursor=pointer]
+            - cell "-1.1%" [ref=e545]
+            - cell "-0.4%" [ref=e546]
+            - cell "1.2%" [ref=e547]:
+              - generic "Revised from 1.1%" [ref=e548]: 1.2%
+            - cell [ref=e549]:
+              - generic "Open Graph" [ref=e550] [cursor=pointer]
+          - row "1:30pm CHF Medium Impact Expected CPI m/m -0.1% -0.1% 0.0%" [ref=e551]:
+            - cell "1:30pm" [ref=e552]
+            - cell "CHF" [ref=e555]:
+              - generic "Swiss franc" [ref=e556]: CHF
+            - cell "Medium Impact Expected" [ref=e557]
+            - cell "CPI m/m" [ref=e559]
+            - cell [ref=e563]:
+              - generic "Subscribe to SZ CPI m/m" [ref=e565] [cursor=pointer]
+            - cell [ref=e569]:
+              - generic "Open Detail" [ref=e570] [cursor=pointer]
+            - cell "-0.1%" [ref=e571]
+            - cell "-0.1%" [ref=e572]
+            - cell "0.0%" [ref=e573]
+            - cell [ref=e574]:
+              - generic "Open Graph" [ref=e575] [cursor=pointer]
+          - row "2:15pm EUR Low Impact Expected Spanish Manufacturing PMI 50.2 50.5 49.7" [ref=e576]:
+            - cell "2:15pm" [ref=e577]
+            - cell "EUR" [ref=e580]:
+              - generic "Euro" [ref=e581]: EUR
+            - cell "Low Impact Expected" [ref=e582]
+            - cell "Spanish Manufacturing PMI" [ref=e584]
+            - cell [ref=e588]:
+              - generic "Subscribe to SP Manufacturing PMI" [ref=e590] [cursor=pointer]
+            - cell [ref=e594]:
+              - generic "Open Detail" [ref=e595] [cursor=pointer]
+            - cell "50.2" [ref=e596]
+            - cell "50.5" [ref=e597]
+            - cell "49.7" [ref=e598]
+            - cell [ref=e599]
+          - row "2:30pm CHF Low Impact Expected Manufacturing PMI 53.2 54.5 54.3" [ref=e600]:
+            - cell "2:30pm" [ref=e601]
+            - cell "CHF" [ref=e604]:
+              - generic "Swiss franc" [ref=e605]: CHF
+            - cell "Low Impact Expected" [ref=e606]
+            - cell "Manufacturing PMI" [ref=e608]
+            - cell [ref=e612]:
+              - generic "Subscribe to SZ Manufacturing PMI" [ref=e614] [cursor=pointer]
+            - cell [ref=e618]:
+              - generic "Open Detail" [ref=e619] [cursor=pointer]
+            - cell "53.2" [ref=e620]
+            - cell "54.5" [ref=e621]
+            - cell "54.3" [ref=e622]
+            - cell [ref=e623]:
+              - generic "Open Graph" [ref=e624] [cursor=pointer]
+          - row "2:45pm EUR Low Impact Expected Italian Manufacturing PMI 51.3 52.5 52.2" [ref=e625]:
+            - cell "2:45pm" [ref=e626]
+            - cell "EUR" [ref=e629]:
+              - generic "Euro" [ref=e630]: EUR
+            - cell "Low Impact Expected" [ref=e631]
+            - cell "Italian Manufacturing PMI" [ref=e633]
+            - cell [ref=e637]:
+              - generic "Subscribe to IT Manufacturing PMI" [ref=e639] [cursor=pointer]
+            - cell [ref=e643]:
+              - generic "Open Detail" [ref=e644] [cursor=pointer]
+            - cell "51.3" [ref=e645]
+            - cell "52.5" [ref=e646]
+            - cell "52.2" [ref=e647]
+            - cell [ref=e648]
+          - row "2:50pm EUR Low Impact Expected French Final Manufacturing PMI 49.8 50.0 50.0" [ref=e649]:
+            - cell "2:50pm" [ref=e650]
+            - cell "EUR" [ref=e653]:
+              - generic "Euro" [ref=e654]: EUR
+            - cell "Low Impact Expected" [ref=e655]
+            - cell "French Final Manufacturing PMI" [ref=e657]
+            - cell [ref=e661]:
+              - generic "Subscribe to FR Final Manufacturing PMI" [ref=e663] [cursor=pointer]
+            - cell [ref=e667]:
+              - generic "Open Detail" [ref=e668] [cursor=pointer]
+            - cell "49.8" [ref=e669]
+            - cell "50.0" [ref=e670]
+            - cell "50.0" [ref=e671]
+            - cell [ref=e672]
+          - row "2:55pm EUR Low Impact Expected German Final Manufacturing PMI 52.2 52.2 52.2" [ref=e673]:
+            - cell "2:55pm" [ref=e674]
+            - cell "EUR" [ref=e677]:
+              - generic "Euro" [ref=e678]: EUR
+            - cell "Low Impact Expected" [ref=e679]
+            - cell "German Final Manufacturing PMI" [ref=e681]
+            - cell [ref=e685]:
+              - generic "Subscribe to GE Final Manufacturing PMI" [ref=e687] [cursor=pointer]
+            - cell [ref=e691]:
+              - generic "Open Detail" [ref=e692] [cursor=pointer]
+            - cell "52.2" [ref=e693]
+            - cell "52.2" [ref=e694]
+            - cell "52.2" [ref=e695]
+            - cell [ref=e696]
+          - row "3:00pm EUR Low Impact Expected Final Manufacturing PMI 51.9 52.0 52.0" [ref=e697]:
+            - cell "3:00pm" [ref=e698]
+            - cell "EUR" [ref=e701]:
+              - generic "Euro" [ref=e702]: EUR
+            - cell "Low Impact Expected" [ref=e703]
+            - cell "Final Manufacturing PMI" [ref=e705]
+            - cell [ref=e709]:
+              - generic "Subscribe to EZ Final Manufacturing PMI" [ref=e711] [cursor=pointer]
+            - cell [ref=e715]:
+              - generic "Open Detail" [ref=e716] [cursor=pointer]
+            - cell "51.9" [ref=e717]
+            - cell "52.0" [ref=e718]
+            - cell "52.0" [ref=e719]
+            - cell [ref=e720]
+          - row "3:30pm GBP Low Impact Expected Final Manufacturing PMI 51.9 52.8 52.8" [ref=e721]:
+            - cell "3:30pm" [ref=e722]
+            - cell "GBP" [ref=e725]:
+              - generic "British Pound" [ref=e726]: GBP
+            - cell "Low Impact Expected" [ref=e727]
+            - cell "Final Manufacturing PMI" [ref=e729]
+            - cell [ref=e733]:
+              - generic "Subscribe to UK Final Manufacturing PMI" [ref=e735] [cursor=pointer]
+            - cell [ref=e739]:
+              - generic "Open Detail" [ref=e740] [cursor=pointer]
+            - cell "51.9" [ref=e741]
+            - cell "52.8" [ref=e742]
+            - cell "52.8" [ref=e743]
+            - cell [ref=e744]
+          - row "All Day CAD Non-Economic Bank Holiday" [ref=e745]:
+            - cell "All Day" [ref=e746]
+            - cell "CAD" [ref=e749]:
+              - generic "Canadian dollar" [ref=e750]: CAD
+            - cell "Non-Economic" [ref=e751]
+            - cell "Bank Holiday" [ref=e753]
+            - cell [ref=e757]
+            - cell [ref=e758]:
+              - generic "Open Detail" [ref=e759] [cursor=pointer]
+            - cell [ref=e760]
+            - cell [ref=e761]
+            - cell [ref=e762]
+            - cell [ref=e763]
+          - row "8:45pm USD Low Impact Expected Final Manufacturing PMI 53.9 53.8 53.8" [ref=e764]:
+            - cell "8:45pm" [ref=e765]
+            - cell "USD" [ref=e768]:
+              - generic "United States dollar" [ref=e769]: USD
+            - cell "Low Impact Expected" [ref=e770]
+            - cell "Final Manufacturing PMI" [ref=e772]
+            - cell [ref=e776]:
+              - generic "Subscribe to US Final Manufacturing PMI" [ref=e778] [cursor=pointer]
+            - cell [ref=e782]:
+              - generic "Open Detail" [ref=e783] [cursor=pointer]
+            - cell "53.9" [ref=e784]
+            - cell "53.8" [ref=e785]
+            - cell "53.8" [ref=e786]
+            - cell [ref=e787]
+          - row "9:00pm USD High Impact Expected ISM Manufacturing PMI 55.6 54.0 53.3" [ref=e788]:
+            - cell "9:00pm" [ref=e789]
+            - cell "USD" [ref=e792]:
+              - generic "United States dollar" [ref=e793]: USD
+            - cell "High Impact Expected" [ref=e794]
+            - cell "ISM Manufacturing PMI" [ref=e796]
+            - cell [ref=e800]:
+              - generic "Subscribe to US ISM Manufacturing PMI" [ref=e802] [cursor=pointer]
+            - cell [ref=e806]:
+              - generic "Open Detail" [ref=e807] [cursor=pointer]
+            - cell "55.6" [ref=e808]
+            - cell "54.0" [ref=e809]
+            - cell "53.3" [ref=e810]
+            - cell [ref=e811]:
+              - generic "Open Graph" [ref=e812] [cursor=pointer]
+          - row "USD Medium Impact Expected ISM Manufacturing Prices 71.1 70.0 73.0" [ref=e813]:
+            - cell [ref=e814]
+            - cell "USD" [ref=e815]:
+              - generic "United States dollar" [ref=e816]: USD
+            - cell "Medium Impact Expected" [ref=e817]
+            - cell "ISM Manufacturing Prices" [ref=e819]
+            - cell [ref=e823]:
+              - generic "Subscribe to US ISM Manufacturing Prices" [ref=e825] [cursor=pointer]
+            - cell [ref=e829]:
+              - generic "Open Detail" [ref=e830] [cursor=pointer]
+            - cell "71.1" [ref=e831]
+            - cell "70.0" [ref=e832]
+            - cell "73.0" [ref=e833]
+            - cell [ref=e834]:
+              - generic "Open Graph" [ref=e835] [cursor=pointer]
+          - row "USD Low Impact Expected Construction Spending m/m -0.1% 0.2% 0.0%" [ref=e836]:
+            - cell [ref=e837]
+            - cell "USD" [ref=e838]:
+              - generic "United States dollar" [ref=e839]: USD
+            - cell "Low Impact Expected" [ref=e840]
+            - cell "Construction Spending m/m" [ref=e842]
+            - cell [ref=e846]:
+              - generic "Subscribe to US Construction Spending m/m" [ref=e848] [cursor=pointer]
+            - cell [ref=e852]:
+              - generic "Open Detail" [ref=e853] [cursor=pointer]
+            - cell "-0.1%" [ref=e854]
+            - cell "0.2%" [ref=e855]
+            - cell "0.0%" [ref=e856]:
+              - generic "Revised from 0.1%" [ref=e857]: 0.0%
+            - cell [ref=e858]:
+              - generic "Open Graph" [ref=e859] [cursor=pointer]
+          - row "All Day USD Low Impact Expected Omdia Total Vehicle Sales 16.3M 16.3M 16.5M" [ref=e860]:
+            - cell "All Day" [ref=e861]
+            - cell "USD" [ref=e864]:
+              - generic "United States dollar" [ref=e865]: USD
+            - cell "Low Impact Expected" [ref=e866]
+            - cell "Omdia Total Vehicle Sales" [ref=e868]
+            - cell [ref=e872]:
+              - generic "Subscribe to US Omdia Total Vehicle Sales" [ref=e874] [cursor=pointer]
+            - cell [ref=e878]:
+              - generic "Open Detail" [ref=e879] [cursor=pointer]
+            - cell "16.3M" [ref=e880]
+            - cell "16.3M" [ref=e881]
+            - cell "16.5M" [ref=e882]
+            - cell [ref=e883]:
+              - generic "Open Graph" [ref=e884] [cursor=pointer]
+        - rowgroup [ref=e885]:
+          - row "Tue Aug 4 1:00am USD Low Impact Expected Loan Officer Survey" [ref=e886]:
+            - cell "Tue Aug 4" [ref=e887]:
+              - generic [ref=e888]:
+                - text: Tue
+                - generic [ref=e889]: Aug 4
+            - cell "1:00am" [ref=e890]
+            - cell "USD" [ref=e893]:
+              - generic "United States dollar" [ref=e894]: USD
+            - cell "Low Impact Expected" [ref=e895]
+            - cell "Loan Officer Survey" [ref=e897]
+            - cell [ref=e901]:
+              - generic "Subscribe to US Loan Officer Survey" [ref=e903] [cursor=pointer]
+            - cell [ref=e907]:
+              - generic "Open Detail" [ref=e908] [cursor=pointer]
+            - cell [ref=e909]
+            - cell [ref=e910]
+            - cell [ref=e911]
+            - cell [ref=e912]
+          - row "6:50am JPY Low Impact Expected Monetary Base y/y -13.8% -13.0% -13.7%" [ref=e913]:
+            - cell "6:50am" [ref=e914]
+            - cell "JPY" [ref=e917]:
+              - generic "Japanese yen" [ref=e918]: JPY
+            - cell "Low Impact Expected" [ref=e919]
+            - cell "Monetary Base y/y" [ref=e921]
+            - cell [ref=e925]:
+              - generic "Subscribe to JN Monetary Base y/y" [ref=e927] [cursor=pointer]
+            - cell [ref=e931]:
+              - generic "Open Detail" [ref=e932] [cursor=pointer]
+            - cell "-13.8%" [ref=e933]
+            - cell "-13.0%" [ref=e934]
+            - cell "-13.7%" [ref=e935]
+            - cell [ref=e936]:
+              - generic "Open Graph" [ref=e937] [cursor=pointer]
+          - row "8:30am AUD Low Impact Expected ANZ Job Advertisements m/m 0.8% -0.1%" [ref=e938]:
+            - cell "8:30am" [ref=e939]
+            - cell "AUD" [ref=e942]:
+              - generic "Australian dollar" [ref=e943]: AUD
+            - cell "Low Impact Expected" [ref=e944]
+            - cell "ANZ Job Advertisements m/m" [ref=e946]
+            - cell [ref=e950]:
+              - generic "Subscribe to AU ANZ Job Advertisements m/m" [ref=e952] [cursor=pointer]
+            - cell [ref=e956]:
+              - generic "Open Detail" [ref=e957] [cursor=pointer]
+            - cell "0.8%" [ref=e958]
+            - cell [ref=e959]
+            - cell "-0.1%" [ref=e960]:
+              - generic "Revised from -0.2%" [ref=e961]: "-0.1%"
+            - cell [ref=e962]:
+              - generic "Open Graph" [ref=e963] [cursor=pointer]
+          - row "AUD Low Impact Expected Household Spending m/m 0.8% 0.2% 1.2%" [ref=e964]:
+            - cell [ref=e965]
+            - cell "AUD" [ref=e966]:
+              - generic "Australian dollar" [ref=e967]: AUD
+            - cell "Low Impact Expected" [ref=e968]
+            - cell "Household Spending m/m" [ref=e970]
+            - cell [ref=e974]:
+              - generic "Subscribe to AU Household Spending m/m" [ref=e976] [cursor=pointer]
+            - cell [ref=e980]:
+              - generic "Open Detail" [ref=e981] [cursor=pointer]
+            - cell "0.8%" [ref=e982]
+            - cell "0.2%" [ref=e983]
+            - cell "1.2%" [ref=e984]:
+              - generic "Revised from 1.3%" [ref=e985]: 1.2%
+            - cell [ref=e986]:
+              - generic "Open Graph" [ref=e987] [cursor=pointer]
+          - row "10:35am JPY Low Impact Expected 10-y Bond Auction 2.84|2.6 2.73|3.1" [ref=e988]:
+            - cell "10:35am" [ref=e989]
+            - cell "JPY" [ref=e992]:
+              - generic "Japanese yen" [ref=e993]: JPY
+            - cell "Low Impact Expected" [ref=e994]
+            - cell "10-y Bond Auction" [ref=e996]
+            - cell [ref=e1000]:
+              - generic "Subscribe to JN 10-y Bond Auction" [ref=e1002] [cursor=pointer]
+            - cell [ref=e1006]:
+              - generic "Open Detail" [ref=e1007] [cursor=pointer]
+            - cell "2.84|2.6" [ref=e1008]
+            - cell [ref=e1009]
+            - cell "2.73|3.1" [ref=e1010]
+            - cell [ref=e1011]
+          - row "1:30pm AUD Low Impact Expected Commodity Prices y/y 15.4% 14.6%" [ref=e1012]:
+            - cell "1:30pm" [ref=e1013]
+            - cell "AUD" [ref=e1016]:
+              - generic "Australian dollar" [ref=e1017]: AUD
+            - cell "Low Impact Expected" [ref=e1018]
+            - cell "Commodity Prices y/y" [ref=e1020]
+            - cell [ref=e1024]:
+              - generic "Subscribe to AU Commodity Prices y/y" [ref=e1026] [cursor=pointer]
+            - cell [ref=e1030]:
+              - generic "Open Detail" [ref=e1031] [cursor=pointer]
+            - cell "15.4%" [ref=e1032]
+            - cell [ref=e1033]
+            - cell "14.6%" [ref=e1034]:
+              - generic "Revised from 16.9%" [ref=e1035]: 14.6%
+            - cell [ref=e1036]:
+              - generic "Open Graph" [ref=e1037] [cursor=pointer]
+          - row "1:45pm EUR Low Impact Expected French Gov Budget Balance -106.8B -93.3B" [ref=e1038]:
+            - cell "1:45pm" [ref=e1039]
+            - cell "EUR" [ref=e1042]:
+              - generic "Euro" [ref=e1043]: EUR
+            - cell "Low Impact Expected" [ref=e1044]
+            - cell "French Gov Budget Balance" [ref=e1046]
+            - cell [ref=e1050]:
+              - generic "Subscribe to FR Gov Budget Balance" [ref=e1052] [cursor=pointer]
+            - cell [ref=e1056]:
+              - generic "Open Detail" [ref=e1057] [cursor=pointer]
+            - cell "-106.8B" [ref=e1058]
+            - cell [ref=e1059]
+            - cell "-93.3B" [ref=e1060]
+            - cell [ref=e1061]:
+              - generic "Open Graph" [ref=e1062] [cursor=pointer]
+          - row "2:00pm EUR Low Impact Expected Spanish Unemployment Change 19.5K -18.4K -28.7K" [ref=e1063]:
+            - cell "2:00pm" [ref=e1064]
+            - cell "EUR" [ref=e1067]:
+              - generic "Euro" [ref=e1068]: EUR
+            - cell "Low Impact Expected" [ref=e1069]
+            - cell "Spanish Unemployment Change" [ref=e1071]
+            - cell [ref=e1075]:
+              - generic "Subscribe to SP Unemployment Change" [ref=e1077] [cursor=pointer]
+            - cell [ref=e1081]:
+              - generic "Open Detail" [ref=e1082] [cursor=pointer]
+            - cell "19.5K" [ref=e1083]
+            - cell "-18.4K" [ref=e1084]
+            - cell "-28.7K" [ref=e1085]
+            - cell [ref=e1086]:
+              - generic "Open Graph" [ref=e1087] [cursor=pointer]
+          - row "3:00pm EUR Low Impact Expected Italian Retail Sales m/m -0.1% 0.3% 0.2%" [ref=e1088]:
+            - cell "3:00pm" [ref=e1089]
+            - cell "EUR" [ref=e1092]:
+              - generic "Euro" [ref=e1093]: EUR
+            - cell "Low Impact Expected" [ref=e1094]
+            - cell "Italian Retail Sales m/m" [ref=e1096]
+            - cell [ref=e1100]:
+              - generic "Subscribe to IT Retail Sales m/m" [ref=e1102] [cursor=pointer]
+            - cell [ref=e1106]:
+              - generic "Open Detail" [ref=e1107] [cursor=pointer]
+            - cell "-0.1%" [ref=e1108]
+            - cell "0.3%" [ref=e1109]
+            - cell "0.2%" [ref=e1110]
+            - cell [ref=e1111]:
+              - generic "Open Graph" [ref=e1112] [cursor=pointer]
+          - row "7:30pm CAD Low Impact Expected Trade Balance 3.9B 3.0B 3.7B" [ref=e1113]:
+            - cell "7:30pm" [ref=e1114]
+            - cell "CAD" [ref=e1117]:
+              - generic "Canadian dollar" [ref=e1118]: CAD
+            - cell "Low Impact Expected" [ref=e1119]
+            - cell "Trade Balance" [ref=e1121]
+            - cell [ref=e1125]:
+              - generic "Subscribe to CA Trade Balance" [ref=e1127] [cursor=pointer]
+            - cell [ref=e1131]:
+              - generic "Open Detail" [ref=e1132] [cursor=pointer]
+            - cell "3.9B" [ref=e1133]
+            - cell "3.0B" [ref=e1134]
+            - cell "3.7B" [ref=e1135]:
+              - generic "Revised from 4.2B" [ref=e1136]: 3.7B
+            - cell [ref=e1137]:
+              - generic "Open Graph" [ref=e1138] [cursor=pointer]
+          - row "USD Low Impact Expected Trade Balance -73.3B -73.0B -77.6B" [ref=e1139]:
+            - cell [ref=e1140]
+            - cell "USD" [ref=e1141]:
+              - generic "United States dollar" [ref=e1142]: USD
+            - cell "Low Impact Expected" [ref=e1143]
+            - cell "Trade Balance" [ref=e1145]
+            - cell [ref=e1149]:
+              - generic "Subscribe to US Trade Balance" [ref=e1151] [cursor=pointer]
+            - cell [ref=e1155]:
+              - generic "Open Detail" [ref=e1156] [cursor=pointer]
+            - cell "-73.3B" [ref=e1157]
+            - cell "-73.0B" [ref=e1158]
+            - cell "-77.6B" [ref=e1159]
+            - cell [ref=e1160]:
+              - generic "Open Graph" [ref=e1161] [cursor=pointer]
+          - row "8:30pm CAD Low Impact Expected Manufacturing PMI 53.5 52.2 53.0" [ref=e1162]:
+            - cell "8:30pm" [ref=e1163]
+            - cell "CAD" [ref=e1166]:
+              - generic "Canadian dollar" [ref=e1167]: CAD
+            - cell "Low Impact Expected" [ref=e1168]
+            - cell "Manufacturing PMI" [ref=e1170]
+            - cell [ref=e1174]:
+              - generic "Subscribe to CA Manufacturing PMI" [ref=e1176] [cursor=pointer]
+            - cell [ref=e1180]:
+              - generic "Open Detail" [ref=e1181] [cursor=pointer]
+            - cell "53.5" [ref=e1182]
+            - cell "52.2" [ref=e1183]
+            - cell "53.0" [ref=e1184]
+            - cell [ref=e1185]
+          - row "9:00pm USD Medium Impact Expected JOLTS Job Openings 7.36M 7.44M 7.54M" [ref=e1186]:
+            - cell "9:00pm" [ref=e1187]
+            - cell "USD" [ref=e1190]:
+              - generic "United States dollar" [ref=e1191]: USD
+            - cell "Medium Impact Expected" [ref=e1192]
+            - cell "JOLTS Job Openings" [ref=e1194]
+            - cell [ref=e1198]:
+              - generic "Subscribe to US JOLTS Job Openings" [ref=e1200] [cursor=pointer]
+            - cell [ref=e1204]:
+              - generic "Open Detail" [ref=e1205] [cursor=pointer]
+            - cell "7.36M" [ref=e1206]
+            - cell "7.44M" [ref=e1207]
+            - cell "7.54M" [ref=e1208]:
+              - generic "Revised from 7.59M" [ref=e1209]: 7.54M
+            - cell [ref=e1210]:
+              - generic "Open Graph" [ref=e1211] [cursor=pointer]
+          - row "USD Low Impact Expected Factory Orders m/m -0.3% 0.2% -1.1%" [ref=e1212]:
+            - cell [ref=e1213]
+            - cell "USD" [ref=e1214]:
+              - generic "United States dollar" [ref=e1215]: USD
+            - cell "Low Impact Expected" [ref=e1216]
+            - cell "Factory Orders m/m" [ref=e1218]
+            - cell [ref=e1222]:
+              - generic "Subscribe to US Factory Orders m/m" [ref=e1224] [cursor=pointer]
+            - cell [ref=e1228]:
+              - generic "Open Detail" [ref=e1229] [cursor=pointer]
+            - cell "-0.3%" [ref=e1230]
+            - cell "0.2%" [ref=e1231]
+            - cell "-1.1%" [ref=e1232]:
+              - generic "Revised from -1.3%" [ref=e1233]: "-1.1%"
+            - cell [ref=e1234]:
+              - generic "Open Graph" [ref=e1235] [cursor=pointer]
+          - row "9:13pm USD Low Impact Expected RCM/TIPP Economic Optimism 45.1 47.5 45.5" [ref=e1236]:
+            - cell "9:13pm" [ref=e1237]
+            - cell "USD" [ref=e1240]:
+              - generic "United States dollar" [ref=e1241]: USD
+            - cell "Low Impact Expected" [ref=e1242]
+            - cell "RCM/TIPP Economic Optimism" [ref=e1244]
+            - cell [ref=e1248]:
+              - generic "Subscribe to US RCM/TIPP Economic Optimism" [ref=e1250] [cursor=pointer]
+            - cell [ref=e1254]:
+              - generic "Open Detail" [ref=e1255] [cursor=pointer]
+            - cell "45.1" [ref=e1256]
+            - cell "47.5" [ref=e1257]
+            - cell "45.5" [ref=e1258]
+            - cell [ref=e1259]:
+              - generic "Open Graph" [ref=e1260] [cursor=pointer]
+          - row "10:14pm NZD Low Impact Expected GDT Price Index 0.1% 1.5%" [ref=e1261]:
+            - cell "10:14pm" [ref=e1262]
+            - cell "NZD" [ref=e1265]:
+              - generic "New Zealand dollar" [ref=e1266]: NZD
+            - cell "Low Impact Expected" [ref=e1267]
+            - cell "GDT Price Index" [ref=e1269]
+            - cell [ref=e1273]:
+              - generic "Subscribe to NZ GDT Price Index" [ref=e1275] [cursor=pointer]
+            - cell [ref=e1279]:
+              - generic "Open Detail" [ref=e1280] [cursor=pointer]
+            - cell "0.1%" [ref=e1281]
+            - cell [ref=e1282]
+            - cell "1.5%" [ref=e1283]
+            - cell [ref=e1284]:
+              - generic "Open Graph" [ref=e1285] [cursor=pointer]
+        - rowgroup [ref=e1286]:
+          - row [ref=e1287]:
+            - cell "Wed Aug 5" [ref=e1288]:
+              - generic [ref=e1289]:
+                - text: Wed
+                - generic [ref=e1290]: Aug 5
+            - cell [ref=e1291]
+          - row [ref=e1292]:
+            - cell [ref=e1293]
+            - cell [ref=e1294]
+          - row [ref=e1295]:
+            - cell [ref=e1296]
+            - cell [ref=e1297]
+          - row [ref=e1298]:
+            - cell [ref=e1299]
+            - cell [ref=e1300]
+          - row [ref=e1301]:
+            - cell [ref=e1302]
+            - cell [ref=e1303]
+          - row [ref=e1304]:
+            - cell [ref=e1305]
+            - cell [ref=e1306]
+          - row [ref=e1307]:
+            - cell [ref=e1308]
+            - cell [ref=e1309]
+          - row [ref=e1310]:
+            - cell [ref=e1311]
+            - cell [ref=e1312]
+          - row [ref=e1313]:
+            - cell [ref=e1314]
+            - cell [ref=e1315]
+          - row [ref=e1316]:
+            - cell [ref=e1317]
+            - cell [ref=e1318]
+          - row [ref=e1319]:
+            - cell [ref=e1320]
+            - cell [ref=e1321]
+          - row [ref=e1322]:
+            - cell [ref=e1323]
+            - cell [ref=e1324]
+          - row [ref=e1325]:
+            - cell [ref=e1326]
+            - cell [ref=e1327]
+          - row [ref=e1328]:
+            - cell [ref=e1329]
+            - cell [ref=e1330]
+          - row [ref=e1331]:
+            - cell [ref=e1332]
+            - cell [ref=e1333]
+          - row [ref=e1334]:
+            - cell [ref=e1335]
+            - cell [ref=e1336]
+          - row [ref=e1337]:
+            - cell [ref=e1338]
+            - cell [ref=e1339]
+          - row [ref=e1340]:
+            - cell [ref=e1341]
+            - cell [ref=e1342]
+          - row [ref=e1343]:
+            - cell [ref=e1344]
+            - cell [ref=e1345]
+          - row [ref=e1346]:
+            - cell [ref=e1347]
+            - cell [ref=e1348]
+          - row [ref=e1349]:
+            - cell [ref=e1350]
+            - cell [ref=e1351]
+        - rowgroup [ref=e1352]:
+          - row [ref=e1353]:
+            - cell "Thu Aug 6" [ref=e1354]:
+              - generic [ref=e1355]:
+                - text: Thu
+                - generic [ref=e1356]: Aug 6
+            - cell [ref=e1357]
+          - row [ref=e1358]:
+            - cell [ref=e1359]
+            - cell [ref=e1360]
+          - row [ref=e1361]:
+            - cell [ref=e1362]
+            - cell [ref=e1363]
+          - row [ref=e1364]:
+            - cell [ref=e1365]
+            - cell [ref=e1366]
+          - row [ref=e1367]:
+            - cell [ref=e1368]
+            - cell [ref=e1369]
+          - row [ref=e1370]:
+            - cell [ref=e1371]
+            - cell [ref=e1372]
+          - row [ref=e1373]:
+            - cell [ref=e1374]
+            - cell [ref=e1375]
+          - row [ref=e1376]:
+            - cell [ref=e1377]
+            - cell [ref=e1378]
+          - row [ref=e1379]:
+            - cell [ref=e1380]
+            - cell [ref=e1381]
+          - row [ref=e1382]:
+            - cell [ref=e1383]
+            - cell [ref=e1384]
+          - row [ref=e1385]:
+            - cell [ref=e1386]
+            - cell [ref=e1387]
+          - row [ref=e1388]:
+            - cell [ref=e1389]
+            - cell [ref=e1390]
+          - row [ref=e1391]:
+            - cell [ref=e1392]
+            - cell [ref=e1393]
+          - row [ref=e1394]:
+            - cell [ref=e1395]
+            - cell [ref=e1396]
+          - row [ref=e1397]:
+            - cell [ref=e1398]
+            - cell [ref=e1399]
+          - row [ref=e1400]:
+            - cell [ref=e1401]
+            - cell [ref=e1402]
+          - row [ref=e1403]:
+            - cell [ref=e1404]
+            - cell [ref=e1405]
+          - row [ref=e1406]:
+            - cell [ref=e1407]
+            - cell [ref=e1408]
+          - row [ref=e1409]:
+            - cell [ref=e1410]
+            - cell [ref=e1411]
+        - rowgroup [ref=e1412]:
+          - row [ref=e1413]:
+            - cell "Fri Aug 7" [ref=e1414]:
+              - generic [ref=e1415]:
+                - text: Fri
+                - generic [ref=e1416]: Aug 7
+            - cell [ref=e1417]
+          - row [ref=e1418]:
+            - cell [ref=e1419]
+            - cell [ref=e1420]
+          - row [ref=e1421]:
+            - cell [ref=e1422]
+            - cell [ref=e1423]
+          - row [ref=e1424]:
+            - cell [ref=e1425]
+            - cell [ref=e1426]
+          - row [ref=e1427]:
+            - cell [ref=e1428]
+            - cell [ref=e1429]
+          - row [ref=e1430]:
+            - cell [ref=e1431]
+            - cell [ref=e1432]
+          - row [ref=e1433]:
+            - cell [ref=e1434]
+            - cell [ref=e1435]
+          - row [ref=e1436]:
+            - cell [ref=e1437]
+            - cell [ref=e1438]
+          - row [ref=e1439]:
+            - cell [ref=e1440]
+            - cell [ref=e1441]
+          - row [ref=e1442]:
+            - cell [ref=e1443]
+            - cell [ref=e1444]
+          - row [ref=e1445]:
+            - cell [ref=e1446]
+            - cell [ref=e1447]
+          - row [ref=e1448]:
+            - cell [ref=e1449]
+            - cell [ref=e1450]
+          - row [ref=e1451]:
+            - cell [ref=e1452]
+            - cell [ref=e1453]
+          - row [ref=e1454]:
+            - cell [ref=e1455]
+            - cell [ref=e1456]
+          - row [ref=e1457]:
+            - cell [ref=e1458]
+            - cell [ref=e1459]
+          - row [ref=e1460]:
+            - cell [ref=e1461]
+            - cell [ref=e1462]
+          - row [ref=e1463]:
+            - cell [ref=e1464]
+            - cell [ref=e1465]
+          - row [ref=e1466]:
+            - cell [ref=e1467]
+            - cell [ref=e1468]
+        - rowgroup [ref=e1469]:
+          - row [ref=e1470]:
+            - cell "Sat Aug 8" [ref=e1471]:
+              - generic [ref=e1472]:
+                - text: Sat
+                - generic [ref=e1473]: Aug 8
+            - cell [ref=e1474]
+          - row [ref=e1475]:
+            - cell [ref=e1476]
+            - cell [ref=e1477]
+        - rowgroup [ref=e1478]:
+          - row [ref=e1479]:
+            - cell "Sun Aug 9" [ref=e1480]:
+              - generic [ref=e1481]:
+                - text: Sun
+                - generic [ref=e1482]: Aug 9
+            - cell [ref=e1483]
+          - row [ref=e1484]:
+            - cell [ref=e1485]
+            - cell [ref=e1486]
+        - rowgroup [ref=e1487]:
+          - row [ref=e1488]:
+            - cell "Mon Aug 10" [ref=e1489]:
+              - generic [ref=e1490]:
+                - text: Mon
+                - generic [ref=e1491]: Aug 10
+            - cell [ref=e1492]
+          - row [ref=e1493]:
+            - cell [ref=e1494]
+            - cell [ref=e1495]
+          - row [ref=e1496]:
+            - cell [ref=e1497]
+            - cell [ref=e1498]
+          - row [ref=e1499]:
+            - cell [ref=e1500]
+            - cell [ref=e1501]
+          - row [ref=e1502]:
+            - cell [ref=e1503]
+            - cell [ref=e1504]
+          - row [ref=e1505]:
+            - cell [ref=e1506]
+            - cell [ref=e1507]
+        - rowgroup [ref=e1508]:
+          - row [ref=e1509]:
+            - cell "Tue Aug 11" [ref=e1510]:
+              - generic [ref=e1511]:
+                - text: Tue
+                - generic [ref=e1512]: Aug 11
+            - cell [ref=e1513]
+          - row [ref=e1514]:
+            - cell [ref=e1515]
+            - cell [ref=e1516]
+          - row [ref=e1517]:
+            - cell [ref=e1518]
+            - cell [ref=e1519]
+          - row [ref=e1520]:
+            - cell [ref=e1521]
+            - cell [ref=e1522]
+          - row [ref=e1523]:
+            - cell [ref=e1524]
+            - cell [ref=e1525]
+          - row [ref=e1526]:
+            - cell [ref=e1527]
+            - cell [ref=e1528]
+          - row [ref=e1529]:
+            - cell [ref=e1530]
+            - cell [ref=e1531]
+          - row [ref=e1532]:
+            - cell [ref=e1533]
+            - cell [ref=e1534]
+          - row [ref=e1535]:
+            - cell [ref=e1536]
+            - cell [ref=e1537]
+          - row [ref=e1538]:
+            - cell [ref=e1539]
+            - cell [ref=e1540]
+          - row [ref=e1541]:
+            - cell [ref=e1542]
+            - cell [ref=e1543]
+          - row [ref=e1544]:
+            - cell [ref=e1545]
+            - cell [ref=e1546]
+          - row [ref=e1547]:
+            - cell [ref=e1548]
+            - cell [ref=e1549]
+        - rowgroup [ref=e1550]:
+          - row [ref=e1551]:
+            - cell "Wed Aug 12" [ref=e1552]:
+              - generic [ref=e1553]:
+                - text: Wed
+                - generic [ref=e1554]: Aug 12
+            - cell [ref=e1555]
+          - row [ref=e1556]:
+            - cell [ref=e1557]
+            - cell [ref=e1558]
+          - row [ref=e1559]:
+            - cell [ref=e1560]
+            - cell [ref=e1561]
+          - row [ref=e1562]:
+            - cell [ref=e1563]
+            - cell [ref=e1564]
+          - row [ref=e1565]:
+            - cell [ref=e1566]
+            - cell [ref=e1567]
+          - row [ref=e1568]:
+            - cell [ref=e1569]
+            - cell [ref=e1570]
+          - row [ref=e1571]:
+            - cell [ref=e1572]
+            - cell [ref=e1573]
+          - row [ref=e1574]:
+            - cell [ref=e1575]
+            - cell [ref=e1576]
+          - row [ref=e1577]:
+            - cell [ref=e1578]
+            - cell [ref=e1579]
+          - row [ref=e1580]:
+            - cell [ref=e1581]
+            - cell [ref=e1582]
+          - row [ref=e1583]:
+            - cell [ref=e1584]
+            - cell [ref=e1585]
+        - rowgroup [ref=e1586]:
+          - row [ref=e1587]:
+            - cell "Thu Aug 13" [ref=e1588]:
+              - generic [ref=e1589]:
+                - text: Thu
+                - generic [ref=e1590]: Aug 13
+            - cell [ref=e1591]
+          - row [ref=e1592]:
+            - cell [ref=e1593]
+            - cell [ref=e1594]
+          - row [ref=e1595]:
+            - cell [ref=e1596]
+            - cell [ref=e1597]
+          - row [ref=e1598]:
+            - cell [ref=e1599]
+            - cell [ref=e1600]
+          - row [ref=e1601]:
+            - cell [ref=e1602]
+            - cell [ref=e1603]
+          - row [ref=e1604]:
+            - cell [ref=e1605]
+            - cell [ref=e1606]
+          - row [ref=e1607]:
+            - cell [ref=e1608]
+            - cell [ref=e1609]
+          - row [ref=e1610]:
+            - cell [ref=e1611]
+            - cell [ref=e1612]
+          - row [ref=e1613]:
+            - cell [ref=e1614]
+            - cell [ref=e1615]
+          - row [ref=e1616]:
+            - cell [ref=e1617]
+            - cell [ref=e1618]
+          - row [ref=e1619]:
+            - cell [ref=e1620]
+            - cell [ref=e1621]
+          - row [ref=e1622]:
+            - cell [ref=e1623]
+            - cell [ref=e1624]
+          - row [ref=e1625]:
+            - cell [ref=e1626]
+            - cell [ref=e1627]
+          - row [ref=e1628]:
+            - cell [ref=e1629]
+            - cell [ref=e1630]
+          - row [ref=e1631]:
+            - cell [ref=e1632]
+            - cell [ref=e1633]
+          - row [ref=e1634]:
+            - cell [ref=e1635]
+            - cell [ref=e1636]
+          - row [ref=e1637]:
+            - cell [ref=e1638]
+            - cell [ref=e1639]
+          - row [ref=e1640]:
+            - cell [ref=e1641]
+            - cell [ref=e1642]
+          - row [ref=e1643]:
+            - cell [ref=e1644]
+            - cell [ref=e1645]
+          - row [ref=e1646]:
+            - cell [ref=e1647]
+            - cell [ref=e1648]
+          - row [ref=e1649]:
+            - cell [ref=e1650]
+            - cell [ref=e1651]
+          - row [ref=e1652]:
+            - cell [ref=e1653]
+            - cell [ref=e1654]
+          - row [ref=e1655]:
+            - cell [ref=e1656]
+            - cell [ref=e1657]
+          - row [ref=e1658]:
+            - cell [ref=e1659]
+            - cell [ref=e1660]
+          - row [ref=e1661]:
+            - cell [ref=e1662]
+            - cell [ref=e1663]
+        - rowgroup [ref=e1664]:
+          - row [ref=e1665]:
+            - cell "Fri Aug 14" [ref=e1666]:
+              - generic [ref=e1667]:
+                - text: Fri
+                - generic [ref=e1668]: Aug 14
+            - cell [ref=e1669]
+          - row [ref=e1670]:
+            - cell [ref=e1671]
+            - cell [ref=e1672]
+          - row [ref=e1673]:
+            - cell [ref=e1674]
+            - cell [ref=e1675]
+          - row [ref=e1676]:
+            - cell [ref=e1677]
+            - cell [ref=e1678]
+          - row [ref=e1679]:
+            - cell [ref=e1680]
+            - cell [ref=e1681]
+          - row [ref=e1682]:
+            - cell [ref=e1683]
+            - cell [ref=e1684]
+          - row [ref=e1685]:
+            - cell [ref=e1686]
+            - cell [ref=e1687]
+          - row [ref=e1688]:
+            - cell [ref=e1689]
+            - cell [ref=e1690]
+          - row [ref=e1691]:
+            - cell [ref=e1692]
+            - cell [ref=e1693]
+          - row [ref=e1694]:
+            - cell [ref=e1695]
+            - cell [ref=e1696]
+          - row [ref=e1697]:
+            - cell [ref=e1698]
+            - cell [ref=e1699]
+          - row [ref=e1700]:
+            - cell [ref=e1701]
+            - cell [ref=e1702]
+          - row [ref=e1703]:
+            - cell [ref=e1704]
+            - cell [ref=e1705]
+          - row [ref=e1706]:
+            - cell [ref=e1707]
+            - cell [ref=e1708]
+          - row [ref=e1709]:
+            - cell [ref=e1710]
+            - cell [ref=e1711]
+          - row [ref=e1712]:
+            - cell [ref=e1713]
+            - cell [ref=e1714]
+          - row [ref=e1715]:
+            - cell [ref=e1716]
+            - cell [ref=e1717]
+          - row [ref=e1718]:
+            - cell [ref=e1719]
+            - cell [ref=e1720]
+        - rowgroup [ref=e1721]:
+          - row [ref=e1722]:
+            - cell "Sat Aug 15" [ref=e1723]:
+              - generic [ref=e1724]:
+                - text: Sat
+                - generic [ref=e1725]: Aug 15
+            - cell [ref=e1726]
+        - rowgroup [ref=e1727]:
+          - row [ref=e1728]:
+            - cell "Sun Aug 16" [ref=e1729]:
+              - generic [ref=e1730]:
+                - text: Sun
+                - generic [ref=e1731]: Aug 16
+            - cell [ref=e1732]
+        - rowgroup [ref=e1733]:
+          - row [ref=e1734]:
+            - cell "Mon Aug 17" [ref=e1735]:
+              - generic [ref=e1736]:
+                - text: Mon
+                - generic [ref=e1737]: Aug 17
+            - cell [ref=e1738]
+          - row [ref=e1739]:
+            - cell [ref=e1740]
+            - cell [ref=e1741]
+          - row [ref=e1742]:
+            - cell [ref=e1743]
+            - cell [ref=e1744]
+          - row [ref=e1745]:
+            - cell [ref=e1746]
+            - cell [ref=e1747]
+          - row [ref=e1748]:
+            - cell [ref=e1749]
+            - cell [ref=e1750]
+          - row [ref=e1751]:
+            - cell [ref=e1752]
+            - cell [ref=e1753]
+          - row [ref=e1754]:
+            - cell [ref=e1755]
+            - cell [ref=e1756]
+          - row [ref=e1757]:
+            - cell [ref=e1758]
+            - cell [ref=e1759]
+          - row [ref=e1760]:
+            - cell [ref=e1761]
+            - cell [ref=e1762]
+          - row [ref=e1763]:
+            - cell [ref=e1764]
+            - cell [ref=e1765]
+          - row [ref=e1766]:
+            - cell [ref=e1767]
+            - cell [ref=e1768]
+          - row [ref=e1769]:
+            - cell [ref=e1770]
+            - cell [ref=e1771]
+          - row [ref=e1772]:
+            - cell [ref=e1773]
+            - cell [ref=e1774]
+          - row [ref=e1775]:
+            - cell [ref=e1776]
+            - cell [ref=e1777]
+          - row [ref=e1778]:
+            - cell [ref=e1779]
+            - cell [ref=e1780]
+          - row [ref=e1781]:
+            - cell [ref=e1782]
+            - cell [ref=e1783]
+          - row [ref=e1784]:
+            - cell [ref=e1785]
+            - cell [ref=e1786]
+          - row [ref=e1787]:
+            - cell [ref=e1788]
+            - cell [ref=e1789]
+          - row [ref=e1790]:
+            - cell [ref=e1791]
+            - cell [ref=e1792]
+          - row [ref=e1793]:
+            - cell [ref=e1794]
+            - cell [ref=e1795]
+          - row [ref=e1796]:
+            - cell [ref=e1797]
+            - cell [ref=e1798]
+        - rowgroup [ref=e1799]:
+          - row [ref=e1800]:
+            - cell "Tue Aug 18" [ref=e1801]:
+              - generic [ref=e1802]:
+                - text: Tue
+                - generic [ref=e1803]: Aug 18
+            - cell [ref=e1804]
+          - row [ref=e1805]:
+            - cell [ref=e1806]
+            - cell [ref=e1807]
+          - row [ref=e1808]:
+            - cell [ref=e1809]
+            - cell [ref=e1810]
+          - row [ref=e1811]:
+            - cell [ref=e1812]
+            - cell [ref=e1813]
+          - row [ref=e1814]:
+            - cell [ref=e1815]
+            - cell [ref=e1816]
+          - row [ref=e1817]:
+            - cell [ref=e1818]
+            - cell [ref=e1819]
+          - row [ref=e1820]:
+            - cell [ref=e1821]
+            - cell [ref=e1822]
+          - row [ref=e1823]:
+            - cell [ref=e1824]
+            - cell [ref=e1825]
+          - row [ref=e1826]:
+            - cell [ref=e1827]
+            - cell [ref=e1828]
+          - row [ref=e1829]:
+            - cell [ref=e1830]
+            - cell [ref=e1831]
+          - row [ref=e1832]:
+            - cell [ref=e1833]
+            - cell [ref=e1834]
+          - row [ref=e1835]:
+            - cell [ref=e1836]
+            - cell [ref=e1837]
+          - row [ref=e1838]:
+            - cell [ref=e1839]
+            - cell [ref=e1840]
+          - row [ref=e1841]:
+            - cell [ref=e1842]
+            - cell [ref=e1843]
+          - row [ref=e1844]:
+            - cell [ref=e1845]
+            - cell [ref=e1846]
+          - row [ref=e1847]:
+            - cell [ref=e1848]
+            - cell [ref=e1849]
+          - row [ref=e1850]:
+            - cell [ref=e1851]
+            - cell [ref=e1852]
+        - rowgroup [ref=e1853]:
+          - row "Wed Aug 19 3:30am USD Low Impact Expected API Weekly Statistical Bulletin" [ref=e1854]:
+            - cell "Wed Aug 19" [ref=e1855]:
+              - generic [ref=e1856]:
+                - text: Wed
+                - generic [ref=e1857]: Aug 19
+            - cell "3:30am" [ref=e1858]
+            - cell "USD" [ref=e1861]:
+              - generic "United States dollar" [ref=e1862]: USD
+            - cell "Low Impact Expected" [ref=e1863]
+            - cell "API Weekly Statistical Bulletin" [ref=e1865]
+            - cell [ref=e1869]:
+              - generic "Subscribe to US API Weekly Statistical Bulletin" [ref=e1871] [cursor=pointer]
+            - cell [ref=e1875]:
+              - generic "Open Detail" [ref=e1876] [cursor=pointer]
+            - cell [ref=e1877]
+            - cell [ref=e1878]
+            - cell [ref=e1879]
+            - cell [ref=e1880]
+          - row "5:45am NZD Low Impact Expected PPI Input q/q 2.9% 1.3% 1.4%" [ref=e1881]:
+            - cell "5:45am" [ref=e1882]
+            - cell "NZD" [ref=e1885]:
+              - generic "New Zealand dollar" [ref=e1886]: NZD
+            - cell "Low Impact Expected" [ref=e1887]
+            - cell "PPI Input q/q" [ref=e1889]
+            - cell [ref=e1893]:
+              - generic "Subscribe to NZ PPI Input q/q" [ref=e1895] [cursor=pointer]
+            - cell [ref=e1899]:
+              - generic "Open Detail" [ref=e1900] [cursor=pointer]
+            - cell "2.9%" [ref=e1901]
+            - cell "1.3%" [ref=e1902]
+            - cell "1.4%" [ref=e1903]
+            - cell [ref=e1904]:
+              - generic "Open Graph" [ref=e1905] [cursor=pointer]
+          - row "NZD Low Impact Expected PPI Output q/q 1.6% 0.8% 0.8%" [ref=e1906]:
+            - cell [ref=e1907]
+            - cell "NZD" [ref=e1908]:
+              - generic "New Zealand dollar" [ref=e1909]: NZD
+            - cell "Low Impact Expected" [ref=e1910]
+            - cell "PPI Output q/q" [ref=e1912]
+            - cell [ref=e1916]:
+              - generic "Subscribe to NZ PPI Output q/q" [ref=e1918] [cursor=pointer]
+            - cell [ref=e1922]:
+              - generic "Open Detail" [ref=e1923] [cursor=pointer]
+            - cell "1.6%" [ref=e1924]
+            - cell "0.8%" [ref=e1925]
+            - cell "0.8%" [ref=e1926]
+            - cell [ref=e1927]:
+              - generic "Open Graph" [ref=e1928] [cursor=pointer]
+          - row "6:50am JPY Low Impact Expected Core Machinery Orders m/m 9.7% 7.2% -12.4%" [ref=e1929]:
+            - cell "6:50am" [ref=e1930]
+            - cell "JPY" [ref=e1933]:
+              - generic "Japanese yen" [ref=e1934]: JPY
+            - cell "Low Impact Expected" [ref=e1935]
+            - cell "Core Machinery Orders m/m" [ref=e1937]
+            - cell [ref=e1941]:
+              - generic "Subscribe to JN Core Machinery Orders m/m" [ref=e1943] [cursor=pointer]
+            - cell [ref=e1947]:
+              - generic "Open Detail" [ref=e1948] [cursor=pointer]
+            - cell "9.7%" [ref=e1949]
+            - cell "7.2%" [ref=e1950]
+            - cell "-12.4%" [ref=e1951]
+            - cell [ref=e1952]:
+              - generic "Open Graph" [ref=e1953] [cursor=pointer]
+          - row "8:30am AUD Medium Impact Expected Wage Price Index q/q 0.8% 0.8% 0.8%" [ref=e1954]:
+            - cell "8:30am" [ref=e1955]
+            - cell "AUD" [ref=e1958]:
+              - generic "Australian dollar" [ref=e1959]: AUD
+            - cell "Medium Impact Expected" [ref=e1960]
+            - cell "Wage Price Index q/q" [ref=e1962]
+            - cell [ref=e1966]:
+              - generic "Subscribe to AU Wage Price Index q/q" [ref=e1968] [cursor=pointer]
+            - cell [ref=e1972]:
+              - generic "Open Detail" [ref=e1973] [cursor=pointer]
+            - cell "0.8%" [ref=e1974]
+            - cell "0.8%" [ref=e1975]
+            - cell "0.8%" [ref=e1976]
+            - cell [ref=e1977]:
+              - generic "Open Graph" [ref=e1978] [cursor=pointer]
+          - row "9:45am AUD Low Impact Expected RBA Deputy Gov Hauser Speaks" [ref=e1979]:
+            - cell "9:45am" [ref=e1980]
+            - cell "AUD" [ref=e1983]:
+              - generic "Australian dollar" [ref=e1984]: AUD
+            - cell "Low Impact Expected" [ref=e1985]
+            - cell "RBA Deputy Gov Hauser Speaks" [ref=e1987]
+            - cell [ref=e1991]:
+              - generic "Subscribe to AU RBA Deputy Gov Hauser Speaks" [ref=e1993] [cursor=pointer]
+            - cell [ref=e1997]:
+              - generic "Open Detail" [ref=e1998] [cursor=pointer]
+            - cell [ref=e1999]
+            - cell [ref=e2000]
+            - cell [ref=e2001]
+            - cell [ref=e2002]
+          - row "1:00pm GBP High Impact Expected CPI y/y 2.9% 2.9% 2.6%" [ref=e2003]:
+            - cell "1:00pm" [ref=e2004]
+            - cell "GBP" [ref=e2007]:
+              - generic "British Pound" [ref=e2008]: GBP
+            - cell "High Impact Expected" [ref=e2009]
+            - cell "CPI y/y" [ref=e2011]
+            - cell [ref=e2015]:
+              - generic "Subscribe to UK CPI y/y" [ref=e2017] [cursor=pointer]
+            - cell [ref=e2021]:
+              - generic "Open Detail" [ref=e2022] [cursor=pointer]
+            - cell "2.9%" [ref=e2023]
+            - cell "2.9%" [ref=e2024]
+            - cell "2.6%" [ref=e2025]
+            - cell [ref=e2026]:
+              - generic "Open Graph" [ref=e2027] [cursor=pointer]
+          - row "GBP Low Impact Expected Core CPI y/y 2.6% 2.5% 2.6%" [ref=e2028]:
+            - cell [ref=e2029]
+            - cell "GBP" [ref=e2030]:
+              - generic "British Pound" [ref=e2031]: GBP
+            - cell "Low Impact Expected" [ref=e2032]
+            - cell "Core CPI y/y" [ref=e2034]
+            - cell [ref=e2038]:
+              - generic "Subscribe to UK Core CPI y/y" [ref=e2040] [cursor=pointer]
+            - cell [ref=e2044]:
+              - generic "Open Detail" [ref=e2045] [cursor=pointer]
+            - cell "2.6%" [ref=e2046]
+            - cell "2.5%" [ref=e2047]
+            - cell "2.6%" [ref=e2048]
+            - cell [ref=e2049]:
+              - generic "Open Graph" [ref=e2050] [cursor=pointer]
+          - row "GBP Low Impact Expected PPI Input m/m -1.7% 0.0% -1.9%" [ref=e2051]:
+            - cell [ref=e2052]
+            - cell "GBP" [ref=e2053]:
+              - generic "British Pound" [ref=e2054]: GBP
+            - cell "Low Impact Expected" [ref=e2055]
+            - cell "PPI Input m/m" [ref=e2057]
+            - cell [ref=e2061]:
+              - generic "Subscribe to UK PPI Input m/m" [ref=e2063] [cursor=pointer]
+            - cell [ref=e2067]:
+              - generic "Open Detail" [ref=e2068] [cursor=pointer]
+            - cell "-1.7%" [ref=e2069]
+            - cell "0.0%" [ref=e2070]
+            - cell "-1.9%" [ref=e2071]:
+              - generic "Revised from -2.0%" [ref=e2072]: "-1.9%"
+            - cell [ref=e2073]:
+              - generic "Open Graph" [ref=e2074] [cursor=pointer]
+          - row "GBP Low Impact Expected PPI Output m/m 0.2% 0.2% -0.1%" [ref=e2075]:
+            - cell [ref=e2076]
+            - cell "GBP" [ref=e2077]:
+              - generic "British Pound" [ref=e2078]: GBP
+            - cell "Low Impact Expected" [ref=e2079]
+            - cell "PPI Output m/m" [ref=e2081]
+            - cell [ref=e2085]:
+              - generic "Subscribe to UK PPI Output m/m" [ref=e2087] [cursor=pointer]
+            - cell [ref=e2091]:
+              - generic "Open Detail" [ref=e2092] [cursor=pointer]
+            - cell "0.2%" [ref=e2093]
+            - cell "0.2%" [ref=e2094]
+            - cell "-0.1%" [ref=e2095]:
+              - generic "Revised from 0.0%" [ref=e2096]: "-0.1%"
+            - cell [ref=e2097]:
+              - generic "Open Graph" [ref=e2098] [cursor=pointer]
+          - row "GBP Low Impact Expected RPI y/y 3.2% 3.3% 3.0%" [ref=e2099]:
+            - cell [ref=e2100]
+            - cell "GBP" [ref=e2101]:
+              - generic "British Pound" [ref=e2102]: GBP
+            - cell "Low Impact Expected" [ref=e2103]
+            - cell "RPI y/y" [ref=e2105]
+            - cell [ref=e2109]:
+              - generic "Subscribe to UK RPI y/y" [ref=e2111] [cursor=pointer]
+            - cell [ref=e2115]:
+              - generic "Open Detail" [ref=e2116] [cursor=pointer]
+            - cell "3.2%" [ref=e2117]
+            - cell "3.3%" [ref=e2118]
+            - cell "3.0%" [ref=e2119]
+            - cell [ref=e2120]:
+              - generic "Open Graph" [ref=e2121] [cursor=pointer]
+          - row "2:10pm EUR Medium Impact Expected ECB President Lagarde Speaks" [ref=e2122]:
+            - cell "2:10pm" [ref=e2123]
+            - cell "EUR" [ref=e2126]:
+              - generic "Euro" [ref=e2127]: EUR
+            - cell "Medium Impact Expected" [ref=e2128]
+            - cell "ECB President Lagarde Speaks" [ref=e2130]
+            - cell [ref=e2134]:
+              - generic "Subscribe to EZ ECB President Lagarde Speaks" [ref=e2136] [cursor=pointer]
+            - cell [ref=e2140]:
+              - generic "Open Detail" [ref=e2141] [cursor=pointer]
+            - cell [ref=e2142]
+            - cell [ref=e2143]
+            - cell [ref=e2144]
+            - cell [ref=e2145]
+          - row "3:00pm EUR Low Impact Expected Current Account 35.1B 26.8B 25.8B" [ref=e2146]:
+            - cell "3:00pm" [ref=e2147]
+            - cell "EUR" [ref=e2150]:
+              - generic "Euro" [ref=e2151]: EUR
+            - cell "Low Impact Expected" [ref=e2152]
+            - cell "Current Account" [ref=e2154]
+            - cell [ref=e2158]:
+              - generic "Subscribe to EZ Current Account" [ref=e2160] [cursor=pointer]
+            - cell [ref=e2164]:
+              - generic "Open Detail" [ref=e2165] [cursor=pointer]
+            - cell "35.1B" [ref=e2166]
+            - cell "26.8B" [ref=e2167]
+            - cell "25.8B" [ref=e2168]:
+              - generic "Revised from 25.1B" [ref=e2169]: 25.8B
+            - cell [ref=e2170]:
+              - generic "Open Graph" [ref=e2171] [cursor=pointer]
+          - row "3:30pm GBP Low Impact Expected HPI y/y 2.0% 1.9% 3.0%" [ref=e2172]:
+            - cell "3:30pm" [ref=e2173]
+            - cell "GBP" [ref=e2176]:
+              - generic "British Pound" [ref=e2177]: GBP
+            - cell "Low Impact Expected" [ref=e2178]
+            - cell "HPI y/y" [ref=e2180]
+            - cell [ref=e2184]:
+              - generic "Subscribe to UK HPI y/y" [ref=e2186] [cursor=pointer]
+            - cell [ref=e2190]:
+              - generic "Open Detail" [ref=e2191] [cursor=pointer]
+            - cell "2.0%" [ref=e2192]
+            - cell "1.9%" [ref=e2193]
+            - cell "3.0%" [ref=e2194]:
+              - generic "Revised from 2.7%" [ref=e2195]: 3.0%
+            - cell [ref=e2196]:
+              - generic "Open Graph" [ref=e2197] [cursor=pointer]
+          - row "4:00pm EUR Low Impact Expected Final Core CPI y/y 2.5% 2.5% 2.5%" [ref=e2198]:
+            - cell "4:00pm" [ref=e2199]
+            - cell "EUR" [ref=e2202]:
+              - generic "Euro" [ref=e2203]: EUR
+            - cell "Low Impact Expected" [ref=e2204]
+            - cell "Final Core CPI y/y" [ref=e2206]
+            - cell [ref=e2210]:
+              - generic "Subscribe to EZ Final Core CPI y/y" [ref=e2212] [cursor=pointer]
+            - cell [ref=e2216]:
+              - generic "Open Detail" [ref=e2217] [cursor=pointer]
+            - cell "2.5%" [ref=e2218]
+            - cell "2.5%" [ref=e2219]
+            - cell "2.5%" [ref=e2220]
+            - cell [ref=e2221]:
+              - generic "Open Graph" [ref=e2222] [cursor=pointer]
+          - row "EUR Low Impact Expected Final CPI y/y 2.9% 2.9% 2.9%" [ref=e2223]:
+            - cell [ref=e2224]
+            - cell "EUR" [ref=e2225]:
+              - generic "Euro" [ref=e2226]: EUR
+            - cell "Low Impact Expected" [ref=e2227]
+            - cell "Final CPI y/y" [ref=e2229]
+            - cell [ref=e2233]:
+              - generic "Subscribe to EZ Final CPI y/y" [ref=e2235] [cursor=pointer]
+            - cell [ref=e2239]:
+              - generic "Open Detail" [ref=e2240] [cursor=pointer]
+            - cell "2.9%" [ref=e2241]
+            - cell "2.9%" [ref=e2242]
+            - cell "2.9%" [ref=e2243]
+            - cell [ref=e2244]:
+              - generic "Open Graph" [ref=e2245] [cursor=pointer]
+          - row "4:34pm EUR Low Impact Expected German 10-y Bond Auction 3.26|1.1 3.13|1.1" [ref=e2246]:
+            - cell "4:34pm" [ref=e2247]
+            - cell "EUR" [ref=e2250]:
+              - generic "Euro" [ref=e2251]: EUR
+            - cell "Low Impact Expected" [ref=e2252]
+            - cell "German 10-y Bond Auction" [ref=e2254]
+            - cell [ref=e2258]:
+              - generic "Subscribe to GE 10-y Bond Auction" [ref=e2260] [cursor=pointer]
+            - cell [ref=e2264]:
+              - generic "Open Detail" [ref=e2265] [cursor=pointer]
+            - cell "3.26|1.1" [ref=e2266]
+            - cell [ref=e2267]
+            - cell "3.13|1.1" [ref=e2268]
+            - cell [ref=e2269]
+          - row "5:15pm EUR Medium Impact Expected ECB President Lagarde Speaks" [ref=e2270]:
+            - cell "5:15pm" [ref=e2271]
+            - cell "EUR" [ref=e2274]:
+              - generic "Euro" [ref=e2275]: EUR
+            - cell "Medium Impact Expected" [ref=e2276]
+            - cell "ECB President Lagarde Speaks" [ref=e2278]
+            - cell [ref=e2282]:
+              - generic "Subscribe to EZ ECB President Lagarde Speaks" [ref=e2284] [cursor=pointer]
+            - cell [ref=e2288]:
+              - generic "Open Detail" [ref=e2289] [cursor=pointer]
+            - cell [ref=e2290]
+            - cell [ref=e2291]
+            - cell [ref=e2292]
+            - cell [ref=e2293]
+          - row "9:30pm USD Low Impact Expected Crude Oil Inventories 0.2M 17.4M" [ref=e2294]:
+            - cell "9:30pm" [ref=e2295]
+            - cell "USD" [ref=e2298]:
+              - generic "United States dollar" [ref=e2299]: USD
+            - cell "Low Impact Expected" [ref=e2300]
+            - cell "Crude Oil Inventories" [ref=e2302]
+            - cell [ref=e2306]:
+              - generic "Subscribe to US Crude Oil Inventories" [ref=e2308] [cursor=pointer]
+            - cell [ref=e2312]:
+              - generic "Open Detail" [ref=e2313] [cursor=pointer]
+            - cell [ref=e2314]
+            - cell "0.2M" [ref=e2315]
+            - cell "17.4M" [ref=e2316]
+            - cell [ref=e2317]:
+              - generic "Open Graph" [ref=e2318] [cursor=pointer]
+        - rowgroup [ref=e2319]:
+          - row [ref=e2320]:
+            - cell "Thu Aug 20" [ref=e2321]:
+              - generic [ref=e2322]:
+                - text: Thu
+                - generic [ref=e2323]: Aug 20
+            - cell [ref=e2324]
+          - row [ref=e2325]:
+            - cell [ref=e2326]
+            - cell [ref=e2327]
+          - row [ref=e2328]:
+            - cell [ref=e2329]
+            - cell [ref=e2330]
+          - row [ref=e2331]:
+            - cell [ref=e2332]
+            - cell [ref=e2333]
+          - row [ref=e2334]:
+            - cell [ref=e2335]
+            - cell [ref=e2336]
+          - row [ref=e2337]:
+            - cell [ref=e2338]
+            - cell [ref=e2339]
+          - row [ref=e2340]:
+            - cell [ref=e2341]
+            - cell [ref=e2342]
+          - row [ref=e2343]:
+            - cell [ref=e2344]
+            - cell [ref=e2345]
+          - row [ref=e2346]:
+            - cell [ref=e2347]
+            - cell [ref=e2348]
+          - row [ref=e2349]:
+            - cell [ref=e2350]
+            - cell [ref=e2351]
+          - row [ref=e2352]:
+            - cell [ref=e2353]
+            - cell [ref=e2354]
+          - row [ref=e2355]:
+            - cell [ref=e2356]
+            - cell [ref=e2357]
+          - row [ref=e2358]:
+            - cell [ref=e2359]
+            - cell [ref=e2360]
+          - row [ref=e2361]:
+            - cell [ref=e2362]
+            - cell [ref=e2363]
+          - row [ref=e2364]:
+            - cell [ref=e2365]
+            - cell [ref=e2366]
+          - row [ref=e2367]:
+            - cell [ref=e2368]
+            - cell [ref=e2369]
+          - row [ref=e2370]:
+            - cell [ref=e2371]
+            - cell [ref=e2372]
+          - row [ref=e2373]:
+            - cell [ref=e2374]
+            - cell [ref=e2375]
+        - rowgroup [ref=e2376]:
+          - row [ref=e2377]:
+            - cell "Fri Aug 21" [ref=e2378]:
+              - generic [ref=e2379]:
+                - text: Fri
+                - generic [ref=e2380]: Aug 21
+            - cell [ref=e2381]
+          - row [ref=e2382]:
+            - cell [ref=e2383]
+            - cell [ref=e2384]
+          - row [ref=e2385]:
+            - cell [ref=e2386]
+            - cell [ref=e2387]
+          - row [ref=e2388]:
+            - cell [ref=e2389]
+            - cell [ref=e2390]
+          - row [ref=e2391]:
+            - cell [ref=e2392]
+            - cell [ref=e2393]
+          - row [ref=e2394]:
+            - cell [ref=e2395]
+            - cell [ref=e2396]
+          - row [ref=e2397]:
+            - cell [ref=e2398]
+            - cell [ref=e2399]
+          - row [ref=e2400]:
+            - cell [ref=e2401]
+            - cell [ref=e2402]
+          - row [ref=e2403]:
+            - cell [ref=e2404]
+            - cell [ref=e2405]
+          - row [ref=e2406]:
+            - cell [ref=e2407]
+            - cell [ref=e2408]
+          - row [ref=e2409]:
+            - cell [ref=e2410]
+            - cell [ref=e2411]
+          - row [ref=e2412]:
+            - cell [ref=e2413]
+            - cell [ref=e2414]
+          - row [ref=e2415]:
+            - cell [ref=e2416]
+            - cell [ref=e2417]
+          - row [ref=e2418]:
+            - cell [ref=e2419]
+            - cell [ref=e2420]
+          - row [ref=e2421]:
+            - cell [ref=e2422]
+            - cell [ref=e2423]
+          - row [ref=e2424]:
+            - cell [ref=e2425]
+            - cell [ref=e2426]
+          - row [ref=e2427]:
+            - cell [ref=e2428]
+            - cell [ref=e2429]
+          - row [ref=e2430]:
+            - cell [ref=e2431]
+            - cell [ref=e2432]
+          - row [ref=e2433]:
+            - cell [ref=e2434]
+            - cell [ref=e2435]
+          - row [ref=e2436]:
+            - cell [ref=e2437]
+            - cell [ref=e2438]
+          - row [ref=e2439]:
+            - cell [ref=e2440]
+            - cell [ref=e2441]
+          - row [ref=e2442]:
+            - cell [ref=e2443]
+            - cell [ref=e2444]
+          - row [ref=e2445]:
+            - cell [ref=e2446]
+            - cell [ref=e2447]
+        - rowgroup [ref=e2448]:
+          - row [ref=e2449]:
+            - cell "Sat Aug 22" [ref=e2450]:
+              - generic [ref=e2451]:
+                - text: Sat
+                - generic [ref=e2452]: Aug 22
+            - cell [ref=e2453]
+        - rowgroup [ref=e2454]:
+          - row [ref=e2455]:
+            - cell "Sun Aug 23" [ref=e2456]:
+              - generic [ref=e2457]:
+                - text: Sun
+                - generic [ref=e2458]: Aug 23
+            - cell [ref=e2459]
+        - rowgroup [ref=e2460]:
+          - row [ref=e2461]:
+            - cell "Mon Aug 24" [ref=e2462]:
+              - generic [ref=e2463]:
+                - text: Mon
+                - generic [ref=e2464]: Aug 24
+            - cell [ref=e2465]
+          - row [ref=e2466]:
+            - cell [ref=e2467]
+            - cell [ref=e2468]
+          - row [ref=e2469]:
+            - cell [ref=e2470]
+            - cell [ref=e2471]
+          - row [ref=e2472]:
+            - cell [ref=e2473]
+            - cell [ref=e2474]
+          - row [ref=e2475]:
+            - cell [ref=e2476]
+            - cell [ref=e2477]
+        - rowgroup [ref=e2478]:
+          - row [ref=e2479]:
+            - cell "Tue Aug 25" [ref=e2480]:
+              - generic [ref=e2481]:
+                - text: Tue
+                - generic [ref=e2482]: Aug 25
+            - cell [ref=e2483]
+          - row [ref=e2484]:
+            - cell [ref=e2485]
+            - cell [ref=e2486]
+          - row [ref=e2487]:
+            - cell [ref=e2488]
+            - cell [ref=e2489]
+          - row [ref=e2490]:
+            - cell [ref=e2491]
+            - cell [ref=e2492]
+          - row [ref=e2493]:
+            - cell [ref=e2494]
+            - cell [ref=e2495]
+          - row [ref=e2496]:
+            - cell [ref=e2497]
+            - cell [ref=e2498]
+          - row [ref=e2499]:
+            - cell [ref=e2500]
+            - cell [ref=e2501]
+          - row [ref=e2502]:
+            - cell [ref=e2503]
+            - cell [ref=e2504]
+          - row [ref=e2505]:
+            - cell [ref=e2506]
+            - cell [ref=e2507]
+          - row [ref=e2508]:
+            - cell [ref=e2509]
+            - cell [ref=e2510]
+          - row [ref=e2511]:
+            - cell [ref=e2512]
+            - cell [ref=e2513]
+        - rowgroup [ref=e2514]:
+          - row [ref=e2515]:
+            - cell "Wed Aug 26" [ref=e2516]:
+              - generic [ref=e2517]:
+                - text: Wed
+                - generic [ref=e2518]: Aug 26
+            - cell [ref=e2519]
+          - row [ref=e2520]:
+            - cell [ref=e2521]
+            - cell [ref=e2522]
+          - row [ref=e2523]:
+            - cell [ref=e2524]
+            - cell [ref=e2525]
+          - row [ref=e2526]:
+            - cell [ref=e2527]
+            - cell [ref=e2528]
+          - row [ref=e2529]:
+            - cell [ref=e2530]
+            - cell [ref=e2531]
+          - row [ref=e2532]:
+            - cell [ref=e2533]
+            - cell [ref=e2534]
+          - row [ref=e2535]:
+            - cell [ref=e2536]
+            - cell [ref=e2537]
+          - row [ref=e2538]:
+            - cell [ref=e2539]
+            - cell [ref=e2540]
+          - row [ref=e2541]:
+            - cell [ref=e2542]
+            - cell [ref=e2543]
+          - row [ref=e2544]:
+            - cell [ref=e2545]
+            - cell [ref=e2546]
+          - row [ref=e2547]:
+            - cell [ref=e2548]
+            - cell [ref=e2549]
+          - row [ref=e2550]:
+            - cell [ref=e2551]
+            - cell [ref=e2552]
+          - row [ref=e2553]:
+            - cell [ref=e2554]
+            - cell [ref=e2555]
+          - row [ref=e2556]:
+            - cell [ref=e2557]
+            - cell [ref=e2558]
+          - row [ref=e2559]:
+            - cell [ref=e2560]
+            - cell [ref=e2561]
+          - row [ref=e2562]:
+            - cell [ref=e2563]
+            - cell [ref=e2564]
+          - row [ref=e2565]:
+            - cell [ref=e2566]
+            - cell [ref=e2567]
+        - rowgroup [ref=e2568]:
+          - row [ref=e2569]:
+            - cell "Thu Aug 27" [ref=e2570]:
+              - generic [ref=e2571]:
+                - text: Thu
+                - generic [ref=e2572]: Aug 27
+            - cell [ref=e2573]
+          - row [ref=e2574]:
+            - cell [ref=e2575]
+            - cell [ref=e2576]
+          - row [ref=e2577]:
+            - cell [ref=e2578]
+            - cell [ref=e2579]
+          - row [ref=e2580]:
+            - cell [ref=e2581]
+            - cell [ref=e2582]
+          - row [ref=e2583]:
+            - cell [ref=e2584]
+            - cell [ref=e2585]
+          - row [ref=e2586]:
+            - cell [ref=e2587]
+            - cell [ref=e2588]
+          - row [ref=e2589]:
+            - cell [ref=e2590]
+            - cell [ref=e2591]
+          - row [ref=e2592]:
+            - cell [ref=e2593]
+            - cell [ref=e2594]
+          - row [ref=e2595]:
+            - cell [ref=e2596]
+            - cell [ref=e2597]
+          - row [ref=e2598]:
+            - cell [ref=e2599]
+            - cell [ref=e2600]
+          - row [ref=e2601]:
+            - cell [ref=e2602]
+            - cell [ref=e2603]
+          - row [ref=e2604]:
+            - cell [ref=e2605]
+            - cell [ref=e2606]
+          - row [ref=e2607]:
+            - cell [ref=e2608]
+            - cell [ref=e2609]
+          - row [ref=e2610]:
+            - cell [ref=e2611]
+            - cell [ref=e2612]
+          - row [ref=e2613]:
+            - cell [ref=e2614]
+            - cell [ref=e2615]
+          - row [ref=e2616]:
+            - cell [ref=e2617]
+            - cell [ref=e2618]
+        - rowgroup [ref=e2619]:
+          - row [ref=e2620]:
+            - cell "Fri Aug 28" [ref=e2621]:
+              - generic [ref=e2622]:
+                - text: Fri
+                - generic [ref=e2623]: Aug 28
+            - cell [ref=e2624]
+          - row [ref=e2625]:
+            - cell [ref=e2626]
+            - cell [ref=e2627]
+          - row [ref=e2628]:
+            - cell [ref=e2629]
+            - cell [ref=e2630]
+          - row [ref=e2631]:
+            - cell [ref=e2632]
+            - cell [ref=e2633]
+          - row [ref=e2634]:
+            - cell [ref=e2635]
+            - cell [ref=e2636]
+          - row [ref=e2637]:
+            - cell [ref=e2638]
+            - cell [ref=e2639]
+          - row [ref=e2640]:
+            - cell [ref=e2641]
+            - cell [ref=e2642]
+          - row [ref=e2643]:
+            - cell [ref=e2644]
+            - cell [ref=e2645]
+          - row [ref=e2646]:
+            - cell [ref=e2647]
+            - cell [ref=e2648]
+          - row [ref=e2649]:
+            - cell [ref=e2650]
+            - cell [ref=e2651]
+          - row [ref=e2652]:
+            - cell [ref=e2653]
+            - cell [ref=e2654]
+          - row [ref=e2655]:
+            - cell [ref=e2656]
+            - cell [ref=e2657]
+          - row [ref=e2658]:
+            - cell [ref=e2659]
+            - cell [ref=e2660]
+          - row [ref=e2661]:
+            - cell [ref=e2662]
+            - cell [ref=e2663]
+          - row [ref=e2664]:
+            - cell [ref=e2665]
+            - cell [ref=e2666]
+          - row [ref=e2667]:
+            - cell [ref=e2668]
+            - cell [ref=e2669]
+        - rowgroup [ref=e2670]:
+          - row [ref=e2671]:
+            - cell "Sat Aug 29" [ref=e2672]:
+              - generic [ref=e2673]:
+                - text: Sat
+                - generic [ref=e2674]: Aug 29
+            - cell [ref=e2675]
+        - rowgroup [ref=e2676]:
+          - row [ref=e2677]:
+            - cell "Sun Aug 30" [ref=e2678]:
+              - generic [ref=e2679]:
+                - text: Sun
+                - generic [ref=e2680]: Aug 30
+            - cell [ref=e2681]
+        - rowgroup [ref=e2682]:
+          - row [ref=e2683]:
+            - cell "Mon Aug 31" [ref=e2684]:
+              - generic [ref=e2685]:
+                - text: Mon
+                - generic [ref=e2686]: Aug 31
+            - cell [ref=e2687]
+          - row [ref=e2688]:
+            - cell [ref=e2689]
+            - cell [ref=e2690]
+          - row [ref=e2691]:
+            - cell [ref=e2692]
+            - cell [ref=e2693]
+          - row [ref=e2694]:
+            - cell [ref=e2695]
+            - cell [ref=e2696]
+          - row [ref=e2697]:
+            - cell [ref=e2698]
+            - cell [ref=e2699]
+          - row [ref=e2700]:
+            - cell [ref=e2701]
+            - cell [ref=e2702]
+          - row [ref=e2703]:
+            - cell [ref=e2704]
+            - cell [ref=e2705]
+          - row [ref=e2706]:
+            - cell [ref=e2707]
+            - cell [ref=e2708]
+          - row [ref=e2709]:
+            - cell [ref=e2710]
+            - cell [ref=e2711]
+          - row [ref=e2712]:
+            - cell [ref=e2713]
+            - cell [ref=e2714]
+          - row [ref=e2715]:
+            - cell [ref=e2716]
+            - cell [ref=e2717]
+          - row [ref=e2718]:
+            - cell [ref=e2719]
+            - cell [ref=e2720]
+      - list [ref=e2722]:
+        - listitem [ref=e2723]:
+          - generic [ref=e2724] [cursor=pointer]: More
+  - generic: ×
+  - contentinfo [ref=e2728]:
+    - generic [ref=e2729]:
+      - link "Top of Page" [ref=e2730] [cursor=pointer]:
+        - /url: "#"
+      - link "Default Page" [ref=e2732] [cursor=pointer]:
+        - /url: /calendar?reset=1
+    - iframe [ref=e2737]:
+      - link [ref=f7e2] [cursor=pointer]:
+        - /url: https://googleads.g.doubleclick.net/pcs/click?xai=AKAOjstY9IrmjKKLnMhZR5Vh57nHSzxL1DTw5vo9DlAQ7qC4WE0FOqAJ3025ygxCXpNVenapBHNK4kKamNEwiKzbAOg9U0oxrx1r2nMRSXKxZ0afUZ83CE2eVfrZKuz4-ttdbiRv3f1VxXLlC1mJcbz8GcByNDdWCa9X0js8UD-O9Gingd6LgMJeDb0YP4bY_ggAAzuhWbmHMjbxW16PixfYDackhPWaX8RPwowJbtXdDYz4qsbhrizNwvRdITQ1d6K2yzZd1dK4ogs0Kg1NDWDo6z_dlHz_NwQ7TWw-Nz6rmYEdEvraQj7OZjQRm-VYwzL6xYUiZyakARyudlfMaH4W3o0Auqal6nxqInHPxFqB4Th_rQ3RzOwavSSbBCvDPYzgDgFD8lIozxolzSnox_dQ-CC5z4q49po&sai=AMfl-YT70b0aa4pB-P1e6476Gz2dlWuZlg60tsojEyfCQUtFJXhq1gQl1J2H8E5Jxdh8L7xK1aZeOTdOlfu1pIQHw33vYb3RoSIPEQc8__mdq8n7SRD6Fntjf5_EVduNdDTJcuBs49eQocfWzvmTQ9sj5khWa-LoK4IyksOUSlCLDYeHuiuTWNu1k0MJIGV7BCQy75wAhXvE6Zui1HHP4XPJPlziJfR5nuHlhylVm1ZLYMAxXp7CuWEvtkCJ0jcaoshElFGBexKmJ0x0CyUYIw2kE8wtX7cXDGLkZjz0a7TCUdY1kZsr_1XY3WyU2IuFPNctDIfFbdVDLRs1_hje_WygjhTV4OdhBjrUx-m-2IZgSxag5y4ctpAAETD2nBZWb1uKELXFny5b0MWRRzx9&sig=Cg0ArKJSzJuj8jOJ_lZB&fbs_aeid=%5Bgw_fbsaeid%5D&adurl=https://fxibot.com/product/fxibot%3Fmedium%3Dbanner_970x250%26source%3Davenix%26campaign%3Dbanner
+    - generic [ref=e2738]:
+      - generic [ref=e2739]:
+        - link "Homepage" [ref=e2741] [cursor=pointer]:
+          - /url: https://www.forexfactory.com
+        - generic [ref=e2744]:
+          - generic [ref=e2745]:
+            - strong [ref=e2746]: About FF
+            - list:
+              - listitem:
+                - link "Mission" [ref=e2747] [cursor=pointer]:
+                  - /url: /mission
+              - listitem:
+                - link "Products" [ref=e2748] [cursor=pointer]:
+                  - /url: /products
+              - listitem:
+                - link "User Guide" [ref=e2749] [cursor=pointer]:
+                  - /url: /userguide
+              - listitem:
+                - link "Media Kit" [ref=e2750] [cursor=pointer]:
+                  - /url: /mediakit
+              - listitem:
+                - link "Blog" [ref=e2751] [cursor=pointer]:
+                  - /url: /blog
+              - listitem:
+                - link "Contact" [ref=e2752] [cursor=pointer]:
+                  - /url: /contact
+          - generic [ref=e2753]:
+            - strong [ref=e2754]: FF Products
+            - list:
+              - listitem:
+                - link "Forums" [ref=e2755] [cursor=pointer]:
+                  - /url: forums
+              - listitem:
+                - link "Trades" [ref=e2756] [cursor=pointer]:
+                  - /url: trades
+              - listitem:
+                - link "Calendar" [ref=e2757] [cursor=pointer]:
+                  - /url: calendar
+              - listitem:
+                - link "News" [ref=e2758] [cursor=pointer]:
+                  - /url: news
+              - listitem:
+                - link "Market" [ref=e2759] [cursor=pointer]:
+                  - /url: market
+              - listitem:
+                - link "Brokers" [ref=e2760] [cursor=pointer]:
+                  - /url: brokers
+              - listitem:
+                - link "Trade Explorer" [ref=e2761] [cursor=pointer]:
+                  - /url: /tradeexplorer
+          - generic [ref=e2762]:
+            - strong [ref=e2763]: FF Website
+            - list:
+              - listitem:
+                - link "Homepage" [ref=e2764] [cursor=pointer]:
+                  - /url: /
+              - listitem:
+                - link "Search" [ref=e2765] [cursor=pointer]:
+                  - /url: /search
+              - listitem:
+                - link "Traders" [ref=e2766] [cursor=pointer]:
+                  - /url: /traders
+              - listitem:
+                - link "Report a Problem" [ref=e2767] [cursor=pointer]:
+                  - /url: /contact?subject=technical
+          - generic [ref=e2768]:
+            - strong [ref=e2769]: Follow FF
+            - list [ref=e2770]:
+              - listitem [ref=e2771]:
+                - link "Facebook" [ref=e2772] [cursor=pointer]:
+                  - /url: https://www.facebook.com/forexfactory/
+              - listitem [ref=e2774]:
+                - link "X" [ref=e2775] [cursor=pointer]:
+                  - /url: https://twitter.com/ForexFactory
+      - generic [ref=e2777]:
+        - generic [ref=e2778]:
+          - paragraph [ref=e2779]: "FF Sister Sites:"
+          - list [ref=e2780]:
+            - listitem [ref=e2781]:
+              - link [ref=e2782] [cursor=pointer]:
+                - /url: https://www.metalsmine.com
+            - listitem [ref=e2785]:
+              - link [ref=e2786] [cursor=pointer]:
+                - /url: https://www.energyexch.com
+            - listitem [ref=e2789]:
+              - link [ref=e2790] [cursor=pointer]:
+                - /url: https://www.cryptocraft.com
+        - generic [ref=e2793]:
+          - generic [ref=e2794]:
+            - paragraph [ref=e2795]:
+              - text: Forex Factory® is a brand of
+              - link "Fair Economy, Inc." [ref=e2796] [cursor=pointer]:
+                - /url: https://www.faireconomy.com/
+            - paragraph [ref=e2797]:
+              - link "Terms of Service" [ref=e2798] [cursor=pointer]:
+                - /url: /notices#tos
+              - text: /
+              - link "©2026" [ref=e2799] [cursor=pointer]:
+                - /url: /notices#copyright
+          - link "Fair Economy" [ref=e2800] [cursor=pointer]:
+            - /url: https://www.faireconomy.com/

@@ -2,14 +2,14 @@ import io
 import json
 import re
 import time
-from typing import List
+from typing import List, Any, Union, Optional
 
 import matplotlib.pyplot as plt
 import mplfinance as mpf
 import pandas as pd
 from tradingview_websocket import TradingViewWebSocket
 
-from app.db.indicators import get_indicator_by_id
+from app.db.indicators import get_indicator_by_id, parse_indicator_timeframes
 from app.db.symbols import get_symbol_by_id
 from app.services.settings import SettingsService
 
@@ -81,17 +81,51 @@ def compute_custom_ticks(df: pd.DataFrame, timeframe: str):
 
 class ChartService:
     @staticmethod
-    def get_chart_data(symbol_id: int, timeframe: str = '1d') -> tuple:
-        symbol_data = get_symbol_by_id(symbol_id)
-        if not symbol_data:
-            raise ValueError(f'Symbol with ID {symbol_id} not found')
+    def filter_indicator_ids_for_timeframe(indicator_ids: List[int], timeframe: str) -> List[int]:
+        if not indicator_ids:
+            return []
 
-        symbol = symbol_data['symbol']
-        exchange = symbol_data['exchange']
+        requested_timeframe = str(timeframe).strip().lower()
+        filtered_ids = []
+        for indicator_id in indicator_ids:
+            indicator = get_indicator_by_id(indicator_id)
+            if not indicator:
+                continue
+            available_timeframes = {item.lower() for item in parse_indicator_timeframes(indicator.get('timeframe', ''))}
+            if requested_timeframe in available_timeframes:
+                filtered_ids.append(indicator_id)
+        return filtered_ids
+
+    @staticmethod
+    def get_chart_data(symbol_id: Any, timeframe: str = '1d') -> tuple:
+        symbol_data = None
+        raw_str = str(symbol_id).strip()
+        if raw_str.isdigit():
+            symbol_data = get_symbol_by_id(int(raw_str))
+
+        if symbol_data:
+            symbol = symbol_data['symbol']
+            exchange = symbol_data.get('exchange', '')
+            check_str = f'{exchange}:{symbol}' if exchange and exchange != 'ECONOMICS' else symbol
+        else:
+            if ":" in raw_str:
+                parts = raw_str.split(":", 1)
+                exchange, symbol = parts[0], parts[1]
+                check_str = raw_str if exchange != 'ECONOMICS' else symbol
+            else:
+                exchange, symbol = "", raw_str
+                check_str = raw_str
+            symbol_data = {
+                "id": raw_str,
+                "symbol": symbol,
+                "exchange": exchange,
+                "type": "Custom",
+                "country": "",
+            }
+
         settings = SettingsService.get_chart_settings()
         candle_count = settings['candle_count']
 
-        check_str = f'{exchange}:{symbol}' if exchange and exchange != 'ECONOMICS' else symbol
         ws = TradingViewWebSocket(check_str, timeframe.upper(), candle_count)
         ws.connect()
         session = ws.generate_session()
@@ -136,7 +170,8 @@ class ChartService:
         return ohlc_data, check_str, symbol_data
 
     @staticmethod
-    def render_chart(symbol_id: int, timeframe: str = '1d', indicator_ids: List[int] = None) -> bytes:
+    def render_chart(symbol_id: Any, timeframe: str = '1d', indicator_ids: List[int] = None) -> bytes:
+        indicator_ids = ChartService.filter_indicator_ids_for_timeframe(indicator_ids or [], timeframe)
         ohlc_data, check_str, _ = ChartService.get_chart_data(symbol_id, timeframe)
         settings = SettingsService.get_chart_settings()
 

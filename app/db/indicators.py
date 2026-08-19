@@ -127,16 +127,19 @@ def toggle_indicator(indicator_id: int):
     conn.close()
 
 
-def get_active_indicators_by_timeframe(timeframe: str) -> List[dict]:
+def get_all_active_indicators() -> List[dict]:
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM indicators WHERE is_active = 1 ORDER BY created_at DESC')
     rows = cursor.fetchall()
     conn.close()
+    return [dict(row) for row in rows]
 
+
+def get_active_indicators_by_timeframe(timeframe: str) -> List[dict]:
     requested = str(timeframe).strip().lower()
     matched = []
-    for row in [dict(r) for r in rows]:
+    for row in get_all_active_indicators():
         tf_values = parse_indicator_timeframes(row.get('timeframe', ''))
         if requested in [x.lower() for x in tf_values]:
             matched.append(row)

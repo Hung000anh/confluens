@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="calendar-container">
+    <!-- Header Section -->
+    <div class="calendar-header">
+        <div>
+            <h1 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <span>Lịch Kinh Tế (TradingView)</span>
+                <span class="badge badge-count" id="total-count-badge">Đang tải...</span>
+            </h1>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev-month" title="Tháng trước">&larr; Tháng trước</button>
+            <span id="current-month-label" style="font-weight: 600; font-size: 1rem; color: var(--text-main); min-width: 120px; text-align: center;"></span>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-next-month" title="Tháng sau">Tháng sau &rarr;</button>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-refresh" title="Làm mới dữ liệu" style="margin-left: 10px;">
+                <span>Làm mới</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="card" style="margin-bottom: 20px; padding: 16px 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <!-- Currency Filter Badges -->
+            <div>
+                <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
+                    Lọc theo Đồng tiền:
+                </span>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="currency-filter-bar">
+                    <button type="button" class="curr-pill active" data-curr="ALL">Tất cả</button>
+                    {% for curr in target_currencies %}
+                    <button type="button" class="curr-pill" data-curr="{{ curr }}">{{ curr }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Impact Filter Badges -->
+            <div>
+                <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
+                    Lọc theo Tác động:
+                </span>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="impact-filter-bar">
+                    <button type="button" class="impact-pill active" data-impact="ALL">Tất cả</button>
+                    <button type="button" class="impact-pill impact-high" data-impact="high">Cao (Đỏ)</button>
+                    <button type="button" class="impact-pill impact-medium" data-impact="medium">Trung bình (Cam)</button>
+                    <button type="button" class="impact-pill impact-low" data-impact="low">Thấp (Vàng)</button>
+                    <button type="button" class="impact-pill impact-holiday" data-impact="holiday">Nghỉ lễ</button>
+                </div>
+            </div>
+
+            <!-- Search input -->
+            <div style="width: 260px;">
+                <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
+                    Tìm kiếm Sự kiện:
+                </span>
+                <input type="text" id="filter-event-search" class="form-input" placeholder="🔍 Tìm tên sự kiện..." style="padding: 7px 12px; font-size: 0.88rem;">
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <div style="position: relative;">
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="spinner"></div>
+            <span style="color: var(--text-main); font-weight: 500; margin-top: 10px; font-size: 0.9rem;">Đang tải dữ liệu lịch kinh tế...</span>
+        </div>
+
+        <!-- EVENTS TABLE -->
+        <div class="card" style="padding: 0; overflow: hidden; border: 1px solid #3f3f46;">
+            <div style="overflow-x: auto;">
+                <table class="calendar-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 110px;">Ngày</th>
+                            <th style="width: 90px; text-align: center;">Giờ</th>
+                            <th style="width: 80px; text-align: center;">Tiền tệ</th>
+                            <th style="width: 90px; text-align: center;">Tác động</th>
+                            <th style="min-width: 280px;">Sự kiện</th>
+                            <th style="width: 110px; text-align: right;">Thực tế</th>
+                            <th style="width: 110px; text-align: right;">Dự báo</th>
+                            <th style="width: 110px; text-align: right;">Kỳ trước</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-events-tbody">
+                        <!-- Content populated via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.calendar-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.badge-count {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--accent-color);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Filter Pills */
+.curr-pill, .impact-pill {
+    background-color: #18181b;
+    border: 1px solid #3f3f46;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.curr-pill:hover, .impact-pill:hover {
+    border-color: #71717a;
+    color: var(--text-main);
+}
+
+.curr-pill.active, .impact-pill.active {
+    background-color: var(--accent-color);
+    color: #000000;
+    border-color: var(--accent-color);
+    font-weight: 600;
+}
+
+.impact-high.active {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+
+.impact-medium.active {
+    background-color: #f97316;
+    color: #ffffff;
+    border-color: #f97316;
+}
+
+.impact-low.active {
+    background-color: #eab308;
+    color: #000000;
+    border-color: #eab308;
+}
+
+.impact-holiday.active {
+    background-color: #6b7280;
+    color: #ffffff;
+    border-color: #6b7280;
+}
+
+/* Impact Badges inside table */
+.impact-badge {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.badge-high {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.badge-medium {
+    background-color: rgba(249, 115, 22, 0.2);
+    color: #fb923c;
+    border: 1px solid rgba(249, 115, 22, 0.4);
+}
+
+.badge-low {
+    background-color: rgba(234, 179, 8, 0.2);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.4);
+}
+
+.badge-holiday {
+    background-color: rgba(107, 114, 128, 0.2);
+    color: #9ca3af;
+    border: 1px solid rgba(107, 114, 128, 0.4);
+}
+
+/* Table */
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.calendar-table th {
+    background-color: #1a1a1d;
+    padding: 11px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 1px solid #3f3f46;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.calendar-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid #27272a;
+    font-size: 0.88rem;
+    color: var(--text-main);
+    vertical-align: middle;
+}
+
+.calendar-table tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.curr-code {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(24, 24, 27, 0.85);
+    backdrop-filter: blur(2px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #3f3f46;
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentYear = {{ year }};
+    let currentMonth = {{ month }};
+    let allEvents = [];
+    let selectedCurr = 'ALL';
+    let selectedImpact = 'ALL';
+
+    const tbody = document.getElementById('calendar-events-tbody');
+    const monthLabel = document.getElementById('current-month-label');
+    const countBadge = document.getElementById('total-count-badge');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const searchInput = document.getElementById('filter-event-search');
+
+    const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+
+    function updateHeaderLabel() {
+        monthLabel.textContent = `${monthNames[currentMonth - 1]} ${currentYear}`;
+    }
+
+    function fetchCalendarData() {
+        loadingOverlay.style.display = 'flex';
+        updateHeaderLabel();
+
+        fetch(`/api/economic-calendar?year=${currentYear}&month=${currentMonth}`)
+            .then(res => res.json())
+            .then(data => {
+                allEvents = data.events || [];
+                renderEvents();
+            })
+            .catch(err => {
+                console.error('Lỗi khi tải lịch kinh tế:', err);
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 32px; color: #ef4444;">Không thể tải dữ liệu lịch kinh tế từ máy chủ.</td></tr>`;
+            })
+            .finally(() => {
+                loadingOverlay.style.display = 'none';
+            });
+    }
+
+    function renderEvents() {
+        const query = searchInput.value.toLowerCase().trim();
+
+        const filtered = allEvents.filter(ev => {
+            const matchCurr = selectedCurr === 'ALL' || ev.currency === selectedCurr;
+            const matchImpact = selectedImpact === 'ALL' || ev.impact === selectedImpact;
+            const matchSearch = !query || ev.event.toLowerCase().includes(query);
+            return matchCurr && matchImpact && matchSearch;
+        });
+
+        countBadge.textContent = `${filtered.length} sự kiện`;
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 32px; color: var(--text-muted);">Không có sự kiện nào phù hợp.</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        let lastDate = '';
+
+        filtered.forEach(ev => {
+            const isNewDate = ev.date !== lastDate;
+            lastDate = ev.date;
+
+            let impactBadgeClass = 'badge-holiday';
+            if (ev.impact === 'high') impactBadgeClass = 'badge-high';
+            else if (ev.impact === 'medium') impactBadgeClass = 'badge-medium';
+            else if (ev.impact === 'low') impactBadgeClass = 'badge-low';
+
+            html += `
+                <tr>
+                    <td style="font-weight: 600; color: ${isNewDate ? 'var(--text-main)' : 'var(--text-muted)'};">
+                        ${ev.date || '-'}
+                    </td>
+                    <td style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                        ${ev.time || '-'}
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="curr-code">${ev.currency || '-'}</span>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="impact-badge ${impactBadgeClass}">${ev.impact}</span>
+                    </td>
+                    <td style="font-weight: 500;">
+                        ${ev.event}
+                    </td>
+                    <td style="text-align: right; font-weight: 600; color: #fff;">
+                        ${ev.actual || '-'}
+                    </td>
+                    <td style="text-align: right; color: var(--text-muted);">
+                        ${ev.forecast || '-'}
+                    </td>
+                    <td style="text-align: right; color: var(--text-muted);">
+                        ${ev.previous || '-'}
+                    </td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = html;
+    }
+
+    // Event listeners for month navigation
+    document.getElementById('btn-prev-month').addEventListener('click', function() {
+        currentMonth--;
+        if (currentMonth < 1) {
+            currentMonth = 12;
+            currentYear--;
+        }
+        fetchCalendarData();
+    });
+
+    document.getElementById('btn-next-month').addEventListener('click', function() {
+        currentMonth++;
+        if (currentMonth > 12) {
+            currentMonth = 1;
+            currentYear++;
+        }
+        fetchCalendarData();
+    });
+
+    document.getElementById('btn-refresh').addEventListener('click', fetchCalendarData);
+
+    // Currency filter
+    document.querySelectorAll('.curr-pill').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.curr-pill').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            selectedCurr = this.getAttribute('data-curr');
+            renderEvents();
+        });
+    });
+
+    // Impact filter
+    document.querySelectorAll('.impact-pill').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.impact-pill').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            selectedImpact = this.getAttribute('data-impact');
+            renderEvents();
+        });
+    });
+
+    // Search filter
+    searchInput.addEventListener('input', renderEvents);
+
+    // Initial load
+    fetchCalendarData();
+});
+</script>
+{% endblock %}

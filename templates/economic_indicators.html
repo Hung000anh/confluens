@@ -1,0 +1,766 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="econ-container">
+    <!-- Header Section -->
+    <div class="econ-header">
+        <div>
+            <h1 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                <span>{{ ui.economic_indicators.page_title or 'Chỉ Số Kinh Tế' }}</span>
+                <span class="badge badge-count" id="total-count-badge">Đang tải...</span>
+            </h1>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-refresh" title="Làm mới dữ liệu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="refresh-icon"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                <span>Làm mới</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Country Selection Card -->
+    <div class="card" style="margin-bottom: 20px; padding: 16px 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);">
+                Quốc gia đang theo dõi:
+            </span>
+        </div>
+
+        <!-- Selected Country Badges & Country Selector Trigger -->
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;" id="country-tags-wrapper">
+            <div id="selected-country-chips" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                {% for code in selected_country_codes %}
+                <div class="country-chip" data-code="{{ code }}">
+                    <span class="country-chip-flag">{{ code }}</span>
+                    <span class="country-chip-name">{{ country_lookup.get(code, code) }}</span>
+                    <button type="button" class="country-chip-remove" data-code="{{ code }}" title="Bỏ chọn">&times;</button>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Country Dropdown Multi-select Button -->
+            <div class="country-dropdown-container" style="position: relative;">
+                <button type="button" class="btn-add-country" id="btn-toggle-country-dropdown">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Thêm Quốc Gia</span>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div class="country-dropdown-menu" id="country-dropdown-menu" style="display: none;">
+                    <div style="padding: 10px; border-bottom: 1px solid #3f3f46;">
+                        <input type="text" id="country-search-input" class="form-input" placeholder="Tìm theo tên hoặc mã..." style="padding: 8px 12px; font-size: 0.88rem; width: 100%;">
+                    </div>
+                    <div class="country-options-list" id="country-options-list">
+                        {% for c in all_countries %}
+                        <label class="country-option-item" data-name="{{ c.name|lower }}" data-code="{{ c.code|lower }}">
+                            <input type="checkbox" class="country-checkbox" value="{{ c.code }}" {% if c.code in selected_country_codes %}checked{% endif %}>
+                            <span class="country-option-code">{{ c.code }}</span>
+                            <span class="country-option-name">{{ c.name }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                    <div style="padding: 10px; border-top: 1px solid #3f3f46; display: flex; justify-content: space-between; align-items: center; background: #1a1a1d;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);" id="dropdown-selected-counter">{{ selected_country_codes|length }} đã chọn</span>
+                        <button type="button" class="btn btn-primary btn-sm" id="btn-apply-countries" style="padding: 6px 14px; font-size: 0.85rem;">Áp dụng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
+        <!-- Category Filter Pills -->
+        <div class="category-pills-bar" id="category-pills-bar" style="margin-bottom: 0; padding-bottom: 0; flex: 1;">
+            {% for cat_id, cat_info in categories.items() %}
+            <button type="button" class="cat-pill {% if selected_category == cat_id or (not selected_category and cat_id == 'all') %}active{% endif %}" data-category="{{ cat_id }}">
+                {{ cat_info.label }}
+            </button>
+            {% endfor %}
+        </div>
+
+        <!-- Search input -->
+        <div style="width: 280px; min-width: 200px;">
+            <input type="text" id="filter-indicator-search" class="form-input" placeholder="🔍 Tìm kiếm chỉ số..." style="padding: 8px 14px; font-size: 0.88rem;">
+        </div>
+    </div>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <div style="position: relative;">
+        <!-- Loading Overlay (Dùng khi refresh) -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="spinner"></div>
+            <span style="color: var(--text-main); font-weight: 500; margin-top: 10px; font-size: 0.9rem;">Đang tải dữ liệu kinh tế...</span>
+        </div>
+
+        <!-- DETAIL TABLES: TÁCH RIÊNG TỪNG BẢNG THEO TỪNG QUỐC GIA -->
+        <div id="country-tables-wrapper" style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- Skeleton Loader -->
+            <div id="skeleton-loader">
+                {% for _ in selected_country_codes %}
+                <div class="card" style="padding: 20px; margin-bottom: 24px;">
+                    <div style="height: 28px; width: 200px; background: #27272a; border-radius: 6px; margin-bottom: 20px; animation: pulse 1.5s infinite;"></div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        {% for _ in range(5) %}
+                        <div style="height: 44px; background: #27272a; border-radius: 4px; animation: pulse 1.5s infinite;"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS for Economic Indicators -->
+<style>
+.econ-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.econ-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.badge-count {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--accent-color);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Country Chip */
+.country-chip {
+    display: inline-flex;
+    align-items: center;
+    background-color: #22443b;
+    border: 1px solid var(--accent-color);
+    border-radius: 6px;
+    padding: 4px 8px 4px 10px;
+    gap: 6px;
+}
+
+.country-chip-flag {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+}
+
+.country-chip-name {
+    font-size: 0.85rem;
+    color: #fff;
+    font-weight: 500;
+}
+
+.country-chip-remove {
+    background: transparent;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+    border-radius: 4px;
+}
+
+.country-chip-remove:hover {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.15);
+}
+
+/* Dropdown Add Country */
+.btn-add-country {
+    background-color: rgba(39, 39, 42, 0.8);
+    border: 1px dashed #52525b;
+    color: var(--text-main);
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-add-country:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background-color: #27272a;
+}
+
+.country-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+    width: 320px;
+    background-color: #18181b;
+    border: 1px solid #3f3f46;
+    border-radius: 10px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+    z-index: 100;
+}
+
+.country-options-list {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 6px 0;
+}
+
+.country-option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.country-option-item:hover {
+    background-color: #27272a;
+}
+
+.country-option-code {
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    min-width: 28px;
+}
+
+.country-option-name {
+    font-size: 0.88rem;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Category Pills (Không icon) */
+.category-pills-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.cat-pill {
+    background-color: #18181b;
+    border: 1px solid #3f3f46;
+    color: var(--text-muted);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.cat-pill:hover {
+    border-color: #71717a;
+    color: var(--text-main);
+}
+
+.cat-pill.active {
+    background-color: var(--accent-color);
+    color: #000000;
+    border-color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* Country Table Section */
+.country-table-card {
+    border: 1px solid #3f3f46;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.country-table-header {
+    background-color: #202024;
+    padding: 14px 20px;
+    border-bottom: 1px solid #3f3f46;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.country-badge-large {
+    background-color: #27272a;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.country-count-tag {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    background-color: #18181b;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #3f3f46;
+}
+
+/* Tables */
+.econ-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    table-layout: auto;
+}
+
+.econ-table th {
+    background-color: #1a1a1d;
+    padding: 11px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 1px solid #3f3f46;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.econ-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #27272a;
+    font-size: 0.88rem;
+    color: var(--text-main);
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.econ-table tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.indicator-desc-text {
+    font-weight: 500;
+    color: var(--text-main);
+    white-space: normal;
+    word-break: break-word;
+    display: block;
+}
+
+.symbol-pill {
+    background-color: #27272a;
+    border: 1px solid #3f3f46;
+    color: var(--accent-color);
+    font-family: monospace;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.84rem;
+    display: inline-block;
+}
+
+.category-tag {
+    background-color: rgba(39, 39, 42, 0.7);
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border: 1px solid #3f3f46;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.freq-tag {
+    background-color: rgba(39, 39, 42, 0.5);
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    color: #e4e4e7;
+    border: 1px solid #3f3f46;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.change-tag {
+    font-weight: 600;
+    font-size: 0.82rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.change-pos {
+    color: #34d399;
+    background-color: rgba(16, 185, 129, 0.12);
+}
+
+.change-neg {
+    color: #f87171;
+    background-color: rgba(239, 68, 68, 0.12);
+}
+
+.change-neutral {
+    color: var(--text-muted);
+}
+
+.btn-chart-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    color: var(--text-muted);
+    background: transparent;
+    transition: all 0.2s;
+}
+
+.btn-chart-link:hover {
+    color: var(--accent-color);
+    background-color: rgba(16, 185, 129, 0.15);
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(24, 24, 27, 0.8);
+    backdrop-filter: blur(2px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #3f3f46;
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
+
+<!-- Client JavaScript Logic -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentCountries = {{ selected_country_codes|tojson }};
+    let currentCategory = '{{ selected_category or "all" }}';
+    const countryLookup = {{ country_lookup|tojson }};
+
+    const dropdownMenu = document.getElementById('country-dropdown-menu');
+    const btnToggleDropdown = document.getElementById('btn-toggle-country-dropdown');
+    const searchCountryInput = document.getElementById('country-search-input');
+    const countryCheckboxes = document.querySelectorAll('.country-checkbox');
+    const btnApplyCountries = document.getElementById('btn-apply-countries');
+    const chipsContainer = document.getElementById('selected-country-chips');
+    const dropdownCounter = document.getElementById('dropdown-selected-counter');
+    const totalCountBadge = document.getElementById('total-count-badge');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const filterSearchInput = document.getElementById('filter-indicator-search');
+    const refreshBtn = document.getElementById('btn-refresh');
+
+    // 1. Toggle Dropdown
+    btnToggleDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = dropdownMenu.style.display === 'block';
+        dropdownMenu.style.display = isOpen ? 'none' : 'block';
+        if (!isOpen) {
+            searchCountryInput.focus();
+            updateCheckboxStates();
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!dropdownMenu.contains(e.target) && e.target !== btnToggleDropdown) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+
+    // 2. Filter Countries in dropdown
+    searchCountryInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        document.querySelectorAll('.country-option-item').forEach(item => {
+            const name = item.getAttribute('data-name');
+            const code = item.getAttribute('data-code');
+            if (name.includes(query) || code.includes(query)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
+    // 3. Update Dropdown Checkbox Counter
+    countryCheckboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            const checkedCount = document.querySelectorAll('.country-checkbox:checked').length;
+            dropdownCounter.textContent = `${checkedCount} đã chọn`;
+        });
+    });
+
+    function updateCheckboxStates() {
+        countryCheckboxes.forEach(cb => {
+            cb.checked = currentCountries.includes(cb.value);
+        });
+        const checkedCount = document.querySelectorAll('.country-checkbox:checked').length;
+        dropdownCounter.textContent = `${checkedCount} đã chọn`;
+    }
+
+    // 4. Apply selected countries
+    btnApplyCountries.addEventListener('click', function() {
+        const checkedValues = Array.from(document.querySelectorAll('.country-checkbox:checked')).map(cb => cb.value);
+        if (checkedValues.length === 0) {
+            alert('Vui lòng chọn ít nhất 1 quốc gia!');
+            return;
+        }
+        currentCountries = checkedValues;
+        dropdownMenu.style.display = 'none';
+        renderCountryChips();
+        fetchData();
+    });
+
+    // 5. Remove Country Chip
+    chipsContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('country-chip-remove')) {
+            const codeToRemove = e.target.getAttribute('data-code');
+            if (currentCountries.length <= 1) {
+                alert('Phải giữ lại ít nhất 1 quốc gia để hiển thị chỉ số!');
+                return;
+            }
+            currentCountries = currentCountries.filter(c => c !== codeToRemove);
+            renderCountryChips();
+            updateCheckboxStates();
+            fetchData();
+        }
+    });
+
+    function renderCountryChips() {
+        chipsContainer.innerHTML = currentCountries.map(code => `
+            <div class="country-chip" data-code="${code}">
+                <span class="country-chip-flag">${code}</span>
+                <span class="country-chip-name">${countryLookup[code] || code}</span>
+                <button type="button" class="country-chip-remove" data-code="${code}" title="Bỏ chọn">&times;</button>
+            </div>
+        `).join('');
+    }
+
+    // 6. Category Filter
+    document.querySelectorAll('.cat-pill').forEach(pill => {
+        pill.addEventListener('click', function() {
+            document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            currentCategory = this.getAttribute('data-category');
+            fetchData();
+        });
+    });
+
+    // 7. Instant Search in Detail View
+    filterSearchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        let totalVisible = 0;
+
+        document.querySelectorAll('.country-table-card').forEach(card => {
+            const rows = card.querySelectorAll('.indicator-row');
+            let countryVisible = 0;
+
+            rows.forEach(row => {
+                const symbol = row.getAttribute('data-symbol') || '';
+                const desc = row.getAttribute('data-desc') || '';
+                if (symbol.includes(query) || desc.includes(query)) {
+                    row.style.display = '';
+                    countryVisible++;
+                    totalVisible++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Update card count
+            const countTag = card.querySelector('.country-count-tag');
+            if (countTag) countTag.textContent = `${countryVisible} chỉ số`;
+
+            // Hide/show empty notice
+            let emptyNotice = card.querySelector('.search-empty-row');
+            if (countryVisible === 0) {
+                if (!emptyNotice) {
+                    const tbody = card.querySelector('tbody');
+                    const tr = document.createElement('tr');
+                    tr.className = 'search-empty-row';
+                    tr.innerHTML = `<td colspan="9" style="text-align: center; padding: 24px; color: var(--text-muted);">Không có chỉ số khớp với tìm kiếm.</td>`;
+                    tbody.appendChild(tr);
+                }
+            } else {
+                if (emptyNotice) emptyNotice.remove();
+            }
+        });
+
+        totalCountBadge.textContent = `${totalVisible} chỉ số`;
+    });
+
+    // 8. Fetch Data via API
+    function fetchData() {
+        loadingOverlay.style.display = 'flex';
+        updateUrlParams();
+
+        const params = new URLSearchParams({
+            countries: currentCountries.join(','),
+            category: currentCategory,
+        });
+
+        fetch(`/api/economic-indicators?${params.toString()}`)
+            .then(res => res.json())
+            .then(data => {
+                renderDetailTablesByCountry(data.indicators_by_country || {});
+                totalCountBadge.textContent = `${(data.indicators || []).length} chỉ số`;
+            })
+            .catch(err => {
+                console.error('Lỗi tải dữ liệu:', err);
+            })
+            .finally(() => {
+                loadingOverlay.style.display = 'none';
+            });
+    }
+
+    refreshBtn.addEventListener('click', function() {
+        fetchData();
+    });
+
+    function updateUrlParams() {
+        const url = new URL(window.location);
+        url.searchParams.set('countries', currentCountries.join(','));
+        url.searchParams.set('category', currentCategory);
+        url.searchParams.delete('view');
+        window.history.replaceState({}, '', url);
+    }
+
+    // Render separate table cards for each country
+    function renderDetailTablesByCountry(indicatorsByCountry) {
+        const container = document.getElementById('country-tables-wrapper');
+        const countryCodes = Object.keys(indicatorsByCountry);
+
+        if (countryCodes.length === 0) {
+            container.innerHTML = `
+                <div class="card" style="text-align: center; padding: 48px; color: var(--text-muted);">
+                    <p>Vui lòng chọn ít nhất 1 quốc gia để xem dữ liệu.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = countryCodes.map(code => {
+            const cdata = indicatorsByCountry[code] || { name: code, indicators: [] };
+            const indicators = cdata.indicators || [];
+
+            const rowsHtml = indicators.length > 0 ? indicators.map(row => {
+                let changeHtml = '<span style="color: var(--text-muted);">-</span>';
+                if (row.raw_change !== null && row.raw_change !== undefined) {
+                    if (row.raw_change > 0) {
+                        changeHtml = `<span class="change-tag change-pos">+${row.change}</span>`;
+                    } else if (row.raw_change < 0) {
+                        changeHtml = `<span class="change-tag change-neg">${row.change}</span>`;
+                    } else {
+                        changeHtml = `<span class="change-tag change-neutral">0.00</span>`;
+                    }
+                }
+
+                return `
+                    <tr class="indicator-row" data-category="${row.category_id}" data-country="${row.country_code}" data-symbol="${(row.symbol||'').toLowerCase()}" data-desc="${(row.indicator||'').toLowerCase()}">
+                        <td style="width: 120px;">
+                            <span class="symbol-pill">${row.symbol}</span>
+                        </td>
+                        <td style="min-width: 300px;">
+                            <span class="indicator-desc-text">${row.indicator}</span>
+                        </td>
+                        <td style="width: 160px;">
+                            <span class="category-tag">${row.category_name}</span>
+                        </td>
+                        <td style="width: 110px; text-align: center;">
+                            <span class="freq-tag">${row.data_frequency || '-'}</span>
+                        </td>
+                        <td style="width: 130px; text-align: right; font-weight: 600; color: #fff;">
+                            ${row.last || '-'}
+                        </td>
+                        <td style="width: 130px; text-align: right; color: var(--text-muted);">
+                            ${row.previous || '-'}
+                        </td>
+                        <td style="width: 130px; text-align: right;">
+                            ${changeHtml}
+                        </td>
+                        <td style="width: 130px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                            ${row.observation || '-'}
+                        </td>
+                        <td style="width: 70px; text-align: center;">
+                            <a href="/charts?symbol=ECONOMICS:${row.symbol}" target="_blank" class="btn-chart-link" title="Xem biểu đồ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            }).join('') : `
+                <tr class="empty-country-row">
+                    <td colspan="9" style="text-align: center; padding: 32px; color: var(--text-muted);">
+                        Không có chỉ số kinh tế nào phù hợp với danh mục đang chọn.
+                    </td>
+                </tr>
+            `;
+
+            return `
+                <div class="card country-table-card" data-country="${code}" style="padding: 0; overflow: hidden;">
+                    <div class="country-table-header">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="country-badge-large">${code}</span>
+                            <span style="font-size: 1.05rem; font-weight: 600; color: #fff;">${cdata.name || countryLookup[code] || code}</span>
+                        </div>
+                        <span class="country-count-tag" id="count-${code}">${indicators.length} chỉ số</span>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="econ-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 120px;">Symbol</th>
+                                    <th style="min-width: 300px;">Chỉ Số Kinh Tế</th>
+                                    <th style="width: 160px;">Danh Mục</th>
+                                    <th style="width: 110px; text-align: center;">Tần Suất</th>
+                                    <th style="width: 130px; text-align: right;">Gần nhất (Last)</th>
+                                    <th style="width: 130px; text-align: right;">Kỳ trước (Prev)</th>
+                                    <th style="width: 130px; text-align: right;">Thay đổi (Change)</th>
+                                    <th style="width: 130px; text-align: center;">Kỳ quan sát</th>
+                                    <th style="width: 70px; text-align: center;">Biểu đồ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rowsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Khởi tạo load data ngay khi tải trang xong
+    fetchData();
+});
+</script>
+{% endblock %}

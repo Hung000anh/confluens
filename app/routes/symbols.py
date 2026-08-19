@@ -6,6 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from app.config.settings import APP_TEXT, NAV_ITEMS, TEMPLATES_DIR, DEFAULT_PAGE_TITLE
 from app.models.base import SymbolUpdate, VerifySymbolRequest
+from app.services.countries import CountryService
 from app.services.symbols import SymbolService
 from app.services.verify import VerificationService
 
@@ -16,11 +17,14 @@ env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)))
 @router.get("/", response_class=HTMLResponse)
 async def list_symbols(request: Request):
     symbols = SymbolService.get_all()
+    countries = CountryService.get_all()
     template = env.get_template("index.html")
     return HTMLResponse(
         template.render(
             request=request,
             symbols=symbols,
+            countries=countries,
+            countries_by_code={item["code"]: item["name"] for item in countries},
             current_path="/",
             nav_items=NAV_ITEMS,
             page_title=APP_TEXT["symbols"]["page_title"],
@@ -90,4 +94,6 @@ async def edit_symbol(
         SymbolService.update(symbol_id, symbol_update)
         return RedirectResponse(url="/", status_code=303)
     except ValueError as exc:
-        raise HTTPException(status_code=404, detail=str(exc))
+        detail = str(exc)
+        status_code = 404 if "not found" in detail.lower() else 400
+        raise HTTPException(status_code=status_code, detail=detail)

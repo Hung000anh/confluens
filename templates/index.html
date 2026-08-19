@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% set country_lookup = countries_by_code if countries_by_code is defined else {} %}
+    {% macro country_label(code, lookup) %}
+        {%- if code and lookup.get(code) -%}
+            {{ code }} — {{ lookup.get(code) }}
+        {%- elif code -%}
+            {{ code }}
+        {%- else -%}
+            -
+        {%- endif -%}
+    {% endmacro %}
+
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
         <h1 style="margin: 0;">{{ ui.symbols.page_title }}</h1>
         <button type="button" class="btn btn-primary" id="btn-open-add-modal" style="display: flex; align-items: center; gap: 8px;">
@@ -60,7 +71,7 @@
                         {% endfor %}
                     {% endfor %}
                     {% for c in unique_countries|sort %}
-                    <option value="{{ c }}">{{ c }}</option>
+                    <option value="{{ c }}">{{ country_label(c, country_lookup) }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -88,11 +99,11 @@
                         <td style="padding: 12px; color: var(--text-muted);">{{ item.exchange if item.exchange else '-' }}</td>
                         <td style="padding: 12px; color: var(--text-muted);">
                             {% if item.base_country or item.quote_country %}
-                                <span style="color: #fff; font-weight: 500;">{{ item.base_country if item.base_country else '-' }}</span>
+                                <span style="color: #fff; font-weight: 500;">{{ country_label(item.base_country, country_lookup) }}</span>
                                 <span style="color: var(--text-muted);"> / </span>
-                                <span style="color: #fff; font-weight: 500;">{{ item.quote_country if item.quote_country else '-' }}</span>
+                                <span style="color: #fff; font-weight: 500;">{{ country_label(item.quote_country, country_lookup) }}</span>
                             {% elif item.country %}
-                                {{ item.country }}
+                                {{ country_label(item.country, country_lookup) }}
                             {% else %}
                                 -
                             {% endif %}
@@ -144,7 +155,6 @@
                             <option value="Cổ phiếu">Cổ phiếu (Stocks)</option>
                             <option value="Quỹ">Quỹ (Funds)</option>
                             <option value="Hàng hóa">Hàng hóa (Commodities)</option>
-                            <option value="Chỉ số kinh tế">Chỉ số kinh tế (Economics)</option>
                         </select>
                     </div>
 
@@ -158,11 +168,21 @@
                     <div style="display: flex; gap: 12px; margin-bottom: 20px;">
                         <div style="flex: 1;">
                             <label for="base_country" class="form-label">Quốc gia Cơ Sở (Base) <span style="font-size: 0.8em; color: var(--text-muted); font-weight: normal;">(Tùy chọn)</span></label>
-                            <input type="text" id="base_country" name="base_country" class="form-input" placeholder="Ví dụ: EU, US, VN">
+                            <select id="base_country" name="base_country" class="form-input">
+                                <option value="">-- Chọn quốc gia --</option>
+                                {% for c in countries|default([]) %}
+                                <option value="{{ c.code }}">{{ c.code }} — {{ c.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div style="flex: 1;">
                             <label for="quote_country" class="form-label">Quốc gia Định Giá (Quote) <span style="font-size: 0.8em; color: var(--text-muted); font-weight: normal;">(Tùy chọn)</span></label>
-                            <input type="text" id="quote_country" name="quote_country" class="form-input" placeholder="Ví dụ: US, VND">
+                            <select id="quote_country" name="quote_country" class="form-input">
+                                <option value="">-- Chọn quốc gia --</option>
+                                {% for c in countries|default([]) %}
+                                <option value="{{ c.code }}">{{ c.code }} — {{ c.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                     
@@ -220,7 +240,6 @@
                             <option value="Cổ phiếu">Cổ phiếu (Stocks)</option>
                             <option value="Quỹ">Quỹ (Funds)</option>
                             <option value="Hàng hóa">Hàng hóa (Commodities)</option>
-                            <option value="Chỉ số kinh tế">Chỉ số kinh tế (Economics)</option>
                         </select>
                     </div>
 
@@ -234,11 +253,21 @@
                     <div style="display: flex; gap: 12px; margin-bottom: 20px;">
                         <div style="flex: 1;">
                             <label for="edit_base_country" class="form-label">Quốc gia Cơ Sở (Base) <span style="font-size: 0.8em; color: var(--text-muted); font-weight: normal;">(Tùy chọn)</span></label>
-                            <input type="text" id="edit_base_country" name="base_country" class="form-input" placeholder="Ví dụ: EU, US, VN">
+                            <select id="edit_base_country" name="base_country" class="form-input">
+                                <option value="">-- Chọn quốc gia --</option>
+                                {% for c in countries|default([]) %}
+                                <option value="{{ c.code }}">{{ c.code }} — {{ c.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div style="flex: 1;">
                             <label for="edit_quote_country" class="form-label">Quốc gia Định Giá (Quote) <span style="font-size: 0.8em; color: var(--text-muted); font-weight: normal;">(Tùy chọn)</span></label>
-                            <input type="text" id="edit_quote_country" name="quote_country" class="form-input" placeholder="Ví dụ: US, VND">
+                            <select id="edit_quote_country" name="quote_country" class="form-input">
+                                <option value="">-- Chọn quốc gia --</option>
+                                {% for c in countries|default([]) %}
+                                <option value="{{ c.code }}">{{ c.code }} — {{ c.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                     

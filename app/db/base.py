@@ -32,6 +32,13 @@ def init_db():
             pass
 
     cursor.execute('''
+        CREATE TABLE IF NOT EXISTS countries (
+            code TEXT PRIMARY KEY,
+            name TEXT NOT NULL
+        )
+    ''')
+
+    cursor.execute('''
         CREATE TABLE IF NOT EXISTS settings (
             key TEXT PRIMARY KEY,
             value TEXT NOT NULL
@@ -58,6 +65,9 @@ def init_db():
         "timeframes": "1m,3m,5m,15m,30m,45m,1h,2h,3h,4h,1d,1w,1m",
     }.items():
         cursor.execute('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', (key, value))
+
+    from app.db.countries import seed_countries
+    seed_countries(conn)
 
     conn.commit()
     conn.close()

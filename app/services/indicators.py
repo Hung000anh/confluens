@@ -3,7 +3,7 @@ from app.models.base import IndicatorCreate, IndicatorUpdate
 from app.db.indicators import (
     create_indicator, get_all_indicators, get_indicator_by_id,
     update_indicator, delete_indicator, toggle_indicator,
-    get_active_indicators_by_timeframe
+    get_all_active_indicators, get_active_indicators_by_timeframe
 )
 
 
@@ -22,6 +22,10 @@ class IndicatorService:
         if not indicator:
             raise ValueError(f"Indicator with ID {indicator_id} not found")
         return indicator
+
+    @staticmethod
+    def get_all_active() -> List[dict]:
+        return get_all_active_indicators()
 
     @staticmethod
     def get_active_by_timeframe(timeframe: str) -> List[dict]:
