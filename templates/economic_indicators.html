@@ -464,7 +464,8 @@
 <!-- Client JavaScript Logic -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    let currentCountries = {{ selected_country_codes|tojson }};
+    let savedCountries = localStorage.getItem('ei_selected_countries');
+    let currentCountries = savedCountries ? JSON.parse(savedCountries) : {{ selected_country_codes|tojson }};
     let currentCategory = '{{ selected_category or "all" }}';
     const countryLookup = {{ country_lookup|tojson }};
 
@@ -535,6 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         currentCountries = checkedValues;
+        localStorage.setItem('ei_selected_countries', JSON.stringify(currentCountries));
         dropdownMenu.style.display = 'none';
         renderCountryChips();
         fetchData();
@@ -549,6 +551,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             currentCountries = currentCountries.filter(c => c !== codeToRemove);
+            localStorage.setItem('ei_selected_countries', JSON.stringify(currentCountries));
             renderCountryChips();
             updateCheckboxStates();
             fetchData();
@@ -758,6 +761,10 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }).join('');
     }
+
+    // Đồng bộ UI với localStorage (nếu có) trước khi tải dữ liệu
+    renderCountryChips();
+    updateCheckboxStates();
 
     // Khởi tạo load data ngay khi tải trang xong
     fetchData();

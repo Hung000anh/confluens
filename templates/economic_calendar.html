@@ -23,16 +23,36 @@
     <!-- Filters Section -->
     <div class="card" style="margin-bottom: 20px; padding: 16px 20px;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-            <!-- Currency Filter Badges -->
+            <!-- Country Filter Multi-Select -->
             <div>
                 <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
-                    Lọc theo Đồng tiền:
+                    Lọc theo Quốc gia:
                 </span>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="currency-filter-bar">
-                    <button type="button" class="curr-pill active" data-curr="ALL">Tất cả</button>
-                    {% for curr in target_currencies %}
-                    <button type="button" class="curr-pill" data-curr="{{ curr }}">{{ curr }}</button>
-                    {% endfor %}
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                    <div style="position: relative;">
+                        <button type="button" id="country-dropdown-btn" class="form-input" style="padding: 7px 12px; font-size: 0.88rem; min-width: 220px; text-align: left; display: flex; justify-content: space-between; align-items: center; background-color: #18181b; cursor: pointer;">
+                            <span id="country-dropdown-text">Đang tải...</span>
+                            <span style="font-size: 0.7rem;">▼</span>
+                        </button>
+                        <div id="country-dropdown-menu" style="display: none; position: absolute; top: 100%; left: 0; min-width: 280px; background-color: #1a1a1d; border: 1px solid #3f3f46; border-radius: 4px; margin-top: 4px; z-index: 100; max-height: 300px; overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+                            <!-- Content populated via JavaScript -->
+                        </div>
+                    </div>
+                    <!-- Starred Countries Pills -->
+                    <div id="starred-countries-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Filter Badges -->
+            <div>
+                <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
+                    Thời gian:
+                </span>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="time-filter-bar">
+                    <button type="button" class="time-pill" data-time="today">Hôm nay</button>
+                    <button type="button" class="time-pill" data-time="week">Tuần này</button>
+                    <button type="button" class="time-pill active" data-time="month">Tháng này</button>
                 </div>
             </div>
 
@@ -76,7 +96,7 @@
                         <tr>
                             <th style="width: 110px;">Ngày</th>
                             <th style="width: 90px; text-align: center;">Giờ</th>
-                            <th style="width: 80px; text-align: center;">Tiền tệ</th>
+                            <th style="width: 100px; text-align: center;">Quốc gia</th>
                             <th style="width: 90px; text-align: center;">Tác động</th>
                             <th style="min-width: 280px;">Sự kiện</th>
                             <th style="width: 110px; text-align: right;">Thực tế</th>
@@ -119,7 +139,7 @@
 }
 
 /* Filter Pills */
-.curr-pill, .impact-pill {
+.curr-pill, .impact-pill, .time-pill {
     background-color: #18181b;
     border: 1px solid #3f3f46;
     color: var(--text-muted);
@@ -131,12 +151,12 @@
     transition: all 0.2s ease;
 }
 
-.curr-pill:hover, .impact-pill:hover {
+.curr-pill:hover, .impact-pill:hover, .time-pill:hover {
     border-color: #71717a;
     color: var(--text-main);
 }
 
-.curr-pill.active, .impact-pill.active {
+.curr-pill.active, .impact-pill.active, .time-pill.active {
     background-color: var(--accent-color);
     color: #000000;
     border-color: var(--accent-color);
@@ -264,21 +284,231 @@
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+.country-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #27272a;
+}
+.country-dropdown-item:last-child {
+    border-bottom: none;
+}
+.country-dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.country-dropdown-item label {
+    flex-grow: 1;
+    cursor: pointer;
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.country-dropdown-item input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: var(--accent-color);
+    width: 14px;
+    height: 14px;
+}
+.star-btn {
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #52525b;
+    margin-right: 12px;
+    user-select: none;
+    transition: color 0.2s;
+    line-height: 1;
+}
+.star-btn.starred {
+    color: #eab308;
+}
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let currentYear = {{ year }};
     let currentMonth = {{ month }};
+    const targetCountries = {{ target_countries | tojson | safe }};
     let allEvents = [];
-    let selectedCurr = 'ALL';
-    let selectedImpact = 'ALL';
+    let selectedTimeFilter = 'month';
+    let selectedImpact = localStorage.getItem('ec_selected_impact') || 'ALL';
+    
+    let selectedCountries = JSON.parse(localStorage.getItem('ec_selected_countries'));
+    if (!selectedCountries) {
+        selectedCountries = targetCountries.map(c => c.code);
+        localStorage.setItem('ec_selected_countries', JSON.stringify(selectedCountries));
+    }
+    let starredCountries = JSON.parse(localStorage.getItem('ec_starred_countries') || '[]');
 
     const tbody = document.getElementById('calendar-events-tbody');
     const monthLabel = document.getElementById('current-month-label');
     const countBadge = document.getElementById('total-count-badge');
     const loadingOverlay = document.getElementById('loading-overlay');
     const searchInput = document.getElementById('filter-event-search');
+
+    const countryBtn = document.getElementById('country-dropdown-btn');
+    const countryMenu = document.getElementById('country-dropdown-menu');
+    const countryText = document.getElementById('country-dropdown-text');
+
+    countryBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        countryMenu.style.display = countryMenu.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!countryBtn.contains(e.target) && !countryMenu.contains(e.target)) {
+            countryMenu.style.display = 'none';
+        }
+    });
+
+    function renderCountryMenu() {
+        let sorted = [...targetCountries].sort((a, b) => {
+            const aStar = starredCountries.includes(a.code) ? 1 : 0;
+            const bStar = starredCountries.includes(b.code) ? 1 : 0;
+            if (aStar !== bStar) return bStar - aStar;
+            return a.name.localeCompare(b.name);
+        });
+
+        let html = `
+            <div style="padding: 8px 12px; border-bottom: 1px solid #3f3f46; background: #1a1a1d; position: sticky; top: 0; z-index: 10;">
+                <div style="display: flex; gap: 10px; margin-bottom: 8px;">
+                    <button type="button" id="btn-select-all-countries" class="btn btn-secondary btn-sm" style="flex: 1; padding: 4px;">Chọn tất cả</button>
+                    <button type="button" id="btn-deselect-all-countries" class="btn btn-secondary btn-sm" style="flex: 1; padding: 4px;">Bỏ chọn</button>
+                </div>
+                <div>
+                    <input type="text" id="country-search-input" class="form-input" placeholder="🔍 Tìm quốc gia..." style="padding: 6px 10px; font-size: 0.85rem; width: 100%;">
+                </div>
+            </div>
+        `;
+
+        sorted.forEach(c => {
+            const isStarred = starredCountries.includes(c.code);
+            const isSelected = selectedCountries.includes(c.code);
+            html += `
+                <div class="country-dropdown-item" data-search="${c.name.toLowerCase()} ${c.code.toLowerCase()}">
+                    <span class="star-btn ${isStarred ? 'starred' : ''}" data-code="${c.code}">★</span>
+                    <label>
+                        <input type="checkbox" class="country-checkbox" value="${c.code}" ${isSelected ? 'checked' : ''}>
+                        ${c.name} (${c.code})
+                    </label>
+                </div>
+            `;
+        });
+        countryMenu.innerHTML = html;
+
+        const searchInput = document.getElementById('country-search-input');
+        if (window.lastCountrySearchTerm) {
+            searchInput.value = window.lastCountrySearchTerm;
+            filterDropdownItems(window.lastCountrySearchTerm);
+        }
+        
+        searchInput.addEventListener('input', function() {
+            window.lastCountrySearchTerm = this.value.toLowerCase().trim();
+            filterDropdownItems(window.lastCountrySearchTerm);
+        });
+        
+        function filterDropdownItems(term) {
+            document.querySelectorAll('.country-dropdown-item').forEach(item => {
+                if (!term || item.getAttribute('data-search').includes(term)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Re-render starred pills whenever the dropdown is rendered
+        renderStarredPills();
+        
+        document.querySelectorAll('.star-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const code = this.getAttribute('data-code');
+                if (starredCountries.includes(code)) {
+                    starredCountries = starredCountries.filter(c => c !== code);
+                } else {
+                    starredCountries.push(code);
+                }
+                localStorage.setItem('ec_starred_countries', JSON.stringify(starredCountries));
+                renderCountryMenu();
+            });
+        });
+
+        document.querySelectorAll('.country-checkbox').forEach(cb => {
+            cb.addEventListener('change', function() {
+                const code = this.value;
+                if (this.checked) {
+                    if (!selectedCountries.includes(code)) selectedCountries.push(code);
+                } else {
+                    selectedCountries = selectedCountries.filter(c => c !== code);
+                }
+                updateCountrySelection();
+            });
+        });
+
+        document.getElementById('btn-select-all-countries').addEventListener('click', () => {
+            selectedCountries = targetCountries.map(c => c.code);
+            updateCountrySelection();
+            renderCountryMenu();
+        });
+        document.getElementById('btn-deselect-all-countries').addEventListener('click', () => {
+            selectedCountries = [];
+            updateCountrySelection();
+            renderCountryMenu();
+        });
+    }
+
+    function updateCountrySelection() {
+        localStorage.setItem('ec_selected_countries', JSON.stringify(selectedCountries));
+        if (selectedCountries.length === targetCountries.length) {
+            countryText.textContent = 'Tất cả Quốc gia';
+        } else if (selectedCountries.length === 0) {
+            countryText.textContent = 'Chưa chọn Quốc gia';
+        } else {
+            countryText.textContent = `Đã chọn ${selectedCountries.length} Quốc gia`;
+        }
+        renderStarredPills();
+        renderEvents();
+    }
+
+    function renderStarredPills() {
+        const container = document.getElementById('starred-countries-container');
+        if (!container) return;
+        
+        let html = '';
+        starredCountries.forEach(code => {
+            const country = targetCountries.find(c => c.code === code);
+            if (country) {
+                const isSelected = selectedCountries.includes(code);
+                html += `
+                    <button type="button" class="curr-pill ${isSelected ? 'active' : ''}" data-code="${code}">
+                        <span style="color: #eab308; margin-right: 2px;">★</span> ${country.name}
+                    </button>
+                `;
+            }
+        });
+        container.innerHTML = html;
+        
+        container.querySelectorAll('.curr-pill').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const code = this.getAttribute('data-code');
+                if (selectedCountries.includes(code)) {
+                    selectedCountries = selectedCountries.filter(c => c !== code);
+                } else {
+                    selectedCountries.push(code);
+                }
+                updateCountrySelection();
+                renderCountryMenu();
+            });
+        });
+    }
+
+    // Khởi tạo
+    updateCountrySelection();
+    renderCountryMenu();
 
     const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
 
@@ -305,14 +535,48 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    function getTodayString() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function getWeekRange() {
+        const d = new Date();
+        const day = d.getDay();
+        const diffToMonday = d.getDate() - day + (day === 0 ? -6 : 1);
+        const startOfWeek = new Date(d.setDate(diffToMonday));
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        const format = (dt) => {
+            const y = dt.getFullYear();
+            const m = String(dt.getMonth() + 1).padStart(2, '0');
+            const dStr = String(dt.getDate()).padStart(2, '0');
+            return `${y}-${m}-${dStr}`;
+        };
+        return { start: format(startOfWeek), end: format(endOfWeek) };
+    }
+
     function renderEvents() {
         const query = searchInput.value.toLowerCase().trim();
+        const todayStr = getTodayString();
+        const weekRange = getWeekRange();
 
         const filtered = allEvents.filter(ev => {
-            const matchCurr = selectedCurr === 'ALL' || ev.currency === selectedCurr;
+            const matchCountry = selectedCountries.includes(ev.country);
             const matchImpact = selectedImpact === 'ALL' || ev.impact === selectedImpact;
             const matchSearch = !query || ev.event.toLowerCase().includes(query);
-            return matchCurr && matchImpact && matchSearch;
+            
+            let matchTime = true;
+            if (selectedTimeFilter === 'today') {
+                matchTime = (ev.date === todayStr);
+            } else if (selectedTimeFilter === 'week') {
+                matchTime = (ev.date >= weekRange.start && ev.date <= weekRange.end);
+            }
+
+            return matchCountry && matchImpact && matchSearch && matchTime;
         });
 
         countBadge.textContent = `${filtered.length} sự kiện`;
@@ -343,7 +607,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         ${ev.time || '-'}
                     </td>
                     <td style="text-align: center;">
-                        <span class="curr-code">${ev.currency || '-'}</span>
+                        <span class="curr-code" title="${ev.country || ''}">${ev.country || '-'}</span>
                     </td>
                     <td style="text-align: center;">
                         <span class="impact-badge ${impactBadgeClass}">${ev.impact}</span>
@@ -388,13 +652,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('btn-refresh').addEventListener('click', fetchCalendarData);
 
-    // Currency filter
-    document.querySelectorAll('.curr-pill').forEach(btn => {
+
+    // Initialize impact pills state
+    document.querySelectorAll('.impact-pill').forEach(btn => {
+        if (btn.getAttribute('data-impact') === selectedImpact) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    // Time filter
+    document.querySelectorAll('.time-pill').forEach(btn => {
         btn.addEventListener('click', function() {
-            document.querySelectorAll('.curr-pill').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.time-pill').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            selectedCurr = this.getAttribute('data-curr');
-            renderEvents();
+            selectedTimeFilter = this.getAttribute('data-time');
+            
+            const d = new Date();
+            const realMonth = d.getMonth() + 1;
+            const realYear = d.getFullYear();
+            
+            if (selectedTimeFilter !== 'month' && (currentMonth !== realMonth || currentYear !== realYear)) {
+                currentMonth = realMonth;
+                currentYear = realYear;
+                fetchCalendarData();
+            } else {
+                renderEvents();
+            }
         });
     });
 
@@ -404,6 +689,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.impact-pill').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             selectedImpact = this.getAttribute('data-impact');
+            localStorage.setItem('ec_selected_impact', selectedImpact);
             renderEvents();
         });
     });

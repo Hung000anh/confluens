@@ -70,6 +70,11 @@ APP_TEXT = {
         "search_placeholder": "🔍 Tìm kiếm theo tên chỉ số hoặc symbol...",
         "empty_state": "Không tìm thấy chỉ số kinh tế nào phù hợp.",
     },
+    "cot": {
+        "page_title": "Báo Cáo COT",
+        "title": "Báo Cáo COT",
+        "search_placeholder": "🔍 Tìm kiếm symbol trong báo cáo...",
+    },
     "settings": {
         "page_title": "Cài Đặt Cấu Hình Biểu Đồ",
         "save_button": "Lưu Cài Đặt",
@@ -110,6 +115,7 @@ NAV_ITEMS = [
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"></path><path d="M7 15l3-3 3 2 5-7"></path><path d="M17 7h2v2"></path></svg>
         """,
     },
+
     {
         "path": "/news",
         "label": "Tin Tức",

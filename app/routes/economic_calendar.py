@@ -5,7 +5,8 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from jinja2 import Environment, FileSystemLoader
 
 from app.config.settings import APP_TEXT, NAV_ITEMS, TEMPLATES_DIR
-from app.services.economic_calendar import EconomicCalendarService, TARGET_CURRENCIES
+from app.services.economic_calendar import EconomicCalendarService
+from app.db.countries import get_all_countries
 
 router = APIRouter(prefix="", tags=["economic-calendar"])
 env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)))
@@ -32,7 +33,7 @@ async def economic_calendar_page(
             ui=APP_TEXT,
             year=req_year,
             month=req_month,
-            target_currencies=sorted(list(TARGET_CURRENCIES)),
+            target_countries=get_all_countries(),
         )
     )
 

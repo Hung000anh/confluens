@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="cot-container">
+    <div class="cot-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+            <span>{{ page_title }}</span>
+        </h1>
+        <div style="display: flex; gap: 10px;">
+            <select id="report-type-select" class="form-input" style="padding: 8px 12px; font-size: 0.9rem; min-width: 250px;">
+                {% for r_type in report_types %}
+                <option value="{{ r_type }}" {% if loop.first %}selected{% endif %}>{{ r_type }}</option>
+                {% endfor %}
+            </select>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-refresh" title="Làm mới dữ liệu">
+                <span>Tải dữ liệu</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="card" style="margin-bottom: 20px; padding: 16px 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="flex: 1; min-width: 300px;">
+                <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
+                    Tìm kiếm Thị trường / Hợp đồng:
+                </span>
+                <input type="text" id="filter-market-search" class="form-input" placeholder="🔍 Ví dụ: GOLD, CRUDE OIL, EURO..." style="padding: 8px 14px; font-size: 0.88rem; width: 100%;">
+            </div>
+            <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                <div>
+                    <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
+                        Hiển thị (Dòng mới nhất):
+                    </span>
+                    <select id="limit-select" class="form-input" style="padding: 8px 12px; font-size: 0.9rem;">
+                        <option value="500">500</option>
+                        <option value="1000" selected>1000</option>
+                        <option value="5000">5000</option>
+                    </select>
+                </div>
+                <div>
+                    <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
+                        Lọc theo Yêu thích:
+                    </span>
+                    <label style="display: flex; align-items: center; cursor: pointer; gap: 8px; padding: 7px 12px; background: #27272a; border-radius: 6px; border: 1px solid #3f3f46;">
+                        <input type="checkbox" id="fav-only-checkbox" style="width: 16px; height: 16px; accent-color: var(--accent-color);">
+                        <span style="font-size: 0.9rem; color: #fff; font-weight: 500;">Chỉ hiện ⭐</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <div style="position: relative;">
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="spinner"></div>
+            <span style="color: var(--text-main); font-weight: 500; margin-top: 10px; font-size: 0.9rem;" id="loading-text">Đang tải dữ liệu COT...</span>
+        </div>
+
+        <div class="card" style="padding: 0; overflow: hidden; border: 1px solid #3f3f46;">
+            <div style="padding: 16px 20px; border-bottom: 1px solid #3f3f46; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 1.1rem; color: #fff;" id="table-title">Dữ liệu Báo cáo</h3>
+                <span class="badge badge-count" id="total-count-badge">0 dòng</span>
+            </div>
+            <div style="overflow-x: auto; max-height: 70vh; padding: 16px;" id="cot-data-container">
+                <!-- Accordions populated via JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.cot-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.cot-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    table-layout: auto;
+}
+
+.cot-table th {
+    background-color: #1a1a1d;
+    padding: 11px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 1px solid #3f3f46;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.cot-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #27272a;
+    font-size: 0.88rem;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+.cot-table tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(24, 24, 27, 0.8);
+    backdrop-filter: blur(2px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #3f3f46;
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const reportTypeSelect = document.getElementById('report-type-select');
+    const limitSelect = document.getElementById('limit-select');
+    const refreshBtn = document.getElementById('btn-refresh');
+    const searchInput = document.getElementById('filter-market-search');
+    
+    const thead = document.getElementById('cot-thead');
+    const tbody = document.getElementById('cot-tbody');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const countBadge = document.getElementById('total-count-badge');
+    const tableTitle = document.getElementById('table-title');
+    const favCheckbox = document.getElementById('fav-only-checkbox');
+    
+    let allData = [];
+    let favorites = JSON.parse(localStorage.getItem('cot_favorites')) || [];
+    
+    window.toggleFavorite = function(e, market) {
+        e.stopPropagation();
+        if (favorites.includes(market)) {
+            favorites = favorites.filter(m => m !== market);
+        } else {
+            favorites.push(market);
+        }
+        localStorage.setItem('cot_favorites', JSON.stringify(favorites));
+        renderTable();
+    };
+    
+    function loadCotData() {
+        const reportType = reportTypeSelect.value;
+        const limit = limitSelect.value;
+        
+        loadingOverlay.style.display = 'flex';
+        tableTitle.textContent = `Báo cáo: ${reportType}`;
+        
+        fetch(`/api/cot?report_type=${reportType}&limit=${limit}`)
+            .then(res => res.json())
+            .then(res => {
+                if(res.success) {
+                    allData = res.data;
+                    renderTable();
+                } else {
+                    alert('Lỗi tải dữ liệu: ' + res.error);
+                    tbody.innerHTML = `<tr><td colspan="100%" style="text-align:center;color:#ef4444;padding:32px;">Lỗi: ${res.error}</td></tr>`;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                tbody.innerHTML = `<tr><td colspan="100%" style="text-align:center;color:#ef4444;padding:32px;">Lỗi mạng không thể tải dữ liệu.</td></tr>`;
+            })
+            .finally(() => {
+                loadingOverlay.style.display = 'none';
+            });
+    }
+    
+    function renderTable() {
+        const query = searchInput.value.toLowerCase().trim();
+        
+        let filtered = allData;
+        const marketCol = 'Market';
+        
+        if (query && filtered.length > 0) {
+            filtered = filtered.filter(row => {
+                if (row[marketCol]) {
+                    return String(row[marketCol]).toLowerCase().includes(query);
+                }
+                return Object.values(row).some(val => String(val).toLowerCase().includes(query));
+            });
+        }
+        
+        countBadge.textContent = `${filtered.length} dòng`;
+        const container = document.getElementById('cot-data-container');
+        
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="text-align:center;color:var(--text-muted);padding:32px;border:1px solid #3f3f46;border-radius:8px;">Không có dữ liệu. Hãy thử tải lại dữ liệu hoặc đổi tìm kiếm. (Có thể hệ thống đang chạy ngầm tải dữ liệu về)</div>`;
+            return;
+        }
+        
+        // Group by Market
+        const grouped = {};
+        filtered.forEach(row => {
+            const m = row[marketCol] || 'Unknown Market';
+            if (!grouped[m]) grouped[m] = [];
+            grouped[m].push(row);
+        });
+        
+        // Get columns (hide Market since it's the header)
+        const columns = Object.keys(filtered[0]).filter(c => c !== marketCol);
+        const prioritizedCols = ['Date', 'Open_Interest_All'];
+        
+        const sortedColumns = columns.sort((a, b) => {
+            const idxA = prioritizedCols.indexOf(a);
+            const idxB = prioritizedCols.indexOf(b);
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+            if (idxA !== -1) return -1;
+            if (idxB !== -1) return 1;
+            return 0;
+        });
+        
+        // Helper function for coloring positive/negative change
+        const formatValue = (val, col) => {
+            if (val === null || val === undefined) return '-';
+            if (col.toLowerCase().includes('change') || col.toLowerCase().includes('thay_đổi')) {
+                const num = parseFloat(val);
+                if (!isNaN(num) && num > 0) return `<span style="color: #22c55e; font-weight: 500;">+${val}</span>`;
+                if (!isNaN(num) && num < 0) return `<span style="color: #ef4444; font-weight: 500;">${val}</span>`;
+            }
+            return val;
+        };
+        
+        let html = '';
+        let markets = Object.keys(grouped).sort();
+        
+        if (favCheckbox.checked) {
+            markets = markets.filter(m => favorites.includes(m));
+            if (markets.length === 0) {
+                container.innerHTML = `<div style="text-align:center;color:var(--text-muted);padding:32px;border:1px solid #3f3f46;border-radius:8px;">Chưa có mã nào được đánh dấu Yêu thích. Hãy tắt bộ lọc và nhấn ⭐ trên các mã bạn quan tâm.</div>`;
+                return;
+            }
+        }
+        
+        markets.forEach((market, idx) => {
+            const rows = grouped[market];
+            // Nếu người dùng đang tìm kiếm, tự động mở các thẻ (hoặc mở thẻ đầu tiên)
+            const isOpen = (query !== '') || (idx === 0);
+            const displayStyle = isOpen ? 'block' : 'none';
+            const iconTransform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+            
+            const isFav = favorites.includes(market);
+            const favColor = isFav ? '#fbbf24' : '#52525b';
+            const favFill = isFav ? '#fbbf24' : 'none';
+            
+            html += `
+            <div class="accordion-item" style="border: 1px solid #3f3f46; margin-bottom: 12px; border-radius: 8px; overflow: hidden; background: var(--bg-card);">
+                <div class="accordion-header" style="padding: 14px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #27272a; transition: background 0.2s;" 
+                     onclick="const body = this.nextElementSibling; const icon = this.querySelector('.chevron-icon'); if(body.style.display === 'none'){ body.style.display = 'block'; icon.style.transform = 'rotate(180deg)'; } else { body.style.display = 'none'; icon.style.transform = 'rotate(0deg)'; }">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div onclick="window.toggleFavorite(event, '${market.replace(/'/g, "\\'")}')" style="cursor: pointer; display: flex; align-items: center; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Đánh dấu Yêu thích">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="${favFill}" stroke="${favColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+                        <span style="font-weight: 600; font-size: 1.05rem; color: #fff;">${market}</span>
+                        <span class="badge" style="font-size: 0.75rem; background: #3f3f46;">${rows.length} bản ghi</span>
+                    </div>
+                    <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s; transform: ${iconTransform}; color: var(--text-muted);">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body" style="display: ${displayStyle}; overflow-x: auto; background: var(--bg-main);">
+                    <table class="cot-table" style="width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap;">
+                        <thead>
+                            <tr>
+                                ${sortedColumns.map(col => `<th style="background-color: #1a1a1d; padding: 11px 16px; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid #3f3f46; position: sticky; top: 0; z-index: 5;">${col}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows.map(row => `
+                                <tr style="transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#27272a'" onmouseout="this.style.backgroundColor='transparent'">
+                                    ${sortedColumns.map(col => `<td style="padding: 11px 16px; border-bottom: 1px solid #27272a; font-size: 0.88rem; color: var(--text-main);">${formatValue(row[col], col)}</td>`).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+    
+    refreshBtn.addEventListener('click', loadCotData);
+    reportTypeSelect.addEventListener('change', loadCotData);
+    limitSelect.addEventListener('change', loadCotData);
+    searchInput.addEventListener('input', renderTable);
+    favCheckbox.addEventListener('change', renderTable);
+    
+    // Auto load first time
+    loadCotData();
+});
+</script>
+{% endblock %}

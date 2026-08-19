@@ -10,6 +10,8 @@ from app.routes.economic_indicators import router as economic_indicators_router
 from app.routes.indicators import router as indicators_router
 from app.routes.settings import router as settings_router
 from app.routes.symbols import router as symbols_router
+from app.routes.cot import router as cot_router
+from app.services.cot import CotService
 
 matplotlib.use('Agg')
 init_db()
@@ -20,6 +22,11 @@ app = FastAPI(
     version="1.0.0",
 )
 
+@app.on_event("startup")
+async def startup_event():
+    # Khởi chạy tiến trình background để tải/sync dữ liệu COT
+    CotService.init_and_sync()
+
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 app.include_router(symbols_router, tags=["symbols"])
 app.include_router(charts_router, tags=["charts"])
@@ -27,6 +34,7 @@ app.include_router(economic_calendar_router, tags=["economic-calendar"])
 app.include_router(economic_indicators_router, tags=["economic-indicators"])
 app.include_router(indicators_router, tags=["indicators"])
 app.include_router(settings_router, tags=["settings"])
+app.include_router(cot_router, tags=["cot"])
 
 
 if __name__ == "__main__":

@@ -4,6 +4,8 @@ import urllib.parse
 from datetime import datetime
 from typing import List, Dict, Any
 
+from app.db.countries import get_all_countries
+
 # Map từ mã quốc gia của TradingView sang đồng tiền tương ứng
 COUNTRY_TO_CURRENCY = {
     "US": "USD", "EU": "EUR", "GB": "GBP", "JP": "JPY",
@@ -33,14 +35,16 @@ class EconomicCalendarService:
 
         # Danh sách quốc gia được TradingView hỗ trợ cho các đồng tiền tệ chính
         # US: USD, EU: EUR, GB: GBP, JP: JPY, CA: CAD, AU: AUD, CH: CHF, NZ: NZD
-        countries = list(COUNTRY_TO_CURRENCY.keys())
+        # Sử dụng danh sách quốc gia từ DB
+        db_countries = get_all_countries()
+        country_codes = [c["code"] for c in db_countries] if db_countries else list(COUNTRY_TO_CURRENCY.keys())
 
         # Xây dựng URL endpoint của TradingView Economic Calendar
         # Ví dụ: https://economic-calendar.tradingview.com/events?from=...&to=...&countries=US,EU...
         params = {
             "from": from_date,
             "to": to_date,
-            "countries": ",".join(countries),
+            "countries": ",".join(country_codes),
             "importance": "-1,0,1" # Lọc tất cả các tầm ảnh hưởng: Low, Medium, High
         }
 
@@ -120,6 +124,7 @@ class EconomicCalendarService:
                     "time": time_str,
                     "utc_iso": ts,
                     "currency": currency,
+                    "country": country_code,
                     "event": ev.get("title", ""),
                     "impact": impact,
                     "actual": format_num_val(actual),
